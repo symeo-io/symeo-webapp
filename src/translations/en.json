@@ -1,0 +1,16 @@
+{
+  "name": "Symeo",
+  "home": {
+    "title": "Home"
+  },
+  "sidebar": {
+    "home-link-label": "Home",
+    "account": {
+      "your-account": "Your account",
+      "logout": "Logout"
+    }
+  },
+  "errors": {
+    "unknown": "An unknown error happened. Please try again later."
+  }
+}

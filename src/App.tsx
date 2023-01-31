@@ -1,34 +1,47 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+import React from "react";
+import RoutesWrapper from "./RoutesWrapper";
+import { RawIntlProvider } from "react-intl";
+import { intl } from "intl";
+import { Provider, ReactReduxContext } from "react-redux";
+import { store } from "store";
+import { Auth0Provider } from "@auth0/auth0-react";
+import { config } from "config";
+import { GetTokenProvider } from "providers/GetTokenProvider";
+import { ThemeProvider } from "@mui/material";
+import { theme } from "theme/theme";
+import { SnackbarProvider } from "notistack";
+import { BrowserRouter } from "react-router-dom";
+import ConfirmDialogProvider from "providers/confirm/ConfirmDialogProvider";
+import { LocalStorageContextProvider } from "providers/localStorage/LocalStorageContextProvider";
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </div>
-  )
+    <RawIntlProvider value={intl}>
+      <Provider store={store} context={ReactReduxContext}>
+        <Auth0Provider
+          domain={config.auth0.domain}
+          clientId={config.auth0.clientId}
+          audience={config.auth0.audience}
+          redirectUri={window.location.origin}
+          cacheLocation="localstorage"
+        >
+          <GetTokenProvider>
+            <ThemeProvider theme={theme}>
+              <SnackbarProvider maxSnack={3}>
+                <BrowserRouter>
+                  <ConfirmDialogProvider>
+                    <LocalStorageContextProvider>
+                      <RoutesWrapper />
+                    </LocalStorageContextProvider>
+                  </ConfirmDialogProvider>
+                </BrowserRouter>
+              </SnackbarProvider>
+            </ThemeProvider>
+          </GetTokenProvider>
+        </Auth0Provider>
+      </Provider>
+    </RawIntlProvider>
+  );
 }
 
-export default App
+export default App;
