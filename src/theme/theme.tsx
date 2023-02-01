@@ -48,7 +48,7 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           textTransform: "none",
-          borderRadius: "6px",
+          borderRadius: "4px",
           padding: "8px 12px",
           fontSize: "0.875rem",
           lineHeight: "100%",
