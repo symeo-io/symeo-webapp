@@ -5,6 +5,12 @@
   },
   "sidebar": {
     "home-link-label": "Home",
+    "organization-selector": {
+      "organizations": "Organizations",
+      "current": "current",
+      "cant-find": "Can't find an organization?",
+      "check-permissions": "Check permissions"
+    },
     "account": {
       "your-account": "Your account",
       "logout": "Logout"

@@ -1,16 +1,18 @@
 import React from "react";
 import { Box, Drawer, MenuList } from "@mui/material";
-import { useAuth0 } from "@auth0/auth0-react";
 import SidebarNavLink from "components/molecules/SidebarNavLink/SidebarNavLink";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import CurrentUser from "components/molecules/CurrentUser/CurrentUser";
 import { useIntl } from "react-intl";
+import { colors } from "theme/colors";
+import { useCurrentUser } from "hooks/useCurrentUser";
+import OrganizationSelector from "components/organisms/OrganizationSelector/OrganizationSelector";
 
-export const SIDE_BAR_WIDTH = 224;
+export const SIDE_BAR_WIDTH = 260;
 
 function Sidebar() {
   const { formatMessage } = useIntl();
-  const { user } = useAuth0();
+  const { currentUser } = useCurrentUser();
 
   return (
     <Drawer
@@ -18,6 +20,7 @@ function Sidebar() {
         width: `${SIDE_BAR_WIDTH}px`,
         flexShrink: 0,
         "& .MuiDrawer-paper": {
+          backgroundColor: colors.secondary.main,
           width: `${SIDE_BAR_WIDTH}px`,
           boxSizing: "border-box",
           display: "flex",
@@ -28,6 +31,9 @@ function Sidebar() {
       variant="permanent"
       anchor="left"
     >
+      <Box>
+        <OrganizationSelector />
+      </Box>
       <Box
         sx={{
           flex: 1,
@@ -42,7 +48,7 @@ function Sidebar() {
           />
         </MenuList>
       </Box>
-      {user && (
+      {currentUser && (
         <Box
           sx={{
             padding: (theme) => theme.spacing(1.5),
