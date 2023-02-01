@@ -4,7 +4,7 @@
     "title": "Home"
   },
   "sidebar": {
-    "home-link-label": "Home",
+    "projects-link-label": "Projects",
     "organization-selector": {
       "organizations": "Organizations",
       "current": "current",

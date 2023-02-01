@@ -1,14 +1,13 @@
 import React from "react";
-import { Box, Drawer, MenuList } from "@mui/material";
+import { Box, Divider, Drawer, MenuList } from "@mui/material";
 import SidebarNavLink from "components/molecules/SidebarNavLink/SidebarNavLink";
-import BarChartIcon from "@mui/icons-material/BarChart";
+import SourceIcon from "@mui/icons-material/Source";
 import CurrentUser from "components/molecules/CurrentUser/CurrentUser";
 import { useIntl } from "react-intl";
 import { colors } from "theme/colors";
 import { useCurrentUser } from "hooks/useCurrentUser";
 import OrganizationSelector from "components/organisms/OrganizationSelector/OrganizationSelector";
-
-export const SIDE_BAR_WIDTH = 260;
+import { SIDE_BAR_WIDTH } from "theme/theme";
 
 function Sidebar() {
   const { formatMessage } = useIntl();
@@ -34,6 +33,13 @@ function Sidebar() {
       <Box>
         <OrganizationSelector />
       </Box>
+      <Divider
+        sx={{
+          marginX: (theme) => theme.spacing(1),
+          borderColor: colors.secondary.bordersHover,
+        }}
+      />
+
       <Box
         sx={{
           flex: 1,
@@ -42,8 +48,8 @@ function Sidebar() {
       >
         <MenuList>
           <SidebarNavLink
-            label={formatMessage({ id: "sidebar.home-link-label" })}
-            icon={<BarChartIcon />}
+            label={formatMessage({ id: "sidebar.projects-link-label" })}
+            icon={<SourceIcon />}
             to="home"
           />
         </MenuList>

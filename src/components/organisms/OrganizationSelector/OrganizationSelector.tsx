@@ -12,13 +12,11 @@ import {
 import { useCurrentUser } from "hooks/useCurrentUser";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { useIntl } from "react-intl";
-import { SIDE_BAR_WIDTH } from "components/organisms/Sidebar/Sidebar";
 import { Organization } from "redux/api/organizations/organizations.types";
 import Status from "components/atoms/Status/Status";
 import { colors } from "theme/colors";
 import { config } from "config";
-
-export const CURRENT_ORGANIZATION_ID_KEY = "CURRENT_ORGANIZATION_ID_KEY";
+import { SIDE_BAR_WIDTH } from "theme/theme";
 
 const GITHUB_PERMISSIONS_LINK = `https://github.com/settings/connections/applications/${config.github.appClientId}`;
 
@@ -136,12 +134,6 @@ function OrganizationSelector() {
               <MenuItem
                 onClick={() => selectOrganization(organization)}
                 key={organization.vcsId}
-                sx={{
-                  borderRadius: 0,
-                  "&:hover": {
-                    backgroundColor: "rgba(0,0,0,0.1)",
-                  },
-                }}
               >
                 <ListItemIcon
                   sx={{
@@ -179,12 +171,6 @@ function OrganizationSelector() {
           <Divider />
           <MenuItem
             onClick={() => window.open(GITHUB_PERMISSIONS_LINK, "_blank")}
-            sx={{
-              borderRadius: 0,
-              "&:hover": {
-                backgroundColor: "rgba(0,0,0,0.1)",
-              },
-            }}
           >
             <Box>
               <Typography

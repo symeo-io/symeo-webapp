@@ -2,9 +2,10 @@ import { useAuth0, User as Auth0User } from "@auth0/auth0-react";
 import { useCallback, useEffect, useMemo } from "react";
 import { datadogRum } from "@datadog/browser-rum";
 import { useLocalStorage } from "hooks/useLocalStorage";
-import { CURRENT_ORGANIZATION_ID_KEY } from "components/organisms/OrganizationSelector/OrganizationSelector";
 import { useGetOrganizationsQuery } from "redux/api/organizations/organizations.api";
 import { Organization } from "redux/api/organizations/organizations.types";
+
+export const CURRENT_ORGANIZATION_ID_KEY = "CURRENT_ORGANIZATION_ID_KEY";
 
 export type UseCurrentUserOutput = {
   currentUser?: Auth0User;
