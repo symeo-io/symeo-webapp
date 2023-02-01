@@ -14,6 +14,7 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import { useIntl } from "react-intl";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { PropsWithSx } from "types/PropsWithSx";
+import { SIDE_BAR_WIDTH } from "theme/theme";
 
 export type CurrentUserProps = PropsWithSx;
 
@@ -54,11 +55,20 @@ function CurrentUser({ sx }: CurrentUserProps) {
         onClick={openMenu}
       >
         <UserAvatar user={user} />
-        <Box sx={{ marginLeft: (theme) => theme.spacing(1), flex: 1 }}>
+        <Box
+          sx={{
+            marginLeft: (theme) => theme.spacing(1),
+            flex: 1,
+            color: "white",
+            fontWeight: 500,
+            fontSize: "14px",
+            lineHeight: "20px",
+          }}
+        >
           {user.name}
         </Box>
         <Box sx={{ marginLeft: (theme) => theme.spacing(1) }}>
-          <KeyboardArrowUpIcon />
+          <KeyboardArrowUpIcon sx={{ color: "white" }} />
         </Box>
       </Box>
       <Menu
@@ -75,7 +85,7 @@ function CurrentUser({ sx }: CurrentUserProps) {
         }}
         sx={{
           "& .MuiPaper-root": {
-            width: "170px",
+            width: `${SIDE_BAR_WIDTH - 32}px`,
           },
         }}
       >

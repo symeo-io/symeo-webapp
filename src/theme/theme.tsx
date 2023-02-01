@@ -2,6 +2,8 @@ import { createTheme } from "@mui/material";
 import { colors } from "./colors";
 import ClearIcon from "@mui/icons-material/Clear";
 
+export const SIDE_BAR_WIDTH = 260;
+
 export const theme = createTheme({
   palette: {
     mode: "light",
@@ -304,8 +306,6 @@ export const theme = createTheme({
     MuiMenuItem: {
       styleOverrides: {
         root: {
-          borderRadius: "10px",
-
           "& .MuiListItemIcon-root": {
             color: colors.secondary.bordersHover,
           },
@@ -315,7 +315,7 @@ export const theme = createTheme({
           },
 
           "&:hover": {
-            background: "transparent",
+            backgroundColor: "rgba(0,0,0,0.1)",
 
             "& .MuiListItemIcon-root": {
               color: colors.primary.bordersHover,

@@ -16,4 +16,7 @@ export const config = {
     clientToken: import.meta.env.VITE_DATADOG_CLIENT_TOKEN ?? "",
     site: import.meta.env.VITE_DATADOG_SITE ?? "datadoghq.eu",
   },
+  github: {
+    appClientId: import.meta.env.VITE_GITHUB_APP_CLIENT_ID ?? "",
+  },
 };
