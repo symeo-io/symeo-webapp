@@ -12,7 +12,3 @@ export type Repository = {
 export type GetRepositoriesResponse = {
   repositories: Repository[];
 };
-
-export type GetRepositoriesInput = {
-  ownerName: string;
-};

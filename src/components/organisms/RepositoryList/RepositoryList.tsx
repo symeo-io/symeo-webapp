@@ -23,16 +23,14 @@ function RepositoryList({ sx }: RepositoryListProps) {
   );
 
   const { selectedOrganization } = useCurrentUser();
-  const { data: repositoriesData, isFetching } = useGetRepositoriesQuery(
-    {
-      ownerName: selectedOrganization?.name as string,
-    },
-    { skip: !selectedOrganization }
-  );
+  const { data: repositoriesData, isFetching } = useGetRepositoriesQuery();
 
   const repositories = useMemo(
-    () => repositoriesData?.repositories ?? [],
-    [repositoriesData?.repositories]
+    () =>
+      repositoriesData?.repositories.filter(
+        (repository) => repository.owner.vcsId === selectedOrganization?.vcsId
+      ) ?? [],
+    [repositoriesData?.repositories, selectedOrganization?.vcsId]
   );
 
   return (

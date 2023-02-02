@@ -1,21 +1,13 @@
 import { api } from "../api";
-import {
-  GetRepositoriesInput,
-  GetRepositoriesResponse,
-} from "redux/api/repositories/repositories.types";
+import { GetRepositoriesResponse } from "redux/api/repositories/repositories.types";
 
 export const repositoriesQueryApi = api.injectEndpoints({
   endpoints: (builder) => ({
-    getRepositories: builder.query<
-      GetRepositoriesResponse,
-      GetRepositoriesInput
-    >({
-      query: ({ ownerName }) => ({
-        url: `/api/v1/organizations/${ownerName}/repos`,
+    getRepositories: builder.query<GetRepositoriesResponse, void>({
+      query: () => ({
+        url: `/api/v1/repositories`,
       }),
-      providesTags: (_, __, { ownerName }) => [
-        { type: "Repositories", ownerName },
-      ],
+      providesTags: ["Repositories"],
     }),
   }),
 });
