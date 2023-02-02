@@ -1,6 +1,8 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
 import { useIntl } from "react-intl";
+import SourceIcon from "@mui/icons-material/Source";
+import RepositoryList from "components/organisms/RepositoryList/RepositoryList";
 
 function Home() {
   const { formatMessage } = useIntl();
@@ -19,10 +21,14 @@ function Home() {
           alignItems: "center",
         }}
       >
+        <SourceIcon
+          sx={{ marginRight: (theme) => theme.spacing(1), fontSize: "2rem" }}
+        />
         <Typography variant="h1" sx={{ flex: 1 }}>
           {formatMessage({ id: "home.title" })}
         </Typography>
       </Box>
+      <RepositoryList />
     </Box>
   );
 }

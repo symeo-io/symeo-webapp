@@ -1,7 +1,12 @@
 {
   "name": "Symeo",
   "home": {
-    "title": "Home"
+    "title": "Projects",
+    "repositories": {
+      "search-placeholder": "Repository name",
+      "list-title": "Repositories",
+      "setup": "Set Up Project"
+    }
   },
   "sidebar": {
     "projects-link-label": "Projects",
