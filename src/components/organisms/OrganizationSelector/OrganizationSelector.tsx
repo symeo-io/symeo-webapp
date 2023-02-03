@@ -74,13 +74,21 @@ function OrganizationSelector() {
             style={{ width: "40px", height: "40px" }}
           />
         </Box>
-        <Box sx={{ paddingX: (theme) => theme.spacing(2), flex: 1 }}>
+        <Box
+          sx={{
+            paddingX: (theme) => theme.spacing(2),
+            flex: 1,
+            overflow: "hidden",
+          }}
+        >
           <Box
             sx={{
               lineHeight: "28px",
               fontSize: "20px",
               fontWeight: 700,
               color: "white",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
             }}
           >
             {selectedOrganization?.name}
@@ -91,6 +99,8 @@ function OrganizationSelector() {
               fontSize: "14px",
               fontWeight: 500,
               color: "white",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
             }}
           >
             {currentUser?.name}
