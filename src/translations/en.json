@@ -5,7 +5,26 @@
     "repositories": {
       "search-placeholder": "Repository name",
       "list-title": "Repositories",
-      "setup": "Set Up Project"
+      "setup": "Set Up Configuration"
+    }
+  },
+  "set-up-project-form": {
+    "title": "Set up configuration for {repositoryName}",
+    "cancel-button-label": "Cancel",
+    "set-up-button-label": "Set Up Configuration",
+    "name-field-label": "Configuration name",
+    "name-field-placeholder": "Give a name to your {repositoryName} configuration",
+    "config-format-file-path-field-label": "Path to your configuration format file",
+    "config-format-file-path-field-placeholder": "e.g: api/symeo.config.yml",
+    "branch-field-label": "Branch",
+    "branch-field-placeholder": "On which branch should we find the file?",
+    "errors": {
+      "empty-name": "You must provide a name for your configuration"
+    },
+    "validation": {
+      "loading": "Looking for {filePath} on {branch}",
+      "error": "No {filePath} found on {branch}",
+      "success": "{filePath} found on {branch}"
     }
   },
   "sidebar": {

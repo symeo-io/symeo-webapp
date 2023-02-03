@@ -8,8 +8,8 @@ import { colors } from "theme/colors";
 import { Link } from "react-router-dom";
 import { useGetRepositoriesQuery } from "redux/api/repositories/repositories.api";
 import LoadingBox from "components/molecules/LoadingBox/LoadingBox";
-import Button from "components/atoms/Button/Button";
 import { useSelectedOrganization } from "hooks/useSelectedOrganization";
+import SetUpProjectButton from "components/molecules/SetUpProjectButton/SetUpProjectButton";
 
 export type RepositoryListProps = PropsWithSx;
 
@@ -24,7 +24,7 @@ function RepositoryList({ sx }: RepositoryListProps) {
   );
 
   const { selectedOrganization } = useSelectedOrganization();
-  const { data: repositoriesData, isFetching } = useGetRepositoriesQuery();
+  const { data: repositoriesData, isLoading } = useGetRepositoriesQuery();
 
   const repositories = useMemo(
     () =>
@@ -62,8 +62,8 @@ function RepositoryList({ sx }: RepositoryListProps) {
           ),
         }}
       />
-      {isFetching && <LoadingBox sx={{ height: "100px" }} />}
-      {!isFetching && (
+      {isLoading && <LoadingBox sx={{ height: "100px" }} />}
+      {!isLoading && (
         <Box sx={{ marginTop: (theme) => theme.spacing(3) }}>
           <Box
             sx={{
@@ -87,6 +87,7 @@ function RepositoryList({ sx }: RepositoryListProps) {
             )
             .map((repository) => (
               <Box
+                key={repository.vcsId}
                 sx={{
                   display: "flex",
                   paddingX: (theme) => theme.spacing(2),
@@ -113,11 +114,11 @@ function RepositoryList({ sx }: RepositoryListProps) {
                 </Box>
                 <Box>
                   {repository.configurationCount === 0 && (
-                    <Button>
+                    <SetUpProjectButton repository={repository}>
                       {formatMessage({
                         id: "home.repositories.setup",
                       })}
-                    </Button>
+                    </SetUpProjectButton>
                   )}
                 </Box>
               </Box>
