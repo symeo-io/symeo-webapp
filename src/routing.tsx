@@ -16,6 +16,12 @@ const routes = {
     sidebar: true,
     element: HomePage,
   } as Route,
+  projects: {
+    path: "/:organizationName",
+    isSecured: true,
+    sidebar: true,
+    element: HomePage,
+  } as Route,
   "*": {
     path: "/*",
     element: () => <div>Not Found</div>, // TODO: build 404 page

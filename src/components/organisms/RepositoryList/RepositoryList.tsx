@@ -6,10 +6,10 @@ import TextField from "components/molecules/TextField/TextField";
 import { useIntl } from "react-intl";
 import { colors } from "theme/colors";
 import { Link } from "react-router-dom";
-import { useCurrentUser } from "hooks/useCurrentUser";
 import { useGetRepositoriesQuery } from "redux/api/repositories/repositories.api";
 import LoadingBox from "components/molecules/LoadingBox/LoadingBox";
 import Button from "components/atoms/Button/Button";
+import { useSelectedOrganization } from "hooks/useSelectedOrganization";
 
 export type RepositoryListProps = PropsWithSx;
 
@@ -23,7 +23,7 @@ function RepositoryList({ sx }: RepositoryListProps) {
     []
   );
 
-  const { selectedOrganization } = useCurrentUser();
+  const { selectedOrganization } = useSelectedOrganization();
   const { data: repositoriesData, isFetching } = useGetRepositoriesQuery();
 
   const repositories = useMemo(

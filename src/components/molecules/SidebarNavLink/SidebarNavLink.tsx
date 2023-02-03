@@ -10,9 +10,10 @@ export type SidebarNavLinkProps = PropsWithSx & {
   label: string;
   icon: React.ReactElement;
   to: keyof typeof routes;
+  params?: any;
 };
 
-function SidebarNavLink({ label, icon, to, sx }: SidebarNavLinkProps) {
+function SidebarNavLink({ label, icon, to, params, sx }: SidebarNavLinkProps) {
   const navigate = useNavigate();
   const route = routes[to];
   const selected = !!useMatch(route.path);
@@ -60,7 +61,7 @@ function SidebarNavLink({ label, icon, to, sx }: SidebarNavLinkProps) {
         },
         ...sx,
       }}
-      onClick={() => navigate(to)}
+      onClick={() => navigate(to, { params })}
       selected={selected}
     >
       <ListItemIcon>{icon}</ListItemIcon>

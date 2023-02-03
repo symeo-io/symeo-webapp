@@ -8,10 +8,12 @@ import { colors } from "theme/colors";
 import { useCurrentUser } from "hooks/useCurrentUser";
 import OrganizationSelector from "components/organisms/OrganizationSelector/OrganizationSelector";
 import { SIDE_BAR_WIDTH } from "theme/theme";
+import { useSelectedOrganization } from "hooks/useSelectedOrganization";
 
 function Sidebar() {
   const { formatMessage } = useIntl();
   const { currentUser } = useCurrentUser();
+  const { selectedOrganization } = useSelectedOrganization();
 
   return (
     <Drawer
@@ -50,7 +52,8 @@ function Sidebar() {
           <SidebarNavLink
             label={formatMessage({ id: "sidebar.projects-link-label" })}
             icon={<SourceIcon />}
-            to="home"
+            to="projects"
+            params={{ organizationName: selectedOrganization?.name }}
           />
         </MenuList>
       </Box>

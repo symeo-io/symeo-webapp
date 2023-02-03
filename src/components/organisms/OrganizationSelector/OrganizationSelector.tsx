@@ -17,17 +17,15 @@ import Status from "components/atoms/Status/Status";
 import { colors } from "theme/colors";
 import { config } from "config";
 import { SIDE_BAR_WIDTH } from "theme/theme";
+import { useSelectedOrganization } from "hooks/useSelectedOrganization";
 
 const GITHUB_PERMISSIONS_LINK = `https://github.com/settings/connections/applications/${config.github.appClientId}`;
 
 function OrganizationSelector() {
   const { formatMessage } = useIntl();
-  const {
-    currentUser,
-    selectedOrganization,
-    organizations,
-    setSelectedOrganization,
-  } = useCurrentUser();
+  const { currentUser } = useCurrentUser();
+  const { selectedOrganization, organizations, setSelectedOrganization } =
+    useSelectedOrganization();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
