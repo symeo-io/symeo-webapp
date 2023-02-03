@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import { useCurrentUser } from "hooks/useCurrentUser";
 import { useGetRepositoriesQuery } from "redux/api/repositories/repositories.api";
 import LoadingBox from "components/molecules/LoadingBox/LoadingBox";
+import Button from "components/atoms/Button/Button";
 
 export type RepositoryListProps = PropsWithSx;
 
@@ -27,9 +28,16 @@ function RepositoryList({ sx }: RepositoryListProps) {
 
   const repositories = useMemo(
     () =>
-      repositoriesData?.repositories.filter(
-        (repository) => repository.owner.vcsId === selectedOrganization?.vcsId
-      ) ?? [],
+      repositoriesData?.repositories
+        .filter(
+          (repository) => repository.owner.vcsId === selectedOrganization?.vcsId
+        )
+        .sort((a, b) => {
+          return (
+            new Date(b.pushedAt ?? "").getTime() -
+            new Date(a.pushedAt ?? "").getTime()
+          );
+        }) ?? [],
     [repositoriesData?.repositories, selectedOrganization?.vcsId]
   );
 
@@ -102,6 +110,15 @@ function RepositoryList({ sx }: RepositoryListProps) {
                   }}
                 >
                   <Link to="">{repository.name}</Link>
+                </Box>
+                <Box>
+                  {repository.configurationCount === 0 && (
+                    <Button>
+                      {formatMessage({
+                        id: "home.repositories.setup",
+                      })}
+                    </Button>
+                  )}
                 </Box>
               </Box>
             ))}

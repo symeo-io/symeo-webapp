@@ -7,6 +7,7 @@ export type Repository = {
   pushedAt?: string;
   vcsType: "github";
   vcsUrl: string;
+  configurationCount?: number;
 };
 
 export type GetRepositoriesResponse = {
