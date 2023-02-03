@@ -162,7 +162,13 @@ function OrganizationSelector() {
                 </ListItemIcon>
                 <Typography
                   variant="inherit"
-                  sx={{ lineHeight: "24px", fontSize: "16px", flex: 1 }}
+                  sx={{
+                    lineHeight: "24px",
+                    fontSize: "16px",
+                    flex: 1,
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                  }}
                 >
                   {organization.name}
                 </Typography>
