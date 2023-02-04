@@ -16,7 +16,7 @@ function ConfigurationLink({ configuration, sx }: ConfigurationLinkProps) {
       to="configuration"
       params={{
         organizationName: configuration.owner.name,
-        vcsRepositoryId: configuration.repository.vcsId,
+        repositoryVcsId: configuration.repository.vcsId,
         configurationId: configuration.id,
       }}
       style={{ textDecoration: "none", color: colors.primary.textActive }}

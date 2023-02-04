@@ -5,7 +5,7 @@ import SourceIcon from "@mui/icons-material/Source";
 import RepositoryList from "components/organisms/RepositoryList/RepositoryList";
 import { useSelectedOrganization } from "hooks/useSelectedOrganization";
 
-function Home() {
+function Projects() {
   const { formatMessage } = useIntl();
   const {
     selectedOrganization,
@@ -43,7 +43,7 @@ function Home() {
           sx={{ marginRight: (theme) => theme.spacing(1), fontSize: "2rem" }}
         />
         <Typography variant="h1" sx={{ flex: 1 }}>
-          {formatMessage({ id: "home.title" })}
+          {formatMessage({ id: "projects.title" })}
         </Typography>
       </Box>
       <RepositoryList />
@@ -51,4 +51,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default Projects;

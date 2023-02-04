@@ -1,6 +1,6 @@
 import React from "react";
-import HomePage from "components/pages/Home/Home";
-import { Box } from "@mui/material";
+import ProjectsPage from "components/pages/Projects/Projects";
+import ConfigurationPage from "components/pages/Configuration/Configuration";
 
 export type Route = {
   isSecured?: boolean;
@@ -15,19 +15,19 @@ const routes = {
     path: "/",
     isSecured: true,
     sidebar: true,
-    element: HomePage,
+    element: ProjectsPage,
   } as Route,
   projects: {
     path: "/:organizationName",
     isSecured: true,
     sidebar: true,
-    element: HomePage,
+    element: ProjectsPage,
   } as Route,
   configuration: {
-    path: "/:organizationName/:vcsRepositoryId/:configurationId",
+    path: "/:organizationName/:repositoryVcsId/:configurationId",
     isSecured: true,
     sidebar: true,
-    element: Box,
+    element: ConfigurationPage,
   } as Route,
   "*": {
     path: "/*",

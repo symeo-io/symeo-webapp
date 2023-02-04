@@ -2,9 +2,27 @@ import { api } from "redux/api/api";
 import {
   CreateGitHubConfigurationInput,
   CreateGitHubConfigurationResponse,
+  GetConfigurationInput,
+  GetConfigurationResponse,
   ValidateGitHubConfigurationInput,
   ValidateGitHubConfigurationResponse,
 } from "redux/api/configurations/configurations.types";
+
+const configurationQueryApi = api.injectEndpoints({
+  endpoints: (builder) => ({
+    getConfiguration: builder.query<
+      GetConfigurationResponse,
+      GetConfigurationInput
+    >({
+      query: ({ configurationId, repositoryVcsId }) => ({
+        url: `/api/v1/configurations/github/${repositoryVcsId}/${configurationId}`,
+      }),
+      providesTags: (result, error, { configurationId }) => [
+        { type: "Configuration", id: configurationId },
+      ],
+    }),
+  }),
+});
 
 const configurationsMutationApi = api.injectEndpoints({
   endpoints: (builder) => ({
@@ -31,6 +49,8 @@ const configurationsMutationApi = api.injectEndpoints({
     }),
   }),
 });
+
+export const { useGetConfigurationQuery } = configurationQueryApi;
 
 export const {
   useCreateGitHubConfigurationMutation,

@@ -8,6 +8,15 @@ export type Configuration = {
   branch: string;
 };
 
+export type GetConfigurationResponse = {
+  configuration: Configuration;
+};
+
+export type GetConfigurationInput = {
+  repositoryVcsId: string;
+  configurationId: string;
+};
+
 export type CreateGitHubConfigurationResponse = {
   configuration: Configuration;
 };

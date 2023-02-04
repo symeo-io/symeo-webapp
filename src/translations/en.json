@@ -1,6 +1,6 @@
 {
   "name": "Symeo",
-  "home": {
+  "projects": {
     "title": "Projects",
     "repositories": {
       "search-placeholder": "Repository name",
@@ -11,6 +11,9 @@
       },
       "setup": "Add Configuration"
     }
+  },
+  "configuration": {
+    "title": "{configurationName} for {repositoryName}"
   },
   "set-up-project-form": {
     "title": "Set up configuration for {repositoryName}",

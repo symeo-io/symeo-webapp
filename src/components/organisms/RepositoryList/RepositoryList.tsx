@@ -52,7 +52,7 @@ function RepositoryList({ sx }: RepositoryListProps) {
         onChange={handleSearchChange}
         sx={{ width: "320px", marginTop: 0 }}
         placeholder={formatMessage({
-          id: "home.repositories.search-placeholder",
+          id: "projects.repositories.search-placeholder",
         })}
         InputProps={{
           startAdornment: (
@@ -81,17 +81,17 @@ function RepositoryList({ sx }: RepositoryListProps) {
           >
             <Box>
               {formatMessage({
-                id: "home.repositories.columns.repository",
+                id: "projects.repositories.columns.repository",
               })}
             </Box>
             <Box>
               {formatMessage({
-                id: "home.repositories.columns.configurations",
+                id: "projects.repositories.columns.configurations",
               })}
             </Box>
             <Box>
               {formatMessage({
-                id: "home.repositories.columns.actions",
+                id: "projects.repositories.columns.actions",
               })}
             </Box>
           </Box>
@@ -143,7 +143,7 @@ function RepositoryList({ sx }: RepositoryListProps) {
                 <Box>
                   <SetUpProjectButton repository={repository}>
                     {formatMessage({
-                      id: "home.repositories.setup",
+                      id: "projects.repositories.setup",
                     })}
                   </SetUpProjectButton>
                 </Box>
