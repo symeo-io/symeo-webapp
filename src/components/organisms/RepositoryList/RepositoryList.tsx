@@ -1,15 +1,16 @@
 import React, { ChangeEvent, useCallback, useMemo, useState } from "react";
-import { Box, InputAdornment } from "@mui/material";
+import { Box, InputAdornment, Link } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { PropsWithSx } from "types/PropsWithSx";
 import TextField from "components/molecules/TextField/TextField";
 import { useIntl } from "react-intl";
 import { colors } from "theme/colors";
-import { Link } from "react-router-dom";
 import { useGetRepositoriesQuery } from "redux/api/repositories/repositories.api";
 import LoadingBox from "components/molecules/LoadingBox/LoadingBox";
 import { useSelectedOrganization } from "hooks/useSelectedOrganization";
 import SetUpProjectButton from "components/molecules/SetUpProjectButton/SetUpProjectButton";
+import ConfigurationLink from "components/atoms/ConfigurationLink/ConfigurationLink";
+import { Configuration } from "redux/api/configurations/configurations.types";
 
 export type RepositoryListProps = PropsWithSx;
 
@@ -75,11 +76,25 @@ function RepositoryList({ sx }: RepositoryListProps) {
               fontWeight: 700,
               fontSize: "0.75rem",
               lineHeight: "1rem",
+              display: "grid",
+              gridTemplateColumns: "250px 1fr 150px",
             }}
           >
-            {formatMessage({
-              id: "home.repositories.list-title",
-            })}
+            <Box>
+              {formatMessage({
+                id: "home.repositories.columns.repository",
+              })}
+            </Box>
+            <Box>
+              {formatMessage({
+                id: "home.repositories.columns.configurations",
+              })}
+            </Box>
+            <Box>
+              {formatMessage({
+                id: "home.repositories.columns.actions",
+              })}
+            </Box>
           </Box>
           {repositories
             .filter((repository) =>
@@ -89,7 +104,8 @@ function RepositoryList({ sx }: RepositoryListProps) {
               <Box
                 key={repository.vcsId}
                 sx={{
-                  display: "flex",
+                  display: "grid",
+                  gridTemplateColumns: "250px 1fr 150px",
                   paddingX: (theme) => theme.spacing(2),
                   paddingY: (theme) => theme.spacing(2.5),
                   borderBottom: `4px solid ${colors.secondary.surfaceHover}`,
@@ -97,7 +113,6 @@ function RepositoryList({ sx }: RepositoryListProps) {
               >
                 <Box
                   sx={{
-                    flex: 1,
                     "& a": {
                       lineHeight: "30px",
                       textDecoration: "none",
@@ -110,16 +125,28 @@ function RepositoryList({ sx }: RepositoryListProps) {
                     },
                   }}
                 >
-                  <Link to="">{repository.name}</Link>
+                  <Link
+                    href={`https://github.com/${repository.owner.name}/${repository.name}`}
+                    target="_blank"
+                  >
+                    {repository.name}
+                  </Link>
+                </Box>
+                <Box sx={{ display: "flex", flexWrap: "wrap" }}>
+                  {repository.configurations?.map((configuration) => (
+                    <ConfigurationLink
+                      sx={{ margin: (theme) => theme.spacing(0.5) }}
+                      key={configuration.id}
+                      configuration={configuration}
+                    />
+                  ))}
                 </Box>
                 <Box>
-                  {repository.configurationCount === 0 && (
-                    <SetUpProjectButton repository={repository}>
-                      {formatMessage({
-                        id: "home.repositories.setup",
-                      })}
-                    </SetUpProjectButton>
-                  )}
+                  <SetUpProjectButton repository={repository}>
+                    {formatMessage({
+                      id: "home.repositories.setup",
+                    })}
+                  </SetUpProjectButton>
                 </Box>
               </Box>
             ))}

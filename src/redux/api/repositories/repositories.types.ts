@@ -1,4 +1,5 @@
 import { Organization } from "redux/api/organizations/organizations.types";
+import { Configuration } from "redux/api/configurations/configurations.types";
 
 export type Repository = {
   vcsId: number;
@@ -7,7 +8,7 @@ export type Repository = {
   pushedAt?: string;
   vcsType: "github";
   vcsUrl: string;
-  configurationCount?: number;
+  configurations?: Configuration[];
 };
 
 export type GetRepositoriesResponse = {
