@@ -21,7 +21,7 @@ function Sidebar() {
         width: `${SIDE_BAR_WIDTH}px`,
         flexShrink: 0,
         "& .MuiDrawer-paper": {
-          backgroundColor: colors.secondary.main,
+          backgroundColor: colors.secondary.textActive,
           width: `${SIDE_BAR_WIDTH}px`,
           boxSizing: "border-box",
           display: "flex",
@@ -38,7 +38,7 @@ function Sidebar() {
       <Divider
         sx={{
           marginX: (theme) => theme.spacing(1),
-          borderColor: colors.secondary.bordersHover,
+          borderColor: colors.secondary.text,
         }}
       />
 
