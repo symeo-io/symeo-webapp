@@ -10,7 +10,6 @@ import LoadingBox from "components/molecules/LoadingBox/LoadingBox";
 import { useSelectedOrganization } from "hooks/useSelectedOrganization";
 import SetUpProjectButton from "components/molecules/SetUpProjectButton/SetUpProjectButton";
 import ConfigurationLink from "components/atoms/ConfigurationLink/ConfigurationLink";
-import { Configuration } from "redux/api/configurations/configurations.types";
 
 export type RepositoryListProps = PropsWithSx;
 
