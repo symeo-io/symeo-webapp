@@ -65,7 +65,7 @@ function SetUpProjectDialog({
     navigate("configuration", {
       params: {
         organizationName: response.data.configuration.owner.name,
-        vcsRepositoryId: response.data.configuration.repository.vcsId,
+        repositoryVcsId: response.data.configuration.repository.vcsId,
         configurationId: response.data.configuration.id,
       },
     });

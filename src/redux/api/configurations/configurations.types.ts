@@ -1,3 +1,9 @@
+export type Environment = {
+  id: string;
+  name: string;
+  color: string;
+};
+
 export type Configuration = {
   id: string;
   name: string;
@@ -6,6 +12,7 @@ export type Configuration = {
   owner: { name: string; vcsId: number };
   configFormatFilePath: string;
   branch: string;
+  environments: Environment[];
 };
 
 export type GetConfigurationResponse = {

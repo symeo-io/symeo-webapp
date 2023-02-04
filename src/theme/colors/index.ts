@@ -12,6 +12,7 @@ import {
   deepOrange,
   deepPurple,
   green,
+  grey,
   indigo,
   lightBlue,
   lightGreen,
@@ -32,7 +33,7 @@ export const colors = {
   success,
 };
 
-export const avatarColorPalettes = [
+export const environmentsColorPalettes = {
   amber,
   blue,
   blueGrey,
@@ -41,6 +42,7 @@ export const avatarColorPalettes = [
   deepOrange,
   deepPurple,
   green,
+  grey,
   indigo,
   lightBlue,
   lightGreen,
@@ -51,4 +53,4 @@ export const avatarColorPalettes = [
   red,
   teal,
   yellow,
-];
+};
