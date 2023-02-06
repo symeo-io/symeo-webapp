@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Box } from "@mui/material";
 import { useGetConfigurationFormatQuery } from "redux/api/configurations/configurations.api";
 import { PropsWithSx } from "types/PropsWithSx";
@@ -14,6 +14,8 @@ import {
   getObjectValueByPath,
   setObjectValueByPath,
 } from "components/organisms/ConfigurationEditor/utils";
+import { useGetValuesForEnvironmentQuery } from "redux/api/values/values.api";
+import { ConfigurationValues } from "redux/api/values/values.types";
 
 function isConfigurationProperty(
   value: ConfigurationFormat | ConfigurationProperty
@@ -80,24 +82,22 @@ export type ConfigurationEditorProps = PropsWithSx & {
   environment: Environment;
 };
 
-export type Config = { [property: string]: string | number | boolean | Config };
-
 function ConfigurationEditor({
   configuration,
   environment,
   sx,
 }: ConfigurationEditorProps) {
-  const [value, setValue] = useState<Config>({});
+  const [editorValues, setEditorValues] = useState<ConfigurationValues>({});
 
   const getValueByPath = useCallback(
-    (path: string) => getObjectValueByPath(value, path),
-    [value]
+    (path: string) => getObjectValueByPath(editorValues, path),
+    [editorValues]
   );
 
   const setValueByPath = useCallback(
     (path: string, newValue: unknown) =>
-      setValue(setObjectValueByPath(value, path, newValue)),
-    [value]
+      setEditorValues(setObjectValueByPath(editorValues, path, newValue)),
+    [editorValues]
   );
 
   const { data: configurationFormatData, isLoading: isLoadingFormat } =
@@ -106,10 +106,28 @@ function ConfigurationEditor({
       repositoryVcsId: configuration.repository.vcsId.toString(),
     });
 
+  const {
+    data: valuesData,
+    isLoading: isLoadingValues,
+    isFetching: isFetchingValue,
+  } = useGetValuesForEnvironmentQuery({
+    configurationId: configuration.id,
+    repositoryVcsId: configuration.repository.vcsId.toString(),
+    environmentId: environment.id,
+  });
+
   const format = useMemo(
     () => configurationFormatData?.format,
     [configurationFormatData?.format]
   );
+
+  const values = useMemo(() => valuesData?.values, [valuesData?.values]);
+
+  useEffect(() => {
+    if (values) {
+      setEditorValues(values);
+    }
+  }, [values]);
 
   return (
     <Box
@@ -125,9 +143,13 @@ function ConfigurationEditor({
         ...sx,
       }}
     >
-      {isLoadingFormat && <LoadingBox sx={{ flex: 1 }} />}
+      {(isLoadingFormat || isLoadingValues || isFetchingValue) && (
+        <LoadingBox sx={{ flex: 1 }} />
+      )}
       {!isLoadingFormat &&
+        !isFetchingValue &&
         format &&
+        values &&
         buildFormatInput(format, getValueByPath, setValueByPath)}
     </Box>
   );
