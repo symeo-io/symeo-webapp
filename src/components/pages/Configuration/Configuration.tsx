@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import LoadingBox from "components/molecules/LoadingBox/LoadingBox";
 import EnvironmentTab from "components/molecules/EnvironmentTab/EnvironmentTab";
 import { Environment } from "redux/api/configurations/configurations.types";
+import ConfigurationEditor from "components/organisms/ConfigurationEditor/ConfigurationEditor";
 
 function Configuration() {
   const { formatMessage } = useIntl();
@@ -38,9 +39,10 @@ function Configuration() {
       sx={{
         display: "flex",
         flexDirection: "column",
+        flex: 1,
       }}
     >
-      {isLoading && <LoadingBox sx={{ height: "100px" }} />}
+      {isLoading && <LoadingBox sx={{ flex: 1 }} />}
       {!isLoading && configuration && (
         <>
           <Box
@@ -80,6 +82,13 @@ function Configuration() {
               />
             ))}
           </Box>
+          {selectedEnvironment && (
+            <ConfigurationEditor
+              configuration={configuration}
+              environment={selectedEnvironment}
+              sx={{ marginTop: (theme) => theme.spacing(3), flex: 1 }}
+            />
+          )}
         </>
       )}
     </Box>

@@ -44,6 +44,8 @@ function RepositoryList({ sx }: RepositoryListProps) {
   return (
     <Box
       sx={{
+        display: "flex",
+        flexDirection: "column",
         ...sx,
       }}
     >
@@ -62,7 +64,7 @@ function RepositoryList({ sx }: RepositoryListProps) {
           ),
         }}
       />
-      {isLoading && <LoadingBox sx={{ height: "100px" }} />}
+      {isLoading && <LoadingBox sx={{ flex: 1 }} />}
       {!isLoading && (
         <Box sx={{ marginTop: (theme) => theme.spacing(3) }}>
           <Box

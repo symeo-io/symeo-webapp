@@ -15,11 +15,36 @@ export type Configuration = {
   environments: Environment[];
 };
 
+export type ConfigurationPropertyType =
+  | "string"
+  | "integer"
+  | "float"
+  | "boolean";
+
+export type ConfigurationProperty = {
+  type: ConfigurationPropertyType;
+  secret?: boolean;
+  optional?: boolean;
+};
+
+export type ConfigurationFormat = {
+  [property: string]: ConfigurationFormat | ConfigurationProperty;
+};
+
 export type GetConfigurationResponse = {
   configuration: Configuration;
 };
 
 export type GetConfigurationInput = {
+  repositoryVcsId: string;
+  configurationId: string;
+};
+
+export type GetConfigurationFormatResponse = {
+  format: ConfigurationFormat;
+};
+
+export type GetConfigurationFormatInput = {
   repositoryVcsId: string;
   configurationId: string;
 };

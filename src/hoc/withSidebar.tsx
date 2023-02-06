@@ -11,16 +11,31 @@ export function withSidebar(WrappedComponent: React.ComponentType): React.FC {
           sx={{
             flex: 1,
             overflow: "auto",
+            display: "flex",
           }}
         >
           <Box
             sx={{
-              padding: (theme) => theme.spacing(3),
+              flex: 1,
+              paddingX: (theme) => theme.spacing(3),
               maxWidth: "1441px",
+              height: "100%",
               margin: "auto",
+              display: "flex",
+              flexDirection: "column",
             }}
           >
-            <WrappedComponent {...props} />
+            <Box
+              sx={{
+                flex: 1,
+                width: "100%",
+                paddingY: (theme) => theme.spacing(3),
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
+              <WrappedComponent {...props} />
+            </Box>
           </Box>
         </Box>
       </Box>

@@ -30,6 +30,7 @@ function Projects() {
       sx={{
         display: "flex",
         flexDirection: "column",
+        flex: 1,
       }}
     >
       <Box
@@ -46,7 +47,7 @@ function Projects() {
           {formatMessage({ id: "projects.title" })}
         </Typography>
       </Box>
-      <RepositoryList />
+      <RepositoryList sx={{ flex: 1 }} />
     </Box>
   );
 }
