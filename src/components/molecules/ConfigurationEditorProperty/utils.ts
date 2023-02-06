@@ -1,3 +1,5 @@
+import { cloneDeep } from "lodash";
+
 export function getObjectValueByPath(object: any, path: string): unknown {
   const propertyNames = path.split(".");
 
@@ -19,7 +21,7 @@ export function setObjectValueByPath(
   path: string,
   newValue: unknown
 ): any {
-  const newObject = { ...object };
+  const newObject = cloneDeep(object);
   const propertyNames = path.split(".");
 
   let currentProperty = newObject;
@@ -37,4 +39,15 @@ export function setObjectValueByPath(
   }
 
   return newObject;
+}
+
+export function isModifiedByPath(
+  object: any,
+  originalObject: any,
+  path: string
+) {
+  const modifiedValue = getObjectValueByPath(object, path);
+  const originalValue = getObjectValueByPath(originalObject, path);
+
+  return modifiedValue !== originalValue;
 }

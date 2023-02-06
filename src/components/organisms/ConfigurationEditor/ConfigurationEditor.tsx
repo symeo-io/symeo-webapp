@@ -1,81 +1,16 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Box } from "@mui/material";
 import { useGetConfigurationFormatQuery } from "redux/api/configurations/configurations.api";
 import { PropsWithSx } from "types/PropsWithSx";
 import {
   Configuration,
-  ConfigurationFormat,
-  ConfigurationProperty,
   Environment,
 } from "redux/api/configurations/configurations.types";
 import LoadingBox from "components/molecules/LoadingBox/LoadingBox";
-import ConfigurationEditorInput from "components/molecules/ConfigurationEditorInput/ConfigurationEditorInput";
-import {
-  getObjectValueByPath,
-  setObjectValueByPath,
-} from "components/organisms/ConfigurationEditor/utils";
 import { useGetValuesForEnvironmentQuery } from "redux/api/values/values.api";
 import { ConfigurationValues } from "redux/api/values/values.types";
-
-function isConfigurationProperty(
-  value: ConfigurationFormat | ConfigurationProperty
-) {
-  return value.type && typeof value.type === "string";
-}
-
-function buildFormatInput(
-  property: ConfigurationFormat | ConfigurationProperty,
-  getValueByPath: (path: string) => unknown,
-  setValueByPath: (path: string, value: unknown) => void,
-  tab: number = 0,
-  path: string = ""
-) {
-  if (isConfigurationProperty(property)) {
-    return (
-      <Box
-        sx={{
-          marginLeft: (theme) => theme.spacing(1),
-          height: "32px",
-          display: "flex",
-          alignItems: "center",
-          width: "100%",
-        }}
-      >
-        <ConfigurationEditorInput
-          value={getValueByPath(path)}
-          onChange={(newValue: unknown) => setValueByPath(path, newValue)}
-          property={property as ConfigurationProperty}
-        />
-      </Box>
-    );
-  }
-
-  const format = property as ConfigurationFormat;
-  return Object.keys(format).map((key) => {
-    const newPath = path !== "" ? path + "." + key : key;
-    return (
-      <Box
-        key={key}
-        sx={{
-          marginLeft: (theme) => theme.spacing(tab * 2),
-          display: isConfigurationProperty(format[key]) ? "flex" : "block",
-          alignItems: "center",
-        }}
-      >
-        <Box sx={{ height: "32px", display: "flex", alignItems: "center" }}>
-          {key}:
-        </Box>
-        {buildFormatInput(
-          format[key],
-          getValueByPath,
-          setValueByPath,
-          tab + 1,
-          newPath
-        )}
-      </Box>
-    );
-  });
-}
+import ConfigurationEditorProperty from "components/molecules/ConfigurationEditorProperty/ConfigurationEditorProperty";
+import { cloneDeep } from "lodash";
 
 export type ConfigurationEditorProps = PropsWithSx & {
   configuration: Configuration;
@@ -88,17 +23,6 @@ function ConfigurationEditor({
   sx,
 }: ConfigurationEditorProps) {
   const [editorValues, setEditorValues] = useState<ConfigurationValues>({});
-
-  const getValueByPath = useCallback(
-    (path: string) => getObjectValueByPath(editorValues, path),
-    [editorValues]
-  );
-
-  const setValueByPath = useCallback(
-    (path: string, newValue: unknown) =>
-      setEditorValues(setObjectValueByPath(editorValues, path, newValue)),
-    [editorValues]
-  );
 
   const { data: configurationFormatData, isLoading: isLoadingFormat } =
     useGetConfigurationFormatQuery({
@@ -125,7 +49,7 @@ function ConfigurationEditor({
 
   useEffect(() => {
     if (values) {
-      setEditorValues(values);
+      setEditorValues(cloneDeep(values));
     }
   }, [values]);
 
@@ -165,7 +89,16 @@ function ConfigurationEditor({
         !isFetchingValue &&
         format &&
         values &&
-        buildFormatInput(format, getValueByPath, setValueByPath)}
+        Object.keys(format).map((propertyName) => (
+          <ConfigurationEditorProperty
+            key={propertyName}
+            propertyName={propertyName}
+            property={format[propertyName]}
+            values={editorValues}
+            originalValues={values}
+            setValues={setEditorValues}
+          />
+        ))}
     </Box>
   );
 }
