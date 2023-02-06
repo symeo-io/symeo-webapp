@@ -8,6 +8,7 @@ export type Route = {
   path: string;
   element: React.ComponentType<object>;
   defaultParams?: Record<string, string>;
+  contained?: boolean;
 };
 
 const routes = {
@@ -28,6 +29,7 @@ const routes = {
     isSecured: true,
     sidebar: true,
     element: ConfigurationPage,
+    contained: true,
   } as Route,
   "*": {
     path: "/*",

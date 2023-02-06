@@ -140,6 +140,21 @@ function ConfigurationEditor({
         color: "#A06CE4",
         padding: (theme) => theme.spacing(3),
         overflow: "auto",
+
+        "&::-webkit-scrollbar": {
+          width: "18px",
+        },
+        "&::-webkit-scrollbar-track": {
+          background: "transparent",
+          padding: "5px",
+        },
+        "&::-webkit-scrollbar-thumb": {
+          background: "rgba(255,255,255,0.3)",
+          borderRadius: "9999px",
+          border: "6px solid rgba(0, 0, 0, 0)",
+          backgroundClip: "padding-box",
+        },
+
         ...sx,
       }}
     >
