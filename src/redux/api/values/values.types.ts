@@ -11,3 +11,10 @@ export type GetEnvironmentValuesInput = {
 export type GetEnvironmentValuesResponse = {
   values: ConfigurationValues;
 };
+
+export type SetEnvironmentValuesInput = {
+  repositoryVcsId: string;
+  configurationId: string;
+  environmentId: string;
+  values: ConfigurationValues;
+};

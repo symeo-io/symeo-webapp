@@ -7,7 +7,10 @@ import {
   Environment,
 } from "redux/api/configurations/configurations.types";
 import LoadingBox from "components/molecules/LoadingBox/LoadingBox";
-import { useGetValuesForEnvironmentQuery } from "redux/api/values/values.api";
+import {
+  useGetValuesForEnvironmentQuery,
+  useSetValuesForEnvironmentMutation,
+} from "redux/api/values/values.api";
 import { ConfigurationValues } from "redux/api/values/values.types";
 import ConfigurationEditorProperty from "components/molecules/ConfigurationEditorProperty/ConfigurationEditorProperty";
 import { cloneDeep } from "lodash";
@@ -26,6 +29,8 @@ function ConfigurationEditor({
 }: ConfigurationEditorProps) {
   const { formatMessage } = useIntl();
   const [editorValues, setEditorValues] = useState<ConfigurationValues>({});
+  const [setValues, { isLoading: isLoadingSetValues }] =
+    useSetValuesForEnvironmentMutation();
 
   const { data: configurationFormatData, isLoading: isLoadingFormat } =
     useGetConfigurationFormatQuery({
@@ -36,7 +41,8 @@ function ConfigurationEditor({
   const {
     data: valuesData,
     isLoading: isLoadingValues,
-    isFetching: isFetchingValue,
+    isFetching: isFetchingValues,
+    isSuccess: isSuccessValues,
   } = useGetValuesForEnvironmentQuery({
     configurationId: configuration.id,
     repositoryVcsId: configuration.repository.vcsId.toString(),
@@ -54,6 +60,25 @@ function ConfigurationEditor({
     () => values && setEditorValues(cloneDeep(values)),
     [values]
   );
+
+  const save = useCallback(async () => {
+    if (isSuccessValues && !isFetchingValues) {
+      setValues({
+        configurationId: configuration.id,
+        repositoryVcsId: configuration.repository.vcsId.toString(),
+        environmentId: environment.id,
+        values: editorValues,
+      });
+    }
+  }, [
+    configuration.id,
+    configuration.repository.vcsId,
+    editorValues,
+    environment.id,
+    isFetchingValues,
+    isSuccessValues,
+    setValues,
+  ]);
 
   useEffect(() => {
     if (values) {
@@ -91,11 +116,11 @@ function ConfigurationEditor({
           ...sx,
         }}
       >
-        {(isLoadingFormat || isLoadingValues || isFetchingValue) && (
+        {(isLoadingFormat || isLoadingValues || isFetchingValues) && (
           <LoadingBox sx={{ flex: 1 }} />
         )}
         {!isLoadingFormat &&
-          !isFetchingValue &&
+          !isFetchingValues &&
           format &&
           values &&
           Object.keys(format).map((propertyName) => (
@@ -113,6 +138,7 @@ function ConfigurationEditor({
         sx={{
           marginTop: (theme) => theme.spacing(2),
           marginBottom: (theme) => theme.spacing(2),
+          paddingX: (theme) => theme.spacing(1),
           display: "flex",
           justifyContent: "flex-end",
         }}
@@ -121,10 +147,17 @@ function ConfigurationEditor({
           variant="outlined"
           sx={{ marginRight: (theme) => theme.spacing(1) }}
           onClick={reset}
+          disabled={!isSuccessValues || isFetchingValues}
         >
           {formatMessage({ id: "configuration.reset" })}
         </Button>
-        <Button>{formatMessage({ id: "configuration.save" })}</Button>
+        <Button
+          onClick={save}
+          loading={isLoadingSetValues}
+          disabled={!isSuccessValues || isFetchingValues}
+        >
+          {formatMessage({ id: "configuration.save" })}
+        </Button>
       </Box>
     </>
   );
