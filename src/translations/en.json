@@ -13,7 +13,9 @@
     }
   },
   "configuration": {
-    "title": "{configurationName} for {repositoryName}"
+    "title": "{configurationName} for {repositoryName}",
+    "save": "Save",
+    "reset": "Reset"
   },
   "set-up-project-form": {
     "title": "Set up configuration for {repositoryName}",

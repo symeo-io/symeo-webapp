@@ -89,6 +89,7 @@ function OrganizationSelector() {
               color: "white",
               overflow: "hidden",
               textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
             }}
           >
             {selectedOrganization?.name}
@@ -101,6 +102,7 @@ function OrganizationSelector() {
               color: "white",
               overflow: "hidden",
               textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
             }}
           >
             {currentUser?.name}

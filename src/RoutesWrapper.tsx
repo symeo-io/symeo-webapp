@@ -11,7 +11,7 @@ function RoutesWrapper() {
         let Component = route.element;
 
         if (route.sidebar) {
-          Component = withSidebar(Component);
+          Component = withSidebar(Component, route.contained);
         }
 
         return (

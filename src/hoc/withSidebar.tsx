@@ -2,7 +2,10 @@ import React from "react";
 import { Box } from "@mui/material";
 import Sidebar from "components/organisms/Sidebar/Sidebar";
 
-export function withSidebar(WrappedComponent: React.ComponentType): React.FC {
+export function withSidebar(
+  WrappedComponent: React.ComponentType,
+  contained: boolean = false
+): React.FC {
   return function (props) {
     return (
       <Box sx={{ display: "flex", height: "100%" }}>
@@ -32,6 +35,7 @@ export function withSidebar(WrappedComponent: React.ComponentType): React.FC {
                 paddingY: (theme) => theme.spacing(3),
                 display: "flex",
                 flexDirection: "column",
+                overflow: contained ? "hidden" : "unset",
               }}
             >
               <WrappedComponent {...props} />

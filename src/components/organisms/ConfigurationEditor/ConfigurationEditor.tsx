@@ -1,104 +1,36 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Box } from "@mui/material";
 import { useGetConfigurationFormatQuery } from "redux/api/configurations/configurations.api";
 import { PropsWithSx } from "types/PropsWithSx";
 import {
   Configuration,
-  ConfigurationFormat,
-  ConfigurationProperty,
   Environment,
 } from "redux/api/configurations/configurations.types";
 import LoadingBox from "components/molecules/LoadingBox/LoadingBox";
-import ConfigurationEditorInput from "components/molecules/ConfigurationEditorInput/ConfigurationEditorInput";
 import {
-  getObjectValueByPath,
-  setObjectValueByPath,
-} from "components/organisms/ConfigurationEditor/utils";
-
-function isConfigurationProperty(
-  value: ConfigurationFormat | ConfigurationProperty
-) {
-  return value.type && typeof value.type === "string";
-}
-
-function buildFormatInput(
-  property: ConfigurationFormat | ConfigurationProperty,
-  getValueByPath: (path: string) => unknown,
-  setValueByPath: (path: string, value: unknown) => void,
-  tab: number = 0,
-  path: string = ""
-) {
-  if (isConfigurationProperty(property)) {
-    return (
-      <Box
-        sx={{
-          marginLeft: (theme) => theme.spacing(1),
-          height: "32px",
-          display: "flex",
-          alignItems: "center",
-          width: "100%",
-        }}
-      >
-        <ConfigurationEditorInput
-          value={getValueByPath(path)}
-          onChange={(newValue: unknown) => setValueByPath(path, newValue)}
-          property={property as ConfigurationProperty}
-        />
-      </Box>
-    );
-  }
-
-  const format = property as ConfigurationFormat;
-  return Object.keys(format).map((key) => {
-    const newPath = path !== "" ? path + "." + key : key;
-    return (
-      <Box
-        key={key}
-        sx={{
-          marginLeft: (theme) => theme.spacing(tab * 2),
-          display: isConfigurationProperty(format[key]) ? "flex" : "block",
-          alignItems: "center",
-        }}
-      >
-        <Box sx={{ height: "32px", display: "flex", alignItems: "center" }}>
-          {key}:
-        </Box>
-        {buildFormatInput(
-          format[key],
-          getValueByPath,
-          setValueByPath,
-          tab + 1,
-          newPath
-        )}
-      </Box>
-    );
-  });
-}
+  useGetValuesForEnvironmentQuery,
+  useSetValuesForEnvironmentMutation,
+} from "redux/api/values/values.api";
+import { ConfigurationValues } from "redux/api/values/values.types";
+import ConfigurationEditorProperty from "components/molecules/ConfigurationEditorProperty/ConfigurationEditorProperty";
+import { cloneDeep } from "lodash";
+import Button from "components/atoms/Button/Button";
+import { useIntl } from "react-intl";
 
 export type ConfigurationEditorProps = PropsWithSx & {
   configuration: Configuration;
   environment: Environment;
 };
 
-export type Config = { [property: string]: string | number | boolean | Config };
-
 function ConfigurationEditor({
   configuration,
   environment,
   sx,
 }: ConfigurationEditorProps) {
-  const [value, setValue] = useState<Config>({});
-
-  const getValueByPath = useCallback(
-    (path: string) => getObjectValueByPath(value, path),
-    [value]
-  );
-
-  const setValueByPath = useCallback(
-    (path: string, newValue: unknown) =>
-      setValue(setObjectValueByPath(value, path, newValue)),
-    [value]
-  );
+  const { formatMessage } = useIntl();
+  const [editorValues, setEditorValues] = useState<ConfigurationValues>({});
+  const [setValues, { isLoading: isLoadingSetValues }] =
+    useSetValuesForEnvironmentMutation();
 
   const { data: configurationFormatData, isLoading: isLoadingFormat } =
     useGetConfigurationFormatQuery({
@@ -106,30 +38,128 @@ function ConfigurationEditor({
       repositoryVcsId: configuration.repository.vcsId.toString(),
     });
 
+  const {
+    data: valuesData,
+    isLoading: isLoadingValues,
+    isFetching: isFetchingValues,
+    isSuccess: isSuccessValues,
+  } = useGetValuesForEnvironmentQuery({
+    configurationId: configuration.id,
+    repositoryVcsId: configuration.repository.vcsId.toString(),
+    environmentId: environment.id,
+  });
+
   const format = useMemo(
     () => configurationFormatData?.format,
     [configurationFormatData?.format]
   );
 
+  const values = useMemo(() => valuesData?.values, [valuesData?.values]);
+
+  const reset = useCallback(
+    () => values && setEditorValues(cloneDeep(values)),
+    [values]
+  );
+
+  const save = useCallback(async () => {
+    if (isSuccessValues && !isFetchingValues) {
+      setValues({
+        configurationId: configuration.id,
+        repositoryVcsId: configuration.repository.vcsId.toString(),
+        environmentId: environment.id,
+        values: editorValues,
+      });
+    }
+  }, [
+    configuration.id,
+    configuration.repository.vcsId,
+    editorValues,
+    environment.id,
+    isFetchingValues,
+    isSuccessValues,
+    setValues,
+  ]);
+
+  useEffect(() => {
+    if (values) {
+      setEditorValues(cloneDeep(values));
+    }
+  }, [values]);
+
   return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        backgroundColor: "#131626",
-        borderRadius: "8px",
-        fontFamily: "Fira Mono",
-        color: "#A06CE4",
-        padding: (theme) => theme.spacing(3),
-        overflow: "auto",
-        ...sx,
-      }}
-    >
-      {isLoadingFormat && <LoadingBox sx={{ flex: 1 }} />}
-      {!isLoadingFormat &&
-        format &&
-        buildFormatInput(format, getValueByPath, setValueByPath)}
-    </Box>
+    <>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          backgroundColor: "#131626",
+          borderRadius: "8px",
+          fontFamily: "Fira Mono",
+          color: "#A06CE4",
+          padding: (theme) => theme.spacing(3),
+          overflow: "auto",
+
+          "&::-webkit-scrollbar": {
+            width: "18px",
+          },
+          "&::-webkit-scrollbar-track": {
+            background: "transparent",
+            padding: "5px",
+          },
+          "&::-webkit-scrollbar-thumb": {
+            background: "rgba(255,255,255,0.3)",
+            borderRadius: "9999px",
+            border: "6px solid rgba(0, 0, 0, 0)",
+            backgroundClip: "padding-box",
+          },
+
+          ...sx,
+        }}
+      >
+        {(isLoadingFormat || isLoadingValues || isFetchingValues) && (
+          <LoadingBox sx={{ flex: 1 }} />
+        )}
+        {!isLoadingFormat &&
+          !isFetchingValues &&
+          format &&
+          values &&
+          Object.keys(format).map((propertyName) => (
+            <ConfigurationEditorProperty
+              key={propertyName}
+              propertyName={propertyName}
+              property={format[propertyName]}
+              values={editorValues}
+              originalValues={values}
+              setValues={setEditorValues}
+            />
+          ))}
+      </Box>
+      <Box
+        sx={{
+          marginTop: (theme) => theme.spacing(2),
+          marginBottom: (theme) => theme.spacing(2),
+          paddingX: (theme) => theme.spacing(1),
+          display: "flex",
+          justifyContent: "flex-end",
+        }}
+      >
+        <Button
+          variant="outlined"
+          sx={{ marginRight: (theme) => theme.spacing(1) }}
+          onClick={reset}
+          disabled={!isSuccessValues || isFetchingValues}
+        >
+          {formatMessage({ id: "configuration.reset" })}
+        </Button>
+        <Button
+          onClick={save}
+          loading={isLoadingSetValues}
+          disabled={!isSuccessValues || isFetchingValues}
+        >
+          {formatMessage({ id: "configuration.save" })}
+        </Button>
+      </Box>
+    </>
   );
 }
 

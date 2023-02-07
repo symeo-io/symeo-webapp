@@ -40,6 +40,7 @@ function Configuration() {
         display: "flex",
         flexDirection: "column",
         flex: 1,
+        overflow: "hidden",
       }}
     >
       {isLoading && <LoadingBox sx={{ flex: 1 }} />}
