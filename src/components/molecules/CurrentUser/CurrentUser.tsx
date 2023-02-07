@@ -63,6 +63,9 @@ function CurrentUser({ sx }: CurrentUserProps) {
             fontWeight: 500,
             fontSize: "14px",
             lineHeight: "20px",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
           }}
         >
           {user.name}
