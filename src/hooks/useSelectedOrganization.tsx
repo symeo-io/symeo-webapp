@@ -71,6 +71,11 @@ export function useSelectedOrganization(): UseSelectedOrganizationOutput {
       setSelectedOrganization,
       lastSelectedOrganization,
     }),
-    [organizations, selectedOrganization, setSelectedOrganization]
+    [
+      lastSelectedOrganization,
+      organizations,
+      selectedOrganization,
+      setSelectedOrganization,
+    ]
   );
 }

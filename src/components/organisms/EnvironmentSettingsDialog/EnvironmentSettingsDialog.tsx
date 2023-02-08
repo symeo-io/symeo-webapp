@@ -1,25 +1,15 @@
-import React, { useMemo } from "react";
+import React from "react";
 import {
-  Box,
-  CircularProgress,
   Dialog,
   DialogContent,
   DialogTitle,
   Divider,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
   Typography,
 } from "@mui/material";
 import { useIntl } from "react-intl";
 import { PropsWithSx } from "types/PropsWithSx";
 import { Environment } from "redux/api/configurations/configurations.types";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
-import { useGetApiKeysQuery } from "redux/api/api-keys/api-keys.api";
-import { colors } from "theme/colors";
-import dayjs from "dayjs";
 import EnvironmentApiKeysSettings from "components/organisms/EnvironmentApiKeysSettings/EnvironmentApiKeysSettings";
 
 export type EnvironmentSettingsDialogProps = PropsWithSx & {
