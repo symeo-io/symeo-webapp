@@ -237,7 +237,7 @@ function SetUpProjectDialog({
         <Button
           onClick={handleCloseAndReset}
           variant="outlined"
-          disabled={false}
+          disabled={isLoadingCreate}
         >
           {formatMessage({ id: "set-up-project-form.cancel-button-label" })}
         </Button>

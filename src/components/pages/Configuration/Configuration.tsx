@@ -77,6 +77,8 @@ function Configuration() {
                   marginRight: (theme) => theme.spacing(1),
                   marginBottom: (theme) => theme.spacing(1),
                 }}
+                repositoryVcsId={configuration.repository.vcsId}
+                configurationId={configuration.id}
                 environment={environment}
                 active={selectedEnvironment?.id === environment.id}
                 onClick={() => setSelectedEnvironment(environment)}

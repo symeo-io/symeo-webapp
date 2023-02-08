@@ -7,6 +7,7 @@ export const apiTagTypes = [
   "Repositories",
   "Configuration",
   "Values",
+  "ApiKeys",
 ];
 
 export const api = createApi({

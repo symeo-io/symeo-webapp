@@ -14,6 +14,13 @@ function Button({ loading, children, onClick, sx, ...props }: ButtonProps) {
       onClick={!loading ? onClick : undefined}
       sx={{
         position: "relative",
+        "& .MuiButton-startIcon": {
+          visibility: loading ? "hidden" : undefined,
+        },
+        "& .MuiButton-endIcon": {
+          visibility: loading ? "hidden" : undefined,
+        },
+
         ...sx,
       }}
       {...props}

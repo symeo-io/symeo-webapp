@@ -36,6 +36,21 @@
       "success": "{filePath} found on {branch}"
     }
   },
+  "environment-settings": {
+    "title": "{environmentName} settings",
+    "api-keys": {
+      "title": "API Keys",
+      "message": "API Keys are unique to an environment. An API key is required to fetch your configuration from your application running environment.",
+      "table": {
+        "key-id-column-label": "Key id",
+        "key-column-label": "Key",
+        "created-on-column-label": "Created on",
+        "empty-state": "No api keys yet.",
+        "copied": "Key copied!"
+      },
+      "new-key-button-label": "New Key"
+    }
+  },
   "sidebar": {
     "projects-link-label": "Projects",
     "organization-selector": {
