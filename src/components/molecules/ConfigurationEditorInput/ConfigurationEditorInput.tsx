@@ -110,6 +110,7 @@ function ConfigurationEditorInput({
 
   return property.type !== "boolean" ? (
     <StyledInput
+      type={property.secret ? "password" : "text"}
       fullWidth
       placeholder={property.type}
       sx={{
