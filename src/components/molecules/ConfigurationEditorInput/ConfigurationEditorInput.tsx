@@ -3,6 +3,12 @@ import { ConfigurationProperty } from "redux/api/configurations/configurations.t
 import { Box, InputBase, MenuItem, Select, styled } from "@mui/material";
 import React, { useCallback } from "react";
 import { colors } from "theme/colors";
+import {
+  getInputColorForProperty,
+  parsePropertyValue,
+  shouldUpdateValue,
+} from "components/molecules/ConfigurationEditorInput/utils";
+import ConfigurationEditorInputPlaceHolder from "components/molecules/ConfigurationEditorInput/ConfigurationEditorInputPlaceHolder";
 
 const StyledInput = styled(InputBase)(({ theme }) => ({
   background: "transparent",
@@ -33,59 +39,6 @@ const StyledInput = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-const INTEGER_REGEX = /^\d*$/;
-const FLOAT_REGEX = /^\d+\.\d+$/;
-
-function shouldUpdateValue(
-  property: ConfigurationProperty,
-  value: string
-): boolean {
-  if (property.type === "integer") {
-    return !!value.match(INTEGER_REGEX);
-  }
-
-  if (property.type === "float") {
-    return !!value.match(INTEGER_REGEX) || !!value.match(FLOAT_REGEX);
-  }
-
-  return true;
-}
-
-function parsePropertyValue(property: ConfigurationProperty, value: string) {
-  if (property.type === "integer") {
-    return value ? parseInt(value) : undefined;
-  }
-
-  if (property.type === "float") {
-    return value ? parseFloat(value) : undefined;
-  }
-
-  if (property.type === "boolean") {
-    switch (value) {
-      case "true":
-        return true;
-      case "false":
-        return true;
-      default:
-        return undefined;
-    }
-  }
-
-  return value;
-}
-
-function getInputColorForProperty(property: ConfigurationProperty) {
-  switch (property.type) {
-    case "boolean":
-      return "#f3c364";
-    case "integer":
-    case "float":
-      return "#6470F3";
-    case "string":
-      return "#69D3A7";
-  }
-}
-
 export type ConfigurationEditorInputProps = PropsWithSx & {
   property: ConfigurationProperty;
   onChange: (value: unknown) => void;
@@ -109,17 +62,29 @@ function ConfigurationEditorInput({
   );
 
   return property.type !== "boolean" ? (
-    <StyledInput
-      type={property.secret ? "password" : "text"}
-      fullWidth
-      placeholder={property.type}
-      sx={{
-        color: getInputColorForProperty(property),
-        ...sx,
-      }}
-      value={value ?? ""}
-      onChange={onChangeWithFormatValidation}
-    />
+    <Box sx={{ width: "100%", position: "relative" }}>
+      <ConfigurationEditorInputPlaceHolder
+        property={property}
+        value={value ?? ""}
+        sx={{
+          position: "absolute",
+          top: 0,
+          bottom: 0,
+          padding: (theme) => theme.spacing(0.5),
+          border: `1.5px solid transparent`,
+        }}
+      />
+      <StyledInput
+        type={property.secret ? "password" : "text"}
+        fullWidth
+        sx={{
+          color: getInputColorForProperty(property),
+          ...sx,
+        }}
+        value={value ?? ""}
+        onChange={onChangeWithFormatValidation}
+      />
+    </Box>
   ) : (
     <Select
       placeholder={property.type}
@@ -152,12 +117,20 @@ function ConfigurationEditorInput({
       }}
       displayEmpty
       renderValue={(value: any) =>
-        value === "" ? <Box sx={{ opacity: 0.5 }}>boolean</Box> : value
+        value === "" ? (
+          <ConfigurationEditorInputPlaceHolder
+            property={property}
+            value={value}
+          />
+        ) : (
+          value
+        )
       }
       value={value ?? ""}
       onChange={onChangeWithFormatValidation}
       sx={{
         color: getInputColorForProperty(property),
+        marginTop: "1px",
         ...sx,
       }}
     >
