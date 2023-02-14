@@ -22,7 +22,8 @@ function EnvironmentTab({
   sx,
 }: EnvironmentTabProps) {
   const colorKey = environment.color as keyof typeof environmentsColorPalettes;
-  const palette = environmentsColorPalettes[colorKey];
+  const palette =
+    environmentsColorPalettes[colorKey] ?? environmentsColorPalettes.blue;
 
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
 
