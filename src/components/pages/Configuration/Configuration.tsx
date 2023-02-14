@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Box, Typography } from "@mui/material";
 import { useIntl } from "react-intl";
 import DataObjectIcon from "@mui/icons-material/DataObject";
@@ -13,8 +13,9 @@ import NewEnvironmentButton from "components/molecules/NewEnvironmentButton/NewE
 function Configuration() {
   const { formatMessage } = useIntl();
   const { repositoryVcsId, configurationId } = useParams();
-  const [selectedEnvironment, setSelectedEnvironment] =
-    useState<Environment | null>(null);
+  const [selectedEnvironmentId, setSelectedEnvironmentId] = useState<
+    string | null
+  >(null);
 
   const { data: configurationData, isLoading } = useGetConfigurationQuery(
     {
@@ -29,11 +30,24 @@ function Configuration() {
     [configurationData?.configuration]
   );
 
+  const selectedEnvironment = useMemo(
+    () =>
+      configuration?.environments.find(
+        (environment) => environment.id === selectedEnvironmentId
+      ) ?? null,
+    [configuration?.environments, selectedEnvironmentId]
+  );
+
+  const setSelectedEnvironment = useCallback(
+    (environment: Environment) => setSelectedEnvironmentId(environment.id),
+    []
+  );
+
   useEffect(() => {
     if (configuration && !selectedEnvironment) {
       setSelectedEnvironment(configuration.environments[0]);
     }
-  }, [configuration, selectedEnvironment]);
+  }, [configuration, selectedEnvironment, setSelectedEnvironment]);
 
   return (
     <Box
