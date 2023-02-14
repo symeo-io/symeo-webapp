@@ -83,6 +83,7 @@ function EnvironmentSettingsDialog({
             marginBottom: (theme) => theme.spacing(2),
           }}
         />
+        <Divider />
         <EnvironmentDangerZoneSettings
           repositoryVcsId={repositoryVcsId}
           configurationId={configurationId}
