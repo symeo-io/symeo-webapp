@@ -29,6 +29,7 @@ function EnvironmentColorSelector({
       >
         {Object.keys(environmentsColorPalettes).map((paletteName) => (
           <Box
+            key={paletteName}
             onClick={() => onChange(paletteName as EnvironmentColor)}
             sx={{
               height: "32px",

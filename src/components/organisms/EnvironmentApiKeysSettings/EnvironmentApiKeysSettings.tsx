@@ -28,6 +28,7 @@ import {
 } from "redux/api/api-keys/api-keys.types";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { useDelayFlag } from "hooks/useDelayFlag";
+import DeleteApiKeyButton from "components/molecules/DeleteApiKeyButton/DeleteApiKeyButton";
 
 export type EnvironmentApiKeysSettingsProps = PropsWithSx & {
   repositoryVcsId: number;
@@ -147,6 +148,7 @@ function EnvironmentApiKeysSettings({
                   id: "environment-settings.api-keys.table.created-on-column-label",
                 })}
               </TableCell>
+              <TableCell sx={{ width: "5%" }} />
             </TableRow>
           </TableHead>
           <TableBody>
@@ -166,8 +168,6 @@ function EnvironmentApiKeysSettings({
                 <TableCell
                   sx={{
                     wordBreak: "break-word",
-                    display: "flex",
-                    alignItems: "center",
                   }}
                 >
                   <Box>
@@ -214,12 +214,20 @@ function EnvironmentApiKeysSettings({
                 <TableCell>
                   {dayjs(apiKey.createdAt).format("MMM D, YYYY, h:mm a")}
                 </TableCell>
+                <TableCell>
+                  <DeleteApiKeyButton
+                    repositoryVcsId={repositoryVcsId}
+                    configurationId={configurationId}
+                    environmentId={environment.id}
+                    apiKey={apiKey}
+                  />
+                </TableCell>
               </TableRow>
             ))}
             {!isLoadingApiKeys && apiKeys.length === 0 && (
               <TableRow>
                 <TableCell
-                  colSpan={3}
+                  colSpan={4}
                   sx={{
                     textAlign: "center",
                   }}
@@ -235,7 +243,7 @@ function EnvironmentApiKeysSettings({
             {isLoadingApiKeys && (
               <TableRow>
                 <TableCell
-                  colSpan={3}
+                  colSpan={4}
                   sx={{
                     textAlign: "center",
                   }}
