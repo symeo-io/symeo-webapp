@@ -60,7 +60,7 @@ function EnvironmentGeneralSettings({
           { environmentName: environment.name }
         )}
       </Typography>
-      <Box>
+      <Box sx={{ marginTop: (theme) => theme.spacing(1) }}>
         <TextField
           name="name"
           value={values.name}
