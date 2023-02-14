@@ -6,7 +6,7 @@ import { useGetConfigurationQuery } from "redux/api/configurations/configuration
 import { useParams } from "react-router-dom";
 import LoadingBox from "components/molecules/LoadingBox/LoadingBox";
 import EnvironmentTab from "components/molecules/EnvironmentTab/EnvironmentTab";
-import { Environment } from "redux/api/configurations/configurations.types";
+import { Environment } from "redux/api/environments/environments.types";
 import ConfigurationEditor from "components/organisms/ConfigurationEditor/ConfigurationEditor";
 import NewEnvironmentButton from "components/molecules/NewEnvironmentButton/NewEnvironmentButton";
 

@@ -2,10 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Box } from "@mui/material";
 import { useGetConfigurationFormatQuery } from "redux/api/configurations/configurations.api";
 import { PropsWithSx } from "types/PropsWithSx";
-import {
-  Configuration,
-  Environment,
-} from "redux/api/configurations/configurations.types";
+import { Configuration } from "redux/api/configurations/configurations.types";
 import LoadingBox from "components/molecules/LoadingBox/LoadingBox";
 import {
   useGetValuesForEnvironmentQuery,
@@ -16,6 +13,7 @@ import ConfigurationEditorProperty from "components/molecules/ConfigurationEdito
 import { cloneDeep } from "lodash";
 import Button from "components/atoms/Button/Button";
 import { useIntl } from "react-intl";
+import { Environment } from "redux/api/environments/environments.types";
 
 export type ConfigurationEditorProps = PropsWithSx & {
   configuration: Configuration;
