@@ -1,22 +1,19 @@
 import { useForm } from "hooks/useForm";
 import { EnvironmentColor } from "redux/api/environments/environments.types";
 
-export type NewEnvironmentValues = {
+export type UpdateEnvironmentValues = {
   name: string;
 
   color: EnvironmentColor;
 };
 
-export const newEnvironmentFormDefaultValues: NewEnvironmentValues = {
-  name: "",
-  color: "blue",
-};
-
-export function useNewEnvironment() {
-  return useForm<NewEnvironmentValues>({
-    defaultValues: newEnvironmentFormDefaultValues,
+export function useUpdateEnvironmentForm(
+  defaultValues: UpdateEnvironmentValues
+) {
+  return useForm<UpdateEnvironmentValues>({
+    defaultValues,
     onValidate: (values) => {
-      const errors: Record<keyof NewEnvironmentValues, string[]> = {
+      const errors: Record<keyof UpdateEnvironmentValues, string[]> = {
         name: [],
         color: [],
       };

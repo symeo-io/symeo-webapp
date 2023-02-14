@@ -9,7 +9,7 @@ import {
 
 const environmentsMutationApi = api.injectEndpoints({
   endpoints: (builder) => ({
-    createGitHubConfigurationEnvironment: builder.mutation<
+    createEnvironment: builder.mutation<
       CreateEnvironmentResponse,
       CreateEnvironmentInput
     >({
@@ -22,10 +22,7 @@ const environmentsMutationApi = api.injectEndpoints({
         { type: "Configuration", id: configurationId },
       ],
     }),
-    deleteGitHubConfigurationEnvironment: builder.mutation<
-      void,
-      DeleteEnvironmentInput
-    >({
+    deleteEnvironment: builder.mutation<void, DeleteEnvironmentInput>({
       query: ({ repositoryVcsId, configurationId, environmentId }) => ({
         url: `/api/v1/configurations/github/${repositoryVcsId}/${configurationId}/environments/${environmentId}`,
         method: "DELETE",
@@ -34,7 +31,7 @@ const environmentsMutationApi = api.injectEndpoints({
         { type: "Configuration", id: configurationId },
       ],
     }),
-    updateGitHubConfigurationEnvironment: builder.mutation<
+    updateEnvironment: builder.mutation<
       UpdateEnvironmentResponse,
       UpdateEnvironmentInput
     >({
@@ -56,7 +53,7 @@ const environmentsMutationApi = api.injectEndpoints({
 });
 
 export const {
-  useCreateGitHubConfigurationEnvironmentMutation,
-  useDeleteGitHubConfigurationEnvironmentMutation,
-  useUpdateGitHubConfigurationEnvironmentMutation,
+  useCreateEnvironmentMutation,
+  useDeleteEnvironmentMutation,
+  useUpdateEnvironmentMutation,
 } = environmentsMutationApi;

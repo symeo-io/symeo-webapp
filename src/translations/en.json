@@ -41,10 +41,17 @@
     "title": "Add environment for {configurationName}",
     "name-field-label": "Environment name",
     "name-field-placeholder": "E.g: Staging",
-    "color-field-label": "Select a color"
+    "color-field-label": "Select a color",
+    "errors": {
+      "empty-name": "You must provide a name for your environment"
+    }
   },
   "environment-settings": {
     "title": "{environmentName} settings",
+    "general": {
+      "title": "General",
+      "update-button-label": "Update"
+    },
     "api-keys": {
       "title": "API Keys",
       "message": "API Keys are unique to an environment. An API key is required to fetch your configuration from your application running environment.",

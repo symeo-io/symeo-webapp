@@ -256,7 +256,7 @@ function EnvironmentApiKeysSettings({
       </TableContainer>
       <Box
         sx={{
-          marginTop: (theme) => theme.spacing(1),
+          marginTop: (theme) => theme.spacing(2),
           display: "flex",
           justifyContent: "flex-end",
         }}

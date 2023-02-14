@@ -5,6 +5,8 @@ import { PropsWithSx } from "types/PropsWithSx";
 import { Environment } from "redux/api/environments/environments.types";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import EnvironmentApiKeysSettings from "components/organisms/EnvironmentApiKeysSettings/EnvironmentApiKeysSettings";
+import EnvironmentGeneralSettings from "components/organisms/EnvironmentGeneralSettings/EnvironmentGeneralSettings";
+import { colors } from "theme/colors";
 
 export type EnvironmentSettingsDialogProps = PropsWithSx & {
   repositoryVcsId: number;
@@ -38,7 +40,13 @@ function EnvironmentSettingsDialog({
         },
       }}
     >
-      <DialogTitle sx={{ display: "flex", alignItems: "center" }}>
+      <DialogTitle
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          borderBottom: `1px solid ${colors.secondary.borders}`,
+        }}
+      >
         <SettingsOutlinedIcon
           sx={{ marginRight: (theme) => theme.spacing(1) }}
         />
@@ -55,12 +63,22 @@ function EnvironmentSettingsDialog({
           flexDirection: "column",
         }}
       >
-        <EnvironmentApiKeysSettings
+        <EnvironmentGeneralSettings
           repositoryVcsId={repositoryVcsId}
           configurationId={configurationId}
           environment={environment}
           sx={{
             marginTop: (theme) => theme.spacing(2),
+            marginBottom: (theme) => theme.spacing(2),
+          }}
+        />
+        <Divider />
+        <EnvironmentApiKeysSettings
+          repositoryVcsId={repositoryVcsId}
+          configurationId={configurationId}
+          environment={environment}
+          sx={{
+            marginTop: (theme) => theme.spacing(5),
             marginBottom: (theme) => theme.spacing(2),
           }}
         />

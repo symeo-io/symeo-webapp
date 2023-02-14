@@ -9,7 +9,7 @@ import { useIntl } from "react-intl";
 import { PropsWithSx } from "types/PropsWithSx";
 import TextField from "components/molecules/TextField/TextField";
 import { useNewEnvironment } from "components/organisms/NewEnvironmentDialog/useNewEnvironmentForm";
-import { useCreateGitHubConfigurationEnvironmentMutation } from "redux/api/environments/environments.api";
+import { useCreateEnvironmentMutation } from "redux/api/environments/environments.api";
 import Button from "components/atoms/Button/Button";
 import EnvironmentColorSelector from "components/molecules/EnvironmentColorSelector/EnvironmentColorSelector";
 
@@ -32,7 +32,7 @@ function NewEnvironmentDialog({
   const { formatMessage } = useIntl();
   const { values, setValues, errors, reset, validate } = useNewEnvironment();
   const [createEnvironment, { isLoading: isLoadingCreate }] =
-    useCreateGitHubConfigurationEnvironmentMutation();
+    useCreateEnvironmentMutation();
 
   const handleCloseAndReset = useCallback(() => {
     reset();

@@ -25,7 +25,6 @@ function EnvironmentColorSelector({
           display: "flex",
           flexWrap: "wrap",
           paddingY: (theme) => theme.spacing(1),
-          paddingX: (theme) => theme.spacing(0.5),
         }}
       >
         {Object.keys(environmentsColorPalettes).map((paletteName) => (

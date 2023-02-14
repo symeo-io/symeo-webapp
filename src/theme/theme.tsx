@@ -139,6 +139,13 @@ export const theme = createTheme({
         disableRipple: true,
       },
     },
+    MuiDivider: {
+      styleOverrides: {
+        root: {
+          borderColor: colors.secondary.borders,
+        },
+      },
+    },
     MuiInputLabel: {
       styleOverrides: {
         root: {
