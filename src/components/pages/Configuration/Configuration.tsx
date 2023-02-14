@@ -8,6 +8,7 @@ import LoadingBox from "components/molecules/LoadingBox/LoadingBox";
 import EnvironmentTab from "components/molecules/EnvironmentTab/EnvironmentTab";
 import { Environment } from "redux/api/configurations/configurations.types";
 import ConfigurationEditor from "components/organisms/ConfigurationEditor/ConfigurationEditor";
+import NewEnvironmentButton from "components/molecules/NewEnvironmentButton/NewEnvironmentButton";
 
 function Configuration() {
   const { formatMessage } = useIntl();
@@ -69,21 +70,34 @@ function Configuration() {
               )}
             </Typography>
           </Box>
-          <Box sx={{ display: "flex", marginTop: (theme) => theme.spacing(2) }}>
-            {configuration.environments.map((environment) => (
-              <EnvironmentTab
-                key={environment.id}
-                sx={{
-                  marginRight: (theme) => theme.spacing(1),
-                  marginBottom: (theme) => theme.spacing(1),
-                }}
-                repositoryVcsId={configuration.repository.vcsId}
-                configurationId={configuration.id}
-                environment={environment}
-                active={selectedEnvironment?.id === environment.id}
-                onClick={() => setSelectedEnvironment(environment)}
-              />
-            ))}
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              marginTop: (theme) => theme.spacing(2),
+            }}
+          >
+            <Box sx={{ flex: 1, display: "flex" }}>
+              {configuration.environments.map((environment) => (
+                <EnvironmentTab
+                  key={environment.id}
+                  sx={{
+                    marginRight: (theme) => theme.spacing(1),
+                    marginBottom: (theme) => theme.spacing(1),
+                  }}
+                  repositoryVcsId={configuration.repository.vcsId}
+                  configurationId={configuration.id}
+                  environment={environment}
+                  active={selectedEnvironment?.id === environment.id}
+                  onClick={() => setSelectedEnvironment(environment)}
+                />
+              ))}
+            </Box>
+            <NewEnvironmentButton
+              repositoryVcsId={configuration.repository.vcsId}
+              configurationName={configuration.name}
+              configurationId={configuration.id}
+            />
           </Box>
           {selectedEnvironment && (
             <ConfigurationEditor

@@ -139,35 +139,39 @@ export const theme = createTheme({
         disableRipple: true,
       },
     },
+    MuiInputLabel: {
+      styleOverrides: {
+        root: {
+          transform: "unset",
+          position: "unset",
+          fontSize: "0.75rem",
+          fontWeight: 700,
+          color: colors.secondary.text,
+
+          "&.Mui-focused": {
+            color: colors.secondary.shapeActive,
+          },
+          "&.Mui-error": {
+            color: colors.secondary.text,
+          },
+          "&.Mui-disabled": {
+            color: colors.secondary.shapeActive,
+          },
+        },
+        asterisk: {
+          color: colors.secondary.shapeHover,
+          "&.Mui-error": {
+            color: colors.secondary.text,
+          },
+          "&.Mui-disabled": {
+            color: colors.secondary.text,
+          },
+        },
+      },
+    },
     MuiTextField: {
       styleOverrides: {
         root: {
-          "& .MuiInputLabel-root": {
-            transform: "unset",
-            position: "unset",
-            fontSize: "0.75rem",
-            fontWeight: 700,
-            color: colors.secondary.text,
-
-            "&.Mui-focused": {
-              color: colors.secondary.shapeActive,
-            },
-            "&.Mui-error": {
-              color: colors.secondary.text,
-            },
-            "&.Mui-disabled": {
-              color: colors.secondary.shapeActive,
-            },
-            "& .MuiInputLabel-asterisk": {
-              color: colors.secondary.shapeHover,
-              "&.Mui-error": {
-                color: colors.secondary.text,
-              },
-              "&.Mui-disabled": {
-                color: colors.secondary.text,
-              },
-            },
-          },
           "& .MuiInput-root": {
             background: "white",
             marginTop: "4px",

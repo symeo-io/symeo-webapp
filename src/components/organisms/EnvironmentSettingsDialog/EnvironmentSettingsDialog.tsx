@@ -1,14 +1,8 @@
 import React from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  Divider,
-  Typography,
-} from "@mui/material";
+import { Dialog, DialogContent, DialogTitle, Divider } from "@mui/material";
 import { useIntl } from "react-intl";
 import { PropsWithSx } from "types/PropsWithSx";
-import { Environment } from "redux/api/configurations/configurations.types";
+import { Environment } from "redux/api/environments/environments.types";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import EnvironmentApiKeysSettings from "components/organisms/EnvironmentApiKeysSettings/EnvironmentApiKeysSettings";
 
@@ -48,14 +42,12 @@ function EnvironmentSettingsDialog({
         <SettingsOutlinedIcon
           sx={{ marginRight: (theme) => theme.spacing(1) }}
         />
-        <Typography variant="h2">
-          {formatMessage(
-            {
-              id: "environment-settings.title",
-            },
-            { environmentName: environment.name }
-          )}
-        </Typography>
+        {formatMessage(
+          {
+            id: "environment-settings.title",
+          },
+          { environmentName: environment.name }
+        )}
       </DialogTitle>
       <DialogContent
         sx={{

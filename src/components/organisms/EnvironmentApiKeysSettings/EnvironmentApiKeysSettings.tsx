@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import { useIntl } from "react-intl";
 import { PropsWithSx } from "types/PropsWithSx";
-import { Environment } from "redux/api/configurations/configurations.types";
+import { Environment } from "redux/api/environments/environments.types";
 import {
   useCreateApiKeyMutation,
   useGetApiKeysQuery,
@@ -152,6 +152,7 @@ function EnvironmentApiKeysSettings({
           <TableBody>
             {apiKeys.map((apiKey) => (
               <TableRow
+                key={apiKey.id}
                 sx={{
                   "& .MuiTableCell-root": {
                     backgroundColor:

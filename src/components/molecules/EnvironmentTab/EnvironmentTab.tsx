@@ -1,5 +1,5 @@
 import { Box, BoxProps } from "@mui/material";
-import { Environment } from "redux/api/configurations/configurations.types";
+import { Environment } from "redux/api/environments/environments.types";
 import { PropsWithSx } from "types/PropsWithSx";
 import { colors, environmentsColorPalettes } from "theme/colors";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";

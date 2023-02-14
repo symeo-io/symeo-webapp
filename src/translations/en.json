@@ -36,6 +36,13 @@
       "success": "{filePath} found on {branch}"
     }
   },
+  "new-environment": {
+    "button-label": "Add environment",
+    "title": "Add environment for {configurationName}",
+    "name-field-label": "Environment name",
+    "name-field-placeholder": "E.g: Staging",
+    "color-field-label": "Select a color"
+  },
   "environment-settings": {
     "title": "{environmentName} settings",
     "api-keys": {

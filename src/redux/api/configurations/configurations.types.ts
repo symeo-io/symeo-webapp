@@ -1,8 +1,4 @@
-export type Environment = {
-  id: string;
-  name: string;
-  color: string;
-};
+import { Environment } from "redux/api/environments/environments.types";
 
 export type Configuration = {
   id: string;
