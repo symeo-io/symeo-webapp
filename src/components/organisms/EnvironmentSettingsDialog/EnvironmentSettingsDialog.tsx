@@ -7,6 +7,7 @@ import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import EnvironmentApiKeysSettings from "components/organisms/EnvironmentApiKeysSettings/EnvironmentApiKeysSettings";
 import EnvironmentGeneralSettings from "components/organisms/EnvironmentGeneralSettings/EnvironmentGeneralSettings";
 import { colors } from "theme/colors";
+import EnvironmentDangerZoneSettings from "components/organisms/EnvironmentDangerZoneSettings/EnvironmentDangerZoneSettings";
 
 export type EnvironmentSettingsDialogProps = PropsWithSx & {
   repositoryVcsId: number;
@@ -82,7 +83,16 @@ function EnvironmentSettingsDialog({
             marginBottom: (theme) => theme.spacing(2),
           }}
         />
-        <Divider />
+        <EnvironmentDangerZoneSettings
+          repositoryVcsId={repositoryVcsId}
+          configurationId={configurationId}
+          environment={environment}
+          onDelete={handleClose}
+          sx={{
+            marginTop: (theme) => theme.spacing(5),
+            marginBottom: (theme) => theme.spacing(2),
+          }}
+        />
       </DialogContent>
     </Dialog>
   );

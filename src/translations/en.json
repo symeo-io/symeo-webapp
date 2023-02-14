@@ -63,6 +63,20 @@
         "copied": "Key copied!"
       },
       "new-key-button-label": "New Key"
+    },
+    "danger-zone": {
+      "title": "Danger zone",
+      "delete": {
+        "title": "Delete this environment",
+        "message": "Once you delete an environment, there is no going back. Please be certain.",
+        "button-label": "Delete this environment",
+        "confirm": {
+          "title": "Are you absolutely sure?",
+          "message": "This action <b>cannot</b> be undone. This will permanently delete the <b>{environmentName}</b> environment, its configuration values and its api keys.",
+          "confirm-input-message": "Please type <i>{confirmInput}</i> to confirm.",
+          "button-label": "I understand the consequences, delete this environment"
+        }
+      }
     }
   },
   "sidebar": {
