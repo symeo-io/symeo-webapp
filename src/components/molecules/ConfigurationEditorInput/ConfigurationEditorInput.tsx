@@ -123,7 +123,7 @@ function ConfigurationEditorInput({
             value={value}
           />
         ) : (
-          value
+          value.toString()
         )
       }
       value={value ?? ""}
