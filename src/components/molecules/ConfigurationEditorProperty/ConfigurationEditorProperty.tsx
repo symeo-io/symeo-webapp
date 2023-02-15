@@ -22,7 +22,6 @@ function isConfigurationProperty(
 export type ConfigurationEditorPropertyProps = PropsWithSx & {
   propertyName: string;
   property: ConfigurationFormat | ConfigurationProperty;
-  tab?: number;
   path?: string;
   values: ConfigurationValues;
   setValues: (values: ConfigurationValues) => void;
@@ -32,7 +31,6 @@ export type ConfigurationEditorPropertyProps = PropsWithSx & {
 function ConfigurationEditorProperty({
   propertyName,
   property,
-  tab = 0,
   path = propertyName,
   values,
   setValues,
@@ -64,7 +62,7 @@ function ConfigurationEditorProperty({
   return (
     <Box
       sx={{
-        marginLeft: (theme) => theme.spacing(tab * 2),
+        marginLeft: (theme) => theme.spacing(2),
         display: configurationProperty ? "flex" : "block",
         alignItems: "center",
         ...sx,
@@ -106,7 +104,6 @@ function ConfigurationEditorProperty({
             key={subPropertyName}
             propertyName={subPropertyName}
             property={(property as ConfigurationFormat)[subPropertyName]}
-            tab={tab + 1}
             path={path + "." + subPropertyName}
             values={values}
             setValues={setValues}

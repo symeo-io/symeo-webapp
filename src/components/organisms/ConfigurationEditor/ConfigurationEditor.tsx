@@ -95,6 +95,7 @@ function ConfigurationEditor({
           fontFamily: "Fira Mono",
           color: "#A06CE4",
           padding: (theme) => theme.spacing(3),
+          paddingLeft: (theme) => theme.spacing(1),
           overflow: "auto",
 
           "&::-webkit-scrollbar": {
