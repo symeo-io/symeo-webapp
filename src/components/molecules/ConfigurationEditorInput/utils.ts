@@ -47,7 +47,7 @@ export function parsePropertyValue(
       case "true":
         return true;
       case "false":
-        return true;
+        return false;
       default:
         return undefined;
     }

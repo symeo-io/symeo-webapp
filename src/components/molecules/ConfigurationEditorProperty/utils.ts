@@ -7,7 +7,7 @@ export function getObjectValueByPath(object: any, path: string): unknown {
 
   for (const propertyName of propertyNames) {
     if (!currentProperty[propertyName]) {
-      return undefined;
+      return currentProperty[propertyName];
     }
 
     currentProperty = currentProperty[propertyName];
