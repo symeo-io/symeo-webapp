@@ -8,7 +8,6 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Tooltip,
   Typography,
 } from "@mui/material";
 import { useIntl } from "react-intl";
@@ -26,9 +25,8 @@ import {
   ApiKey,
   CreateApiKeysResponse,
 } from "redux/api/api-keys/api-keys.types";
-import ContentCopyIcon from "@mui/icons-material/ContentCopy";
-import { useDelayFlag } from "hooks/useDelayFlag";
 import DeleteApiKeyButton from "components/molecules/DeleteApiKeyButton/DeleteApiKeyButton";
+import CopyToClipboardButton from "components/molecules/CopyToClipboardButton/CopyToClipboardButton";
 
 export type EnvironmentApiKeysSettingsProps = PropsWithSx & {
   repositoryVcsId: number;
@@ -46,7 +44,6 @@ function EnvironmentApiKeysSettings({
   const [createdApiKey, setCreatedApiKey] = useState<ApiKey | undefined>(
     undefined
   );
-  const [copied, activateCopied] = useDelayFlag(3000);
 
   const [createApiKey, { isLoading: isLoadingCreate }] =
     useCreateApiKeyMutation();
@@ -78,13 +75,6 @@ function EnvironmentApiKeysSettings({
 
     setCreatedApiKey(response.data.apiKey);
   }, [configurationId, createApiKey, environment.id, repositoryVcsId]);
-
-  const copyCreateKeyToClipboard = useCallback(async () => {
-    if (createdApiKey) {
-      await navigator.clipboard.writeText(createdApiKey.key);
-      activateCopied();
-    }
-  }, [activateCopied, createdApiKey]);
 
   return (
     <Box sx={{ ...sx }}>
@@ -133,11 +123,6 @@ function EnvironmentApiKeysSettings({
             }}
           >
             <TableRow>
-              <TableCell sx={{ width: "35%" }}>
-                {formatMessage({
-                  id: "environment-settings.api-keys.table.key-id-column-label",
-                })}
-              </TableCell>
               <TableCell>
                 {formatMessage({
                   id: "environment-settings.api-keys.table.key-column-label",
@@ -164,52 +149,20 @@ function EnvironmentApiKeysSettings({
                   },
                 }}
               >
-                <TableCell>{apiKey.id}</TableCell>
-                <TableCell
-                  sx={{
-                    wordBreak: "break-word",
-                  }}
-                >
-                  <Box>
-                    {createdApiKey?.id === apiKey.id
-                      ? createdApiKey.key
-                      : apiKey.key}
-                  </Box>
-                  {createdApiKey?.id === apiKey.id && (
-                    <Box sx={{ marginLeft: (theme) => theme.spacing(1) }}>
-                      <Box
-                        onClick={copyCreateKeyToClipboard}
-                        sx={{
-                          padding: (theme) => theme.spacing(0.5),
-                          cursor: "pointer",
-                          color: colors.secondary.text,
-
-                          "&:hover": {
-                            color: colors.secondary.textHover,
-                          },
-                        }}
-                      >
-                        <Tooltip
-                          placement="top"
-                          open={copied}
-                          title={
-                            <Box
-                              sx={{
-                                fontWeight: 400,
-                                color: colors.success.text,
-                              }}
-                            >
-                              {formatMessage({
-                                id: "environment-settings.api-keys.table.copied",
-                              })}
-                            </Box>
-                          }
-                        >
-                          <ContentCopyIcon sx={{ fontSize: "18px" }} />
-                        </Tooltip>
-                      </Box>
+                <TableCell>
+                  <Box sx={{ display: "flex", alignItems: "center" }}>
+                    <Box>
+                      {createdApiKey?.id === apiKey.id
+                        ? createdApiKey.key
+                        : apiKey.key}
                     </Box>
-                  )}
+                    {createdApiKey?.id === apiKey.id && (
+                      <CopyToClipboardButton
+                        contentToCopy={createdApiKey?.key}
+                        sx={{ marginLeft: (theme) => theme.spacing(1) }}
+                      />
+                    )}
+                  </Box>
                 </TableCell>
                 <TableCell>
                   {dayjs(apiKey.createdAt).format("MMM D, YYYY, h:mm a")}
