@@ -6,7 +6,7 @@ export type Configuration = {
   vcsType: "github";
   repository: { name: string; vcsId: number };
   owner: { name: string; vcsId: number };
-  configFormatFilePath: string;
+  contractFilePath: string;
   branch: string;
   environments: Environment[];
 };
@@ -23,8 +23,8 @@ export type ConfigurationProperty = {
   optional?: boolean;
 };
 
-export type ConfigurationFormat = {
-  [property: string]: ConfigurationFormat | ConfigurationProperty;
+export type ConfigurationContract = {
+  [property: string]: ConfigurationContract | ConfigurationProperty;
 };
 
 export type GetConfigurationResponse = {
@@ -36,11 +36,11 @@ export type GetConfigurationInput = {
   configurationId: string;
 };
 
-export type GetConfigurationFormatResponse = {
-  format: ConfigurationFormat;
+export type GetConfigurationContractResponse = {
+  contract: ConfigurationContract;
 };
 
-export type GetConfigurationFormatInput = {
+export type GetConfigurationContractInput = {
   repositoryVcsId: string;
   configurationId: string;
 };
@@ -52,7 +52,7 @@ export type CreateGitHubConfigurationResponse = {
 export type CreateGitHubConfigurationInput = {
   name: string;
   repositoryVcsId: number;
-  configFormatFilePath: string;
+  contractFilePath: string;
   branch: string;
 };
 
@@ -62,6 +62,6 @@ export type ValidateGitHubConfigurationResponse = {
 
 export type ValidateGitHubConfigurationInput = {
   repositoryVcsId: number;
-  configFormatFilePath: string;
+  contractFilePath: string;
   branch: string;
 };

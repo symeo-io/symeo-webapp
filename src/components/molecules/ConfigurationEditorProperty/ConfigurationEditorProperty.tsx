@@ -1,6 +1,6 @@
 import { PropsWithSx } from "types/PropsWithSx";
 import {
-  ConfigurationFormat,
+  ConfigurationContract,
   ConfigurationProperty,
 } from "redux/api/configurations/configurations.types";
 import React, { useCallback, useMemo } from "react";
@@ -14,14 +14,14 @@ import {
 } from "components/molecules/ConfigurationEditorProperty/utils";
 
 function isConfigurationProperty(
-  value: ConfigurationFormat | ConfigurationProperty
+  value: ConfigurationContract | ConfigurationProperty
 ) {
   return value.type && typeof value.type === "string";
 }
 
 export type ConfigurationEditorPropertyProps = PropsWithSx & {
   propertyName: string;
-  property: ConfigurationFormat | ConfigurationProperty;
+  property: ConfigurationContract | ConfigurationProperty;
   path?: string;
   values: ConfigurationValues;
   setValues: (values: ConfigurationValues) => void;
@@ -103,7 +103,7 @@ function ConfigurationEditorProperty({
           <ConfigurationEditorProperty
             key={subPropertyName}
             propertyName={subPropertyName}
-            property={(property as ConfigurationFormat)[subPropertyName]}
+            property={(property as ConfigurationContract)[subPropertyName]}
             path={path + "." + subPropertyName}
             values={values}
             setValues={setValues}

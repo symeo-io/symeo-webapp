@@ -77,18 +77,18 @@ function SetUpProjectDialog({
   }, [handleClose, reset]);
 
   useEffect(() => {
-    if (values.branch && values.configFormatFilePath) {
+    if (values.branch && values.contractFilePath) {
       debouncedValidateConfiguration({
         repositoryVcsId: repository.vcsId,
         branch: values.branch,
-        configFormatFilePath: values.configFormatFilePath,
+        contractFilePath: values.contractFilePath,
       });
     }
   }, [
     debouncedValidateConfiguration,
     repository.vcsId,
     values.branch,
-    values.configFormatFilePath,
+    values.contractFilePath,
   ]);
 
   return (
@@ -138,27 +138,27 @@ function SetUpProjectDialog({
           }
         />
         <TextField
-          name="configFormatFilePath"
-          value={values.configFormatFilePath}
+          name="contractFilePath"
+          value={values.contractFilePath}
           onChange={(event) =>
-            setValues({ ...values, configFormatFilePath: event.target.value })
+            setValues({ ...values, contractFilePath: event.target.value })
           }
           fullWidth
           required
           label={formatMessage({
-            id: "set-up-project-form.config-format-file-path-field-label",
+            id: "set-up-project-form.config-contract-file-path-field-label",
           })}
           placeholder={formatMessage(
             {
-              id: "set-up-project-form.config-format-file-path-field-placeholder",
+              id: "set-up-project-form.config-contract-file-path-field-placeholder",
             },
             { repositoryName: repository.name }
           )}
           sx={{ marginBottom: (theme) => theme.spacing(2) }}
-          error={errors.configFormatFilePath.length > 0}
+          error={errors.contractFilePath.length > 0}
           helperText={
-            errors.configFormatFilePath.length > 0
-              ? errors.configFormatFilePath
+            errors.contractFilePath.length > 0
+              ? errors.contractFilePath
                   .map((error) => formatMessage({ id: error }))
                   .join(", ")
               : undefined
@@ -191,7 +191,7 @@ function SetUpProjectDialog({
               : undefined
           }
         />
-        {values.branch && values.configFormatFilePath && !isUninitialized && (
+        {values.branch && values.contractFilePath && !isUninitialized && (
           <Box
             sx={{
               display: "flex",
@@ -207,7 +207,7 @@ function SetUpProjectDialog({
                   id: "set-up-project-form.validation.loading",
                 },
                 {
-                  filePath: values.configFormatFilePath,
+                  filePath: values.contractFilePath,
                   branch: values.branch,
                 }
               )}
@@ -216,7 +216,7 @@ function SetUpProjectDialog({
                   id: "set-up-project-form.validation.error",
                 },
                 {
-                  filePath: values.configFormatFilePath,
+                  filePath: values.contractFilePath,
                   branch: values.branch,
                 }
               )}
@@ -225,7 +225,7 @@ function SetUpProjectDialog({
                   id: "set-up-project-form.validation.success",
                 },
                 {
-                  filePath: values.configFormatFilePath,
+                  filePath: values.contractFilePath,
                   branch: values.branch,
                 }
               )}

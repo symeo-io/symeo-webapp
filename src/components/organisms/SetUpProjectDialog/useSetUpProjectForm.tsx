@@ -3,14 +3,14 @@ import { useForm } from "hooks/useForm";
 export type SetUpProjectFormValues = {
   name: string;
 
-  configFormatFilePath: string;
+  contractFilePath: string;
 
   branch: string;
 };
 
 export const repositoriesFormDefaultValues: SetUpProjectFormValues = {
   name: "",
-  configFormatFilePath: "symeo.config.yml",
+  contractFilePath: "symeo.config.yml",
   branch: "",
 };
 
@@ -20,7 +20,7 @@ export function useSetUpProjectForm() {
     onValidate: (values) => {
       const errors: Record<keyof SetUpProjectFormValues, string[]> = {
         name: [],
-        configFormatFilePath: [],
+        contractFilePath: [],
         branch: [],
       };
 
@@ -28,7 +28,7 @@ export function useSetUpProjectForm() {
         errors.name.push("set-up-project-form.errors.empty-name");
       }
 
-      if (!values.configFormatFilePath) {
+      if (!values.contractFilePath) {
         errors.name.push("set-up-project-form.errors.empty-name");
       }
 

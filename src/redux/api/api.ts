@@ -6,6 +6,7 @@ export const apiTagTypes = [
   "Organizations",
   "Repositories",
   "Configuration",
+  "ConfigurationContract",
   "Values",
   "ApiKeys",
 ];

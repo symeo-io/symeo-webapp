@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Box } from "@mui/material";
-import { useGetConfigurationFormatQuery } from "redux/api/configurations/configurations.api";
+import { useGetConfigurationContractQuery } from "redux/api/configurations/configurations.api";
 import { PropsWithSx } from "types/PropsWithSx";
 import { Configuration } from "redux/api/configurations/configurations.types";
 import LoadingBox from "components/molecules/LoadingBox/LoadingBox";
@@ -30,8 +30,8 @@ function ConfigurationEditor({
   const [setValues, { isLoading: isLoadingSetValues }] =
     useSetValuesForEnvironmentMutation();
 
-  const { data: configurationFormatData, isLoading: isLoadingFormat } =
-    useGetConfigurationFormatQuery({
+  const { data: configurationContractData, isLoading: isLoadingContract } =
+    useGetConfigurationContractQuery({
       configurationId: configuration.id,
       repositoryVcsId: configuration.repository.vcsId.toString(),
     });
@@ -47,9 +47,9 @@ function ConfigurationEditor({
     environmentId: environment.id,
   });
 
-  const format = useMemo(
-    () => configurationFormatData?.format,
-    [configurationFormatData?.format]
+  const contract = useMemo(
+    () => configurationContractData?.contract,
+    [configurationContractData?.contract]
   );
 
   const values = useMemo(() => valuesData?.values, [valuesData?.values]);
@@ -115,18 +115,18 @@ function ConfigurationEditor({
           ...sx,
         }}
       >
-        {(isLoadingFormat || isLoadingValues || isFetchingValues) && (
+        {(isLoadingContract || isLoadingValues || isFetchingValues) && (
           <LoadingBox sx={{ flex: 1 }} />
         )}
-        {!isLoadingFormat &&
+        {!isLoadingContract &&
           !isFetchingValues &&
-          format &&
+          contract &&
           values &&
-          Object.keys(format).map((propertyName) => (
+          Object.keys(contract).map((propertyName) => (
             <ConfigurationEditorProperty
               key={propertyName}
               propertyName={propertyName}
-              property={format[propertyName]}
+              property={contract[propertyName]}
               values={editorValues}
               originalValues={values}
               setValues={setEditorValues}

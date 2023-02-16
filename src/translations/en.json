@@ -23,8 +23,8 @@
     "set-up-button-label": "Set Up Configuration",
     "name-field-label": "Configuration name",
     "name-field-placeholder": "Give a name to your {repositoryName} configuration",
-    "config-format-file-path-field-label": "Path to your configuration format file",
-    "config-format-file-path-field-placeholder": "e.g: api/symeo.config.yml",
+    "config-contract-file-path-field-label": "Path to your configuration contract file",
+    "config-contract-file-path-field-placeholder": "e.g: api/symeo.config.yml",
     "branch-field-label": "Branch",
     "branch-field-placeholder": "On which branch should we find the file?",
     "errors": {
