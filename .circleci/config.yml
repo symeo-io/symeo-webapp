@@ -69,7 +69,7 @@ jobs:
             cd .aws && ./build_infrastructure.sh \
               --region ${AWS_REGION} \
               --env ${ENVIRONMENT} \
-              --prefix-url ${PREFIX_URL_FRONTEND_CONFIG} \
+              --prefix-url ${PREFIX_URL_FRONTEND} \
               --domain ${DOMAIN} \
               --acm-arn ${ACM_ARN}
       - slack/notify:
