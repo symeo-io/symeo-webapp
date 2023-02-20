@@ -42,6 +42,8 @@
     "name-field-label": "Environment name",
     "name-field-placeholder": "E.g: Staging",
     "color-field-label": "Select a color",
+    "cancel-button-label": "Cancel",
+    "create-button-label": "Create environment",
     "errors": {
       "empty-name": "You must provide a name for your environment"
     }

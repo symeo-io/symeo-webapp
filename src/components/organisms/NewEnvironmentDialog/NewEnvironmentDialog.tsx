@@ -120,11 +120,11 @@ function NewEnvironmentDialog({
           variant="outlined"
           disabled={isLoadingCreate}
         >
-          {formatMessage({ id: "set-up-project-form.cancel-button-label" })}
+          {formatMessage({ id: "new-environment.cancel-button-label" })}
         </Button>
         <Button onClick={handleCreateEnvironment} loading={isLoadingCreate}>
           {formatMessage({
-            id: "set-up-project-form.set-up-button-label",
+            id: "new-environment.create-button-label",
           })}
         </Button>
       </DialogActions>
