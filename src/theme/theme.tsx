@@ -326,7 +326,7 @@ export const theme = createTheme({
           },
 
           "&:hover": {
-            backgroundColor: "rgba(0,0,0,0.1)",
+            backgroundColor: colors.primary.surfaceHover,
 
             "& .MuiListItemIcon-root": {
               color: colors.primary.bordersHover,
@@ -337,8 +337,8 @@ export const theme = createTheme({
             },
           },
 
-          "&.Mui-selected": {
-            background: colors.primary.surface,
+          "&.Mui-selected, .Mui-selected.Mui-focusVisible": {
+            backgroundColor: colors.primary.surface,
 
             "&:hover": {
               background: colors.primary.surface,

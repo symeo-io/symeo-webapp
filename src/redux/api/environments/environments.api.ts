@@ -6,6 +6,7 @@ import {
   UpdateEnvironmentInput,
   UpdateEnvironmentResponse,
 } from "redux/api/environments/environments.types";
+import { configurationQueryApi } from "redux/api/configurations/configurations.api";
 
 const environmentsMutationApi = api.injectEndpoints({
   endpoints: (builder) => ({
@@ -18,9 +19,26 @@ const environmentsMutationApi = api.injectEndpoints({
         method: "POST",
         body,
       }),
-      invalidatesTags: (_, __, { configurationId }) => [
-        { type: "Configuration", id: configurationId },
-      ],
+      async onQueryStarted(
+        { repositoryVcsId, configurationId, ...patch },
+        { dispatch, queryFulfilled }
+      ) {
+        try {
+          const { data: createdEnvironmentData } = await queryFulfilled;
+          dispatch(
+            configurationQueryApi.util.updateQueryData(
+              "getConfiguration",
+              { configurationId, repositoryVcsId },
+              (draft) => {
+                draft.configuration.environments = [
+                  ...draft.configuration.environments,
+                  createdEnvironmentData.environment,
+                ];
+              }
+            )
+          );
+        } catch {}
+      },
     }),
     deleteEnvironment: builder.mutation<void, DeleteEnvironmentInput>({
       query: ({ repositoryVcsId, configurationId, environmentId }) => ({

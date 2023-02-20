@@ -17,7 +17,7 @@ export type CreateEnvironmentInput = {
 };
 
 export type CreateEnvironmentResponse = {
-  configuration: Configuration;
+  environment: Environment;
 };
 
 export type DeleteEnvironmentInput = {
@@ -35,5 +35,5 @@ export type UpdateEnvironmentInput = {
 };
 
 export type UpdateEnvironmentResponse = {
-  configuration: Configuration;
+  environment: Environment;
 };
