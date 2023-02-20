@@ -1,10 +1,9 @@
 import React from "react";
-import { ListItemIcon, ListItemText, MenuItem } from "@mui/material";
 import routes from "routing";
-import { useMatch } from "react-router-dom";
+import { Link, useMatch } from "react-router-dom";
 import { PropsWithSx } from "types/PropsWithSx";
-import { useNavigate } from "hooks/useNavigate";
-import { colors } from "theme/colors";
+import { generateRoutePath } from "services/routing/path.generator";
+import SidebarLinkBase from "components/molecules/SidebarLinkBase/SidebarLinkBase";
 
 export type SidebarNavLinkProps = PropsWithSx & {
   label: string;
@@ -14,59 +13,14 @@ export type SidebarNavLinkProps = PropsWithSx & {
 };
 
 function SidebarNavLink({ label, icon, to, params, sx }: SidebarNavLinkProps) {
-  const navigate = useNavigate();
   const route = routes[to];
   const selected = !!useMatch(route.path);
+  const path = generateRoutePath(to, { params });
 
   return (
-    <MenuItem
-      sx={{
-        borderRadius: "4px",
-        paddingX: (theme) => theme.spacing(2),
-        paddingY: (theme) => theme.spacing(1.5),
-        "& .MuiListItemIcon-root": {
-          color: colors.secondary.shape,
-        },
-
-        "& .MuiListItemText-root .MuiTypography-root": {
-          color: colors.secondary.borders,
-          fontSize: "16px",
-          lineHeight: "24px",
-          fontWeight: 700,
-        },
-        "&:hover": {
-          backgroundColor: "rgba(255,255,255,0.1)",
-          "& .MuiListItemIcon-root": {
-            color: colors.secondary.shape,
-          },
-          "& .MuiListItemText-root .MuiTypography-root": {
-            color: colors.secondary.borders,
-          },
-        },
-        "&.Mui-selected": {
-          backgroundColor: "rgba(255,255,255,0.2)",
-
-          "&:hover": {
-            backgroundColor: "rgba(255,255,255,0.2)",
-          },
-
-          "& .MuiListItemIcon-root": {
-            color: "white",
-          },
-
-          "& .MuiListItemText-root .MuiTypography-root": {
-            fontWeight: 600,
-            color: "white",
-          },
-        },
-        ...sx,
-      }}
-      onClick={() => navigate(to, { params })}
-      selected={selected}
-    >
-      <ListItemIcon>{icon}</ListItemIcon>
-      <ListItemText>{label}</ListItemText>
-    </MenuItem>
+    <Link to={path} style={{ textDecoration: "none" }}>
+      <SidebarLinkBase label={label} icon={icon} selected={selected} sx={sx} />
+    </Link>
   );
 }
 

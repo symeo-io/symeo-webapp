@@ -9,6 +9,8 @@ import { useCurrentUser } from "hooks/useCurrentUser";
 import OrganizationSelector from "components/organisms/OrganizationSelector/OrganizationSelector";
 import { SIDE_BAR_WIDTH } from "theme/theme";
 import { useSelectedOrganization } from "hooks/useSelectedOrganization";
+import SidebarExternalLink from "components/molecules/SidebarExternalLink/SidebarExternalLink";
+import DescriptionIcon from "@mui/icons-material/Description";
 
 function Sidebar() {
   const { formatMessage } = useIntl();
@@ -41,21 +43,34 @@ function Sidebar() {
           borderColor: colors.secondary.text,
         }}
       />
-
       <Box
         sx={{
           flex: 1,
           padding: (theme) => theme.spacing(1.5),
         }}
       >
-        <MenuList>
-          <SidebarNavLink
-            label={formatMessage({ id: "sidebar.projects-link-label" })}
-            icon={<SourceIcon />}
-            to="projects"
-            params={{ organizationName: selectedOrganization?.name }}
-          />
-        </MenuList>
+        {selectedOrganization && (
+          <MenuList>
+            <SidebarNavLink
+              label={formatMessage({ id: "sidebar.projects-link-label" })}
+              icon={<SourceIcon />}
+              to="projects"
+              params={{ organizationName: selectedOrganization.name }}
+            />
+          </MenuList>
+        )}
+      </Box>
+      <Box sx={{ padding: (theme) => theme.spacing(1.5) }}>
+        {selectedOrganization && (
+          <MenuList>
+            <SidebarExternalLink
+              label={formatMessage({ id: "sidebar.documentation-link-label" })}
+              icon={<DescriptionIcon />}
+              href="https://docs.symeo.io"
+              target="_blank"
+            />
+          </MenuList>
+        )}
       </Box>
       {currentUser && (
         <Box
