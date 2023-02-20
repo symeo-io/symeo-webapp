@@ -61,16 +61,14 @@ function Sidebar() {
         )}
       </Box>
       <Box sx={{ padding: (theme) => theme.spacing(1.5) }}>
-        {selectedOrganization && (
-          <MenuList>
-            <SidebarExternalLink
-              label={formatMessage({ id: "sidebar.documentation-link-label" })}
-              icon={<DescriptionIcon />}
-              href="https://docs.symeo.io"
-              target="_blank"
-            />
-          </MenuList>
-        )}
+        <MenuList>
+          <SidebarExternalLink
+            label={formatMessage({ id: "sidebar.documentation-link-label" })}
+            icon={<DescriptionIcon />}
+            href="https://docs.symeo.io"
+            target="_blank"
+          />
+        </MenuList>
       </Box>
       {currentUser && (
         <Box

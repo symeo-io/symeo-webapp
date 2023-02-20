@@ -8,7 +8,7 @@ export const useNavigate = () => {
 
   return React.useCallback(
     (name: keyof typeof routes, { params }: { params?: any } = {}) => {
-      const path = generateRoutePath(name, params);
+      const path = generateRoutePath(name, { params });
 
       if (window.location.pathname !== path) {
         navigate(path);

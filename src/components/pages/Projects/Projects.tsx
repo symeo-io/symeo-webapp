@@ -15,7 +15,7 @@ function Projects() {
   } = useSelectedOrganization();
 
   useEffect(() => {
-    if (!selectedOrganization && organizations) {
+    if (!selectedOrganization && organizations && organizations[0]) {
       setSelectedOrganization(lastSelectedOrganization ?? organizations[0]);
     }
   }, [
