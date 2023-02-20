@@ -338,10 +338,10 @@ export const theme = createTheme({
           },
 
           "&.Mui-selected, .Mui-selected.Mui-focusVisible": {
-            backgroundColor: colors.primary.surface,
+            backgroundColor: colors.primary[50],
 
             "&:hover": {
-              background: colors.primary.surface,
+              background: colors.primary[50],
             },
 
             "& .MuiListItemIcon-root": {

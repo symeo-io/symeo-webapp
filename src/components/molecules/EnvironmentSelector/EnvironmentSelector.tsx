@@ -111,9 +111,11 @@ function EnvironmentSelector({
             sx={{
               paddingX: (theme) => theme.spacing(2),
               paddingY: (theme) => theme.spacing(1.5),
+              margin: (theme) => theme.spacing(0.5),
+              borderRadius: "4px",
 
               "&.Mui-selected.Mui-focusVisible": {
-                backgroundColor: `${colors.primary.surface} !important`,
+                backgroundColor: `${colors.primary[50]} !important`,
               },
             }}
           >
@@ -123,24 +125,27 @@ function EnvironmentSelector({
             />
           </MenuItem>
         ))}
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            borderTop: `1px solid ${colors.secondary.borders}`,
-            padding: (theme) => theme.spacing(1),
-            cursor: "pointer",
-            color: colors.primary.text,
-            fontWeight: 700,
+        <Box sx={{ borderTop: `1px solid ${colors.secondary.borders}` }}>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              padding: (theme) => theme.spacing(1),
+              margin: (theme) => theme.spacing(0.5),
+              borderRadius: "4px",
+              cursor: "pointer",
+              color: colors.primary.text,
+              fontWeight: 700,
 
-            "&:hover": {
-              backgroundColor: colors.primary.surfaceHover,
-            },
-          }}
-          onClick={handleOpenDialog}
-        >
-          <AddIcon sx={{ marginRight: (theme) => theme.spacing(1) }} />
-          {formatMessage({ id: "new-environment.button-label" })}
+              "&:hover": {
+                backgroundColor: colors.primary.surfaceHover,
+              },
+            }}
+            onClick={handleOpenDialog}
+          >
+            <AddIcon sx={{ marginRight: (theme) => theme.spacing(1) }} />
+            {formatMessage({ id: "new-environment.button-label" })}
+          </Box>
         </Box>
       </Select>
       <NewEnvironmentDialog
