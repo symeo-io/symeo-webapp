@@ -10,7 +10,7 @@ import {
   ValidateGitHubConfigurationResponse,
 } from "redux/api/configurations/configurations.types";
 
-const configurationQueryApi = api.injectEndpoints({
+export const configurationQueryApi = api.injectEndpoints({
   endpoints: (builder) => ({
     getConfiguration: builder.query<
       GetConfigurationResponse,

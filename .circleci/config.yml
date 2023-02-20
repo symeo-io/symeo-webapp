@@ -5,6 +5,28 @@ orbs:
   slack: circleci/slack@4.10.1
 
 jobs:
+  install:
+    working_directory: ~/symeo-webapp
+    docker:
+      - image: cimg/node:18.12.1
+    steps:
+      - checkout
+      - restore_cache:
+          key: dependency-cache-{{ checksum "~/symeo-webapp/yarn.lock" }}
+      - run:
+          name: Install dependencies
+          command: yarn install
+      - checkout # Checking out code in case of a yarn version mismatch modifies the yarn.lock
+      - save_cache:
+          key: dependency-cache-{{ checksum "~/symeo-webapp/yarn.lock" }}
+          paths:
+            - node_modules
+      - slack/notify:
+          event: fail
+          template: basic_fail_1
+      - slack/notify:
+          event: pass
+          template: basic_success_1
   lint:
     working_directory: ~/symeo-webapp
     docker:
@@ -14,15 +36,25 @@ jobs:
       - restore_cache:
           key: dependency-cache-{{ checksum "~/symeo-webapp/yarn.lock" }}
       - run:
-          name: Install front dependencies
-          command: yarn install
-      - save_cache:
-          key: dependency-cache-{{ checksum "~/symeo-webapp/yarn.lock" }}
-          paths:
-            - node_modules
-      - run:
           name: Lint
           command: yarn lint
+      - slack/notify:
+          event: fail
+          template: basic_fail_1
+      - slack/notify:
+          event: pass
+          template: basic_success_1
+  build:
+    working_directory: ~/symeo-webapp
+    docker:
+      - image: cimg/node:16.16.0
+    steps:
+      - checkout
+      - restore_cache:
+          key: dependency-cache-{{ checksum "~/symeo-webapp/yarn.lock" }}
+      - run:
+          name: Build
+          command: yarn build
       - slack/notify:
           event: fail
           template: basic_fail_1
@@ -82,13 +114,23 @@ jobs:
 workflows:
   webapp:
     jobs:
-      - lint:
+      - install:
           context:
             - slack-notifications
-            - staging
+      - lint:
+          requires:
+            - install
+          context:
+            - slack-notifications
+      - build:
+          requires:
+            - install
+          context:
+            - slack-notifications
       - deploy:
           requires:
             - lint
+            - build
           context:
             - slack-notifications
             - staging
@@ -99,6 +141,7 @@ workflows:
       - deploy:
           requires:
             - lint
+            - build
           context:
             - slack-notifications
             - demo
@@ -109,6 +152,7 @@ workflows:
       - deploy:
           requires:
             - lint
+            - build
           context:
             - slack-notifications
             - production

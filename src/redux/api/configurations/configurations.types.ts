@@ -32,7 +32,7 @@ export type GetConfigurationResponse = {
 };
 
 export type GetConfigurationInput = {
-  repositoryVcsId: string;
+  repositoryVcsId: number;
   configurationId: string;
 };
 

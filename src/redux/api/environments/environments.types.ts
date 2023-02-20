@@ -1,4 +1,3 @@
-import { Configuration } from "redux/api/configurations/configurations.types";
 import { environmentsColorPalettes } from "theme/colors";
 
 export type EnvironmentColor = keyof typeof environmentsColorPalettes;
@@ -7,6 +6,7 @@ export type Environment = {
   id: string;
   name: string;
   color: EnvironmentColor;
+  createdAt: string;
 };
 
 export type CreateEnvironmentInput = {
@@ -17,7 +17,7 @@ export type CreateEnvironmentInput = {
 };
 
 export type CreateEnvironmentResponse = {
-  configuration: Configuration;
+  environment: Environment;
 };
 
 export type DeleteEnvironmentInput = {
@@ -35,5 +35,5 @@ export type UpdateEnvironmentInput = {
 };
 
 export type UpdateEnvironmentResponse = {
-  configuration: Configuration;
+  environment: Environment;
 };

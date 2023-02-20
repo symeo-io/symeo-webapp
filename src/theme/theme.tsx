@@ -125,8 +125,8 @@ export const theme = createTheme({
     MuiIconButton: {
       styleOverrides: {
         root: {
-          color: "#323232",
-          border: "1px solid #DCDCE4",
+          color: colors.secondary.text,
+          border: `1px solid ${colors.secondary.borders}`,
           borderRadius: "4px",
           padding: "7px",
 
@@ -326,7 +326,7 @@ export const theme = createTheme({
           },
 
           "&:hover": {
-            backgroundColor: "rgba(0,0,0,0.1)",
+            backgroundColor: colors.primary.surfaceHover,
 
             "& .MuiListItemIcon-root": {
               color: colors.primary.bordersHover,
@@ -337,11 +337,11 @@ export const theme = createTheme({
             },
           },
 
-          "&.Mui-selected": {
-            background: colors.primary.surface,
+          "&.Mui-selected, .Mui-selected.Mui-focusVisible": {
+            backgroundColor: colors.primary[50],
 
             "&:hover": {
-              background: colors.primary.surface,
+              background: colors.primary[50],
             },
 
             "& .MuiListItemIcon-root": {

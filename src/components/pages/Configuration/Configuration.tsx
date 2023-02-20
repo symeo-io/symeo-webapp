@@ -5,10 +5,10 @@ import DataObjectIcon from "@mui/icons-material/DataObject";
 import { useGetConfigurationQuery } from "redux/api/configurations/configurations.api";
 import { useParams } from "react-router-dom";
 import LoadingBox from "components/molecules/LoadingBox/LoadingBox";
-import EnvironmentTab from "components/molecules/EnvironmentTab/EnvironmentTab";
-import { Environment } from "redux/api/environments/environments.types";
 import ConfigurationEditor from "components/organisms/ConfigurationEditor/ConfigurationEditor";
-import NewEnvironmentButton from "components/molecules/NewEnvironmentButton/NewEnvironmentButton";
+import EnvironmentSelector from "components/molecules/EnvironmentSelector/EnvironmentSelector";
+import { Environment } from "redux/api/environments/environments.types";
+import EnvironmentSettingsButton from "components/molecules/EnvironmentSettingsButton/EnvironmentSettingsButton";
 
 function Configuration() {
   const { formatMessage } = useIntl();
@@ -20,7 +20,7 @@ function Configuration() {
   const { data: configurationData, isLoading } = useGetConfigurationQuery(
     {
       configurationId: configurationId as string,
-      repositoryVcsId: repositoryVcsId as string,
+      repositoryVcsId: (repositoryVcsId && parseInt(repositoryVcsId)) as number,
     },
     { skip: !repositoryVcsId || !configurationId }
   );
@@ -45,9 +45,9 @@ function Configuration() {
 
   useEffect(() => {
     if (configuration && !selectedEnvironment) {
-      setSelectedEnvironment(configuration.environments[0]);
+      setSelectedEnvironmentId(configuration.environments[0]?.id);
     }
-  }, [configuration, selectedEnvironment, setSelectedEnvironment]);
+  }, [configuration, selectedEnvironment]);
 
   return (
     <Box
@@ -92,32 +92,34 @@ function Configuration() {
             }}
           >
             <Box sx={{ flex: 1, display: "flex" }}>
-              {configuration.environments.map((environment) => (
-                <EnvironmentTab
-                  key={environment.id}
-                  sx={{
-                    marginRight: (theme) => theme.spacing(1),
-                    marginBottom: (theme) => theme.spacing(1),
-                  }}
-                  repositoryVcsId={configuration.repository.vcsId}
-                  configurationId={configuration.id}
-                  environment={environment}
-                  active={selectedEnvironment?.id === environment.id}
-                  onClick={() => setSelectedEnvironment(environment)}
-                />
-              ))}
+              {selectedEnvironment && (
+                <>
+                  <EnvironmentSelector
+                    value={selectedEnvironment}
+                    onChange={setSelectedEnvironment}
+                    environments={configuration.environments}
+                    repositoryVcsId={configuration.repository.vcsId}
+                    configurationName={configuration.name}
+                    configurationId={configuration.id}
+                  />
+                  <EnvironmentSettingsButton
+                    repositoryVcsId={configuration.repository.vcsId}
+                    configurationId={configuration.id}
+                    environment={selectedEnvironment}
+                    sx={{
+                      marginLeft: (theme) => theme.spacing(1),
+                      width: "42px",
+                    }}
+                  />
+                </>
+              )}
             </Box>
-            <NewEnvironmentButton
-              repositoryVcsId={configuration.repository.vcsId}
-              configurationName={configuration.name}
-              configurationId={configuration.id}
-            />
           </Box>
           {selectedEnvironment && (
             <ConfigurationEditor
               configuration={configuration}
               environment={selectedEnvironment}
-              sx={{ marginTop: (theme) => theme.spacing(3), flex: 1 }}
+              sx={{ marginTop: (theme) => theme.spacing(1), flex: 1 }}
             />
           )}
         </>

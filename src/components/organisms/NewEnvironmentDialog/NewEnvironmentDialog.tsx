@@ -12,6 +12,10 @@ import { useNewEnvironment } from "components/organisms/NewEnvironmentDialog/use
 import { useCreateEnvironmentMutation } from "redux/api/environments/environments.api";
 import Button from "components/atoms/Button/Button";
 import EnvironmentColorSelector from "components/molecules/EnvironmentColorSelector/EnvironmentColorSelector";
+import {
+  CreateEnvironmentResponse,
+  Environment,
+} from "redux/api/environments/environments.types";
 
 export type NewEnvironmentDialogProps = PropsWithSx & {
   repositoryVcsId: number;
@@ -19,6 +23,7 @@ export type NewEnvironmentDialogProps = PropsWithSx & {
   configurationId: string;
   open: boolean;
   handleClose: () => void;
+  onCreate?: (environment: Environment) => void;
 };
 
 function NewEnvironmentDialog({
@@ -27,6 +32,7 @@ function NewEnvironmentDialog({
   configurationName,
   open,
   handleClose,
+  onCreate,
   sx,
 }: NewEnvironmentDialogProps) {
   const { formatMessage } = useIntl();
@@ -46,11 +52,15 @@ function NewEnvironmentDialog({
       return;
     }
 
-    await createEnvironment({
+    const { data: createdEnvironmentData } = (await createEnvironment({
       repositoryVcsId,
       configurationId,
       ...values,
-    });
+    })) as { data: CreateEnvironmentResponse };
+
+    if (onCreate) {
+      onCreate(createdEnvironmentData.environment);
+    }
 
     handleCloseAndReset();
   }, [
