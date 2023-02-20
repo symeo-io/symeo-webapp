@@ -154,7 +154,7 @@ function EnvironmentApiKeysSettings({
                     <Box>
                       {createdApiKey?.id === apiKey.id
                         ? createdApiKey.key
-                        : apiKey.key}
+                        : apiKey.hiddenKey}
                     </Box>
                     {createdApiKey?.id === apiKey.id && (
                       <CopyToClipboardButton

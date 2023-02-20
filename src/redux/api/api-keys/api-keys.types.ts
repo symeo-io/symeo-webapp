@@ -1,7 +1,8 @@
 export type ApiKey = {
   id: string;
   environmentId: string;
-  key: string;
+  key?: string;
+  hiddenKey: string;
   createdAt: string;
 };
 
