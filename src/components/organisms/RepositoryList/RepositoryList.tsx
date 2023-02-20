@@ -114,24 +114,12 @@ function RepositoryList({ sx }: RepositoryListProps) {
               >
                 <Box
                   sx={{
-                    "& a": {
-                      lineHeight: "30px",
-                      textDecoration: "none",
-                      color: colors.primary.main,
-                      fontWeight: 500,
-
-                      "&:hover": {
-                        textDecoration: "underline",
-                      },
-                    },
+                    lineHeight: "30px",
+                    color: colors.primary.text,
+                    fontWeight: 500,
                   }}
                 >
-                  <Link
-                    href={`https://github.com/${repository.owner.name}/${repository.name}`}
-                    target="_blank"
-                  >
-                    {repository.name}
-                  </Link>
+                  {repository.name}
                 </Box>
                 <Box sx={{ display: "flex", flexWrap: "wrap" }}>
                   {repository.configurations?.map((configuration) => (
