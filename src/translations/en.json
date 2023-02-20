@@ -27,6 +27,8 @@
     "config-contract-file-path-field-placeholder": "e.g: api/symeo.config.yml",
     "branch-field-label": "Branch",
     "branch-field-placeholder": "On which branch should we find the file?",
+    "contract-help-message": "Need help defining your contract? Follow documentation ",
+    "here": "here",
     "errors": {
       "empty-name": "You must provide a name for your configuration"
     },

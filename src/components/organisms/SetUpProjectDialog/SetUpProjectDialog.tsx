@@ -6,6 +6,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  Link,
 } from "@mui/material";
 import Button from "components/atoms/Button/Button";
 import { useIntl } from "react-intl";
@@ -20,6 +21,7 @@ import {
 import LoadingMessage from "components/atoms/LoadingMessage/LoadingMessage";
 import { useNavigate } from "hooks/useNavigate";
 import { CreateGitHubConfigurationResponse } from "redux/api/configurations/configurations.types";
+import { colors } from "theme/colors";
 
 export type SetUpProjectDialogProps = PropsWithSx & {
   repository: Repository;
@@ -154,7 +156,6 @@ function SetUpProjectDialog({
             },
             { repositoryName: repository.name }
           )}
-          sx={{ marginBottom: (theme) => theme.spacing(2) }}
           error={errors.contractFilePath.length > 0}
           helperText={
             errors.contractFilePath.length > 0
@@ -164,6 +165,27 @@ function SetUpProjectDialog({
               : undefined
           }
         />
+        <Box
+          sx={{
+            marginTop: (theme) => theme.spacing(0.5),
+            marginBottom: (theme) => theme.spacing(2),
+            color: colors.secondary.text,
+            fontSize: "12px",
+          }}
+        >
+          {formatMessage({
+            id: "set-up-project-form.contract-help-message",
+          })}
+          <Link
+            href="https://docs.symeo.io/docs/getting-started"
+            target="_blank"
+          >
+            {formatMessage({
+              id: "set-up-project-form.here",
+            })}
+          </Link>
+          .
+        </Box>
         <TextField
           name="branch"
           value={values.branch}
