@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { Box, MenuItem, Select } from "@mui/material";
 import { Environment } from "redux/api/environments/environments.types";
 import { PropsWithSx } from "types/PropsWithSx";
@@ -8,7 +8,6 @@ import EnvironmentTab from "components/molecules/EnvironmentTab/EnvironmentTab";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { colors } from "theme/colors";
 import AddIcon from "@mui/icons-material/Add";
-import Button from "components/atoms/Button/Button";
 
 export type EnvironmentSelectorProps = PropsWithSx & {
   repositoryVcsId: number;
@@ -39,6 +38,16 @@ function EnvironmentSelector({
     setDialogOpen(true);
   }, []);
   const handleCloseDialog = useCallback(() => setDialogOpen(false), []);
+
+  const sortedEnvironments = useMemo(
+    () =>
+      [...environments].sort((a, b) => {
+        return (
+          new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+        );
+      }),
+    [environments]
+  );
 
   return (
     <>
@@ -88,19 +97,24 @@ function EnvironmentSelector({
         }}
         MenuProps={{
           sx: {
+            marginTop: "4px",
             "& .MuiList-root": {
               paddingY: 0,
             },
           },
         }}
       >
-        {environments.map((environment) => (
+        {sortedEnvironments.map((environment) => (
           <MenuItem
             key={environment.id}
             value={environment.id}
             sx={{
               paddingX: (theme) => theme.spacing(2),
               paddingY: (theme) => theme.spacing(1.5),
+
+              "&.Mui-selected.Mui-focusVisible": {
+                backgroundColor: `${colors.primary.surface} !important`,
+              },
             }}
           >
             <EnvironmentTab

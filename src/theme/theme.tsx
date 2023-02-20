@@ -125,8 +125,8 @@ export const theme = createTheme({
     MuiIconButton: {
       styleOverrides: {
         root: {
-          color: "#323232",
-          border: "1px solid #DCDCE4",
+          color: colors.secondary.text,
+          border: `1px solid ${colors.secondary.borders}`,
           borderRadius: "4px",
           padding: "7px",
 

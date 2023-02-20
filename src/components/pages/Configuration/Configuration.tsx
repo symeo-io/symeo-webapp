@@ -8,6 +8,7 @@ import LoadingBox from "components/molecules/LoadingBox/LoadingBox";
 import ConfigurationEditor from "components/organisms/ConfigurationEditor/ConfigurationEditor";
 import EnvironmentSelector from "components/molecules/EnvironmentSelector/EnvironmentSelector";
 import { Environment } from "redux/api/environments/environments.types";
+import EnvironmentSettingsButton from "components/molecules/EnvironmentSettingsButton/EnvironmentSettingsButton";
 
 function Configuration() {
   const { formatMessage } = useIntl();
@@ -92,14 +93,25 @@ function Configuration() {
           >
             <Box sx={{ flex: 1, display: "flex" }}>
               {selectedEnvironment && (
-                <EnvironmentSelector
-                  value={selectedEnvironment}
-                  onChange={setSelectedEnvironment}
-                  environments={configuration.environments}
-                  repositoryVcsId={configuration.repository.vcsId}
-                  configurationName={configuration.name}
-                  configurationId={configuration.id}
-                />
+                <>
+                  <EnvironmentSelector
+                    value={selectedEnvironment}
+                    onChange={setSelectedEnvironment}
+                    environments={configuration.environments}
+                    repositoryVcsId={configuration.repository.vcsId}
+                    configurationName={configuration.name}
+                    configurationId={configuration.id}
+                  />
+                  <EnvironmentSettingsButton
+                    repositoryVcsId={configuration.repository.vcsId}
+                    configurationId={configuration.id}
+                    environment={selectedEnvironment}
+                    sx={{
+                      marginLeft: (theme) => theme.spacing(1),
+                      width: "42px",
+                    }}
+                  />
+                </>
               )}
             </Box>
           </Box>
