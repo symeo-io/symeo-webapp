@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useCallback, useMemo, useState } from "react";
-import { Box, InputAdornment, Link } from "@mui/material";
+import { Box, InputAdornment } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { PropsWithSx } from "types/PropsWithSx";
 import TextField from "components/molecules/TextField/TextField";

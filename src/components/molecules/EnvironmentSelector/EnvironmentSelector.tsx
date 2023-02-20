@@ -36,18 +36,9 @@ function EnvironmentSelector({
   const handleOpenDialog = useCallback(() => {
     handleCloseSelect();
     setDialogOpen(true);
-  }, []);
-  const handleCloseDialog = useCallback(() => setDialogOpen(false), []);
+  }, [handleCloseSelect]);
 
-  const sortedEnvironments = useMemo(
-    () =>
-      [...environments].sort((a, b) => {
-        return (
-          new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
-        );
-      }),
-    [environments]
-  );
+  const handleCloseDialog = useCallback(() => setDialogOpen(false), []);
 
   return (
     <>
@@ -104,7 +95,7 @@ function EnvironmentSelector({
           },
         }}
       >
-        {sortedEnvironments.map((environment) => (
+        {environments.map((environment) => (
           <MenuItem
             key={environment.id}
             value={environment.id}

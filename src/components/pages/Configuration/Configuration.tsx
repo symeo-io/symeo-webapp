@@ -43,11 +43,23 @@ function Configuration() {
     []
   );
 
+  const sortedEnvironments = useMemo(
+    () =>
+      (configuration &&
+        [...configuration.environments].sort((a, b) => {
+          return (
+            new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+          );
+        })) ??
+      [],
+    [configuration]
+  );
+
   useEffect(() => {
     if (configuration && !selectedEnvironment) {
-      setSelectedEnvironmentId(configuration.environments[0]?.id);
+      setSelectedEnvironmentId(sortedEnvironments[0]?.id);
     }
-  }, [configuration, selectedEnvironment]);
+  }, [configuration, selectedEnvironment, sortedEnvironments]);
 
   return (
     <Box
@@ -97,7 +109,7 @@ function Configuration() {
                   <EnvironmentSelector
                     value={selectedEnvironment}
                     onChange={setSelectedEnvironment}
-                    environments={configuration.environments}
+                    environments={sortedEnvironments}
                     repositoryVcsId={configuration.repository.vcsId}
                     configurationName={configuration.name}
                     configurationId={configuration.id}
