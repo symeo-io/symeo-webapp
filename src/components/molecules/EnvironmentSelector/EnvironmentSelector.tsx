@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { Box, MenuItem, Select } from "@mui/material";
 import { Environment } from "redux/api/environments/environments.types";
 import { PropsWithSx } from "types/PropsWithSx";
