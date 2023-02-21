@@ -5,6 +5,7 @@ import { getAccessToken } from "providers/GetTokenProvider";
 export const apiTagTypes = [
   "Organizations",
   "Repositories",
+  "Branches",
   "Configuration",
   "ConfigurationContract",
   "Values",

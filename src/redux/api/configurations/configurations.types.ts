@@ -43,6 +43,7 @@ export type GetConfigurationContractResponse = {
 export type GetConfigurationContractInput = {
   repositoryVcsId: string;
   configurationId: string;
+  branch?: string;
 };
 
 export type CreateGitHubConfigurationResponse = {

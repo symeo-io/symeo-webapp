@@ -18,11 +18,13 @@ import { Environment } from "redux/api/environments/environments.types";
 export type ConfigurationEditorProps = PropsWithSx & {
   configuration: Configuration;
   environment: Environment;
+  branch?: string;
 };
 
 function ConfigurationEditor({
   configuration,
   environment,
+  branch,
   sx,
 }: ConfigurationEditorProps) {
   const { formatMessage } = useIntl();
@@ -30,11 +32,15 @@ function ConfigurationEditor({
   const [setValues, { isLoading: isLoadingSetValues }] =
     useSetValuesForEnvironmentMutation();
 
-  const { data: configurationContractData, isLoading: isLoadingContract } =
-    useGetConfigurationContractQuery({
-      configurationId: configuration.id,
-      repositoryVcsId: configuration.repository.vcsId.toString(),
-    });
+  const {
+    data: configurationContractData,
+    isLoading: isLoadingContract,
+    isFetching: isFetchingContract,
+  } = useGetConfigurationContractQuery({
+    configurationId: configuration.id,
+    repositoryVcsId: configuration.repository.vcsId.toString(),
+    branch,
+  });
 
   const {
     data: valuesData,
@@ -115,10 +121,11 @@ function ConfigurationEditor({
           ...sx,
         }}
       >
-        {(isLoadingContract || isLoadingValues || isFetchingValues) && (
-          <LoadingBox sx={{ flex: 1 }} />
-        )}
-        {!isLoadingContract &&
+        {(isLoadingContract ||
+          isFetchingContract ||
+          isLoadingValues ||
+          isFetchingValues) && <LoadingBox sx={{ flex: 1 }} />}
+        {!isFetchingContract &&
           !isFetchingValues &&
           contract &&
           values &&

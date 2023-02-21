@@ -27,11 +27,14 @@ export const configurationQueryApi = api.injectEndpoints({
       GetConfigurationContractResponse,
       GetConfigurationContractInput
     >({
-      query: ({ configurationId, repositoryVcsId }) => ({
+      query: ({ configurationId, repositoryVcsId, branch }) => ({
         url: `/api/v1/configurations/github/${repositoryVcsId}/${configurationId}/contract`,
+        params: {
+          branch,
+        },
       }),
-      providesTags: (result, error, { configurationId }) => [
-        { type: "ConfigurationContract", id: configurationId },
+      providesTags: (result, error, { configurationId, branch }) => [
+        { type: "ConfigurationContract", id: configurationId, branch },
       ],
     }),
   }),
