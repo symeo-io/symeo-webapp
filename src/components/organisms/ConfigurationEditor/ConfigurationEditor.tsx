@@ -14,6 +14,8 @@ import { cloneDeep } from "lodash";
 import Button from "components/atoms/Button/Button";
 import { useIntl } from "react-intl";
 import { Environment } from "redux/api/environments/environments.types";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
+import { colors } from "theme/colors";
 
 export type ConfigurationEditorProps = PropsWithSx & {
   configuration: Configuration;
@@ -34,6 +36,7 @@ function ConfigurationEditor({
 
   const {
     data: configurationContractData,
+    error: configurationContractError,
     isLoading: isLoadingContract,
     isFetching: isFetchingContract,
   } = useGetConfigurationContractQuery({
@@ -127,6 +130,28 @@ function ConfigurationEditor({
           isFetchingValues) && <LoadingBox sx={{ flex: 1 }} />}
         {!isFetchingContract &&
           !isFetchingValues &&
+          configurationContractError && (
+            <Box
+              sx={{
+                color: colors.error.text,
+                flex: 1,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              {formatMessage(
+                { id: "configuration.errors.contract-not-found" },
+                {
+                  filePath: configuration.contractFilePath,
+                  branchName: branch ?? configuration.branch,
+                }
+              )}
+            </Box>
+          )}
+        {!isFetchingContract &&
+          !isFetchingValues &&
+          !configurationContractError &&
           contract &&
           values &&
           Object.keys(contract).map((propertyName) => (
