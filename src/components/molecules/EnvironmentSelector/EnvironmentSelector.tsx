@@ -104,10 +104,6 @@ function EnvironmentSelector({
               paddingY: (theme) => theme.spacing(1.5),
               margin: (theme) => theme.spacing(0.5),
               borderRadius: "4px",
-
-              "&.Mui-selected.Mui-focusVisible": {
-                backgroundColor: `${colors.primary[50]} !important`,
-              },
             }}
           >
             <EnvironmentTab

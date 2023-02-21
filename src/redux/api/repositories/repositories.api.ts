@@ -1,5 +1,9 @@
 import { api } from "../api";
-import { GetRepositoriesResponse } from "redux/api/repositories/repositories.types";
+import {
+  GetRepositoriesResponse,
+  GetRepositoryBranchesInput,
+  GetRepositoryBranchesResponse,
+} from "redux/api/repositories/repositories.types";
 
 export const repositoriesQueryApi = api.injectEndpoints({
   endpoints: (builder) => ({
@@ -9,7 +13,19 @@ export const repositoriesQueryApi = api.injectEndpoints({
       }),
       providesTags: ["Repositories"],
     }),
+    getRepositoryBranches: builder.query<
+      GetRepositoryBranchesResponse,
+      GetRepositoryBranchesInput
+    >({
+      query: ({ repositoryVcsId }) => ({
+        url: `/api/v1/repositories/${repositoryVcsId}/branches`,
+      }),
+      providesTags: (_, __, { repositoryVcsId }) => [
+        { type: "Branches", id: repositoryVcsId },
+      ],
+    }),
   }),
 });
 
-export const { useGetRepositoriesQuery } = repositoriesQueryApi;
+export const { useGetRepositoriesQuery, useGetRepositoryBranchesQuery } =
+  repositoriesQueryApi;

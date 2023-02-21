@@ -15,7 +15,10 @@
   "configuration": {
     "title": "{configurationName} for {repositoryName}",
     "save": "Save",
-    "reset": "Reset"
+    "reset": "Reset",
+    "errors": {
+      "contract-not-found": "No contract file found at {filePath} on branch {branchName}"
+    }
   },
   "set-up-project-form": {
     "title": "Set up configuration for {repositoryName}",
@@ -106,6 +109,11 @@
     }
   },
   "errors": {
-    "unknown": "An unknown error happened. Please try again later."
+    "unknown": "An unknown error happened. Please try again later.",
+    "CONFIGURATION_NOT_FOUND": "Configuration not found",
+    "CONFIGURATION_CONTRACT_NOT_FOUND": "Configuration contract not found",
+    "REPOSITORY_NOT_FOUND": "Repository not found",
+    "ENVIRONMENT_NOT_FOUND": "Environment not found",
+    "API_KEY_NOT_FOUND": "Api key not found"
   }
 }

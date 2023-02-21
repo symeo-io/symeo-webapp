@@ -56,6 +56,7 @@ function DeleteEnvironmentConfirmDialog({
     deleteEnvironment,
     environment.id,
     handleClose,
+    onDelete,
     repositoryVcsId,
   ]);
 

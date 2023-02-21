@@ -9,13 +9,18 @@ import ConfigurationEditor from "components/organisms/ConfigurationEditor/Config
 import EnvironmentSelector from "components/molecules/EnvironmentSelector/EnvironmentSelector";
 import { Environment } from "redux/api/environments/environments.types";
 import EnvironmentSettingsButton from "components/molecules/EnvironmentSettingsButton/EnvironmentSettingsButton";
+import { useGetRepositoryBranchesQuery } from "redux/api/repositories/repositories.api";
+import BranchSelector from "components/molecules/BranchSelector/BranchSelector";
 
 function Configuration() {
   const { formatMessage } = useIntl();
   const { repositoryVcsId, configurationId } = useParams();
   const [selectedEnvironmentId, setSelectedEnvironmentId] = useState<
-    string | null
-  >(null);
+    string | undefined
+  >(undefined);
+  const [selectedBranchName, setSelectedBranchName] = useState<
+    string | undefined
+  >(undefined);
 
   const { data: configurationData, isLoading } = useGetConfigurationQuery(
     {
@@ -24,10 +29,20 @@ function Configuration() {
     },
     { skip: !repositoryVcsId || !configurationId }
   );
+  const { data: branchesData } = useGetRepositoryBranchesQuery(
+    {
+      repositoryVcsId: (repositoryVcsId && parseInt(repositoryVcsId)) as number,
+    },
+    { skip: !repositoryVcsId }
+  );
 
   const configuration = useMemo(
     () => configurationData?.configuration,
     [configurationData?.configuration]
+  );
+  const branches = useMemo(
+    () => branchesData?.branches ?? [],
+    [branchesData?.branches]
   );
 
   const selectedEnvironment = useMemo(
@@ -60,6 +75,12 @@ function Configuration() {
       setSelectedEnvironmentId(sortedEnvironments[0]?.id);
     }
   }, [configuration, selectedEnvironment, sortedEnvironments]);
+
+  useEffect(() => {
+    if (configuration && !selectedBranchName) {
+      setSelectedBranchName(configuration.branch);
+    }
+  }, [configuration, selectedBranchName]);
 
   return (
     <Box
@@ -126,11 +147,21 @@ function Configuration() {
                 </>
               )}
             </Box>
+            <Box>
+              {selectedBranchName && (
+                <BranchSelector
+                  value={selectedBranchName}
+                  onChange={setSelectedBranchName}
+                  branches={branches}
+                />
+              )}
+            </Box>
           </Box>
           {selectedEnvironment && (
             <ConfigurationEditor
               configuration={configuration}
               environment={selectedEnvironment}
+              branch={selectedBranchName}
               sx={{ marginTop: (theme) => theme.spacing(1), flex: 1 }}
             />
           )}

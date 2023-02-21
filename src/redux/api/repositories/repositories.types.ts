@@ -11,6 +11,20 @@ export type Repository = {
   configurations?: Configuration[];
 };
 
+export type Branch = {
+  name: string;
+  commitSha: string;
+  vcsType: "github";
+};
+
 export type GetRepositoriesResponse = {
   repositories: Repository[];
+};
+
+export type GetRepositoryBranchesInput = {
+  repositoryVcsId: number;
+};
+
+export type GetRepositoryBranchesResponse = {
+  branches: Branch[];
 };
