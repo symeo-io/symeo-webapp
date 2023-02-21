@@ -67,6 +67,7 @@ function NewEnvironmentDialog({
     configurationId,
     createEnvironment,
     handleCloseAndReset,
+    onCreate,
     repositoryVcsId,
     validate,
     values,

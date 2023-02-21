@@ -14,7 +14,6 @@ import { cloneDeep } from "lodash";
 import Button from "components/atoms/Button/Button";
 import { useIntl } from "react-intl";
 import { Environment } from "redux/api/environments/environments.types";
-import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { colors } from "theme/colors";
 
 export type ConfigurationEditorProps = PropsWithSx & {
