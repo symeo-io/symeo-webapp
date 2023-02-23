@@ -77,7 +77,7 @@ function DeleteApiKeyConfirmDialog({
           <FormattedMessage
             id="environment-settings.api-keys.delete.confirm.message"
             values={{
-              key: apiKey.key,
+              key: apiKey.hiddenKey,
               b: (chunks) => <b>{chunks}</b>,
             }}
           />
