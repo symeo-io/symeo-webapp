@@ -46,7 +46,13 @@ function DeleteConfigurationConfirmDialog({
     if (onDelete) {
       onDelete();
     }
-  }, [deleteConfiguration, configuration.id, handleClose, onDelete]);
+  }, [
+    deleteConfiguration,
+    configuration.repository.vcsId,
+    configuration.id,
+    handleClose,
+    onDelete,
+  ]);
 
   return (
     <Dialog open={open} onClose={handleClose} sx={sx}>
