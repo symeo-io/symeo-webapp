@@ -30,6 +30,7 @@ function BranchSelector({
         "& .MuiInputBase-root.MuiInput-root.MuiInputBase-root": {
           marginTop: 0,
           height: "42px",
+          paddingY: 0,
         },
         "& .MuiAutocomplete-popupIndicator": { border: 0 },
         "& .MuiAutocomplete-endAdornment": {
