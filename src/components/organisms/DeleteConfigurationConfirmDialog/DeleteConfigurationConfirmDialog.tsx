@@ -9,59 +9,56 @@ import {
 import { FormattedMessage, useIntl } from "react-intl";
 import { PropsWithSx } from "types/PropsWithSx";
 import Button from "components/atoms/Button/Button";
+import { Configuration } from "redux/api/configurations/configurations.types";
 import TextField from "components/molecules/TextField/TextField";
-import { ApiKey } from "redux/api/api-keys/api-keys.types";
-import { useDeleteApiKeyMutation } from "redux/api/api-keys/api-keys.api";
+import { useDeleteGitHubConfigurationMutation } from "redux/api/configurations/configurations.api";
 
 const CONFIRM_INPUT = "permanently delete";
 
-export type DeleteApiKeyConfirmDialogProps = PropsWithSx & {
-  repositoryVcsId: number;
-  configurationId: string;
-  environmentId: string;
-  apiKey: ApiKey;
+export type DDeleteConfigurationConfirmDialogProps = PropsWithSx & {
+  configuration: Configuration;
   open: boolean;
   handleClose: () => void;
+  onDelete?: () => void;
 };
 
-function DeleteApiKeyConfirmDialog({
-  repositoryVcsId,
-  configurationId,
-  environmentId,
-  apiKey,
+function DeleteConfigurationConfirmDialog({
+  configuration,
   open,
   handleClose,
+  onDelete,
   sx,
-}: DeleteApiKeyConfirmDialogProps) {
+}: DDeleteConfigurationConfirmDialogProps) {
   const { formatMessage } = useIntl();
   const [confirmInputValue, setConfirmInputValue] = useState<string>("");
 
-  const [deleteApiKey, { isLoading: isLoadingDelete }] =
-    useDeleteApiKeyMutation();
+  const [deleteConfiguration, { isLoading: isLoadingDelete }] =
+    useDeleteGitHubConfigurationMutation();
 
-  const handleDeleteEnvironment = useCallback(async () => {
-    await deleteApiKey({
-      repositoryVcsId,
-      configurationId,
-      environmentId,
-      apiKeyId: apiKey.id,
+  const handleDeleteConfiguration = useCallback(async () => {
+    await deleteConfiguration({
+      repositoryVcsId: configuration.repository.vcsId,
+      configurationId: configuration.id,
     });
 
     handleClose();
+
+    if (onDelete) {
+      onDelete();
+    }
   }, [
-    apiKey.id,
-    configurationId,
-    deleteApiKey,
-    environmentId,
+    deleteConfiguration,
+    configuration.repository.vcsId,
+    configuration.id,
     handleClose,
-    repositoryVcsId,
+    onDelete,
   ]);
 
   return (
     <Dialog open={open} onClose={handleClose} sx={sx}>
       <DialogTitle sx={{ display: "flex", alignItems: "center" }}>
         {formatMessage({
-          id: "environment-settings.api-keys.delete.confirm.title",
+          id: "configuration-settings.danger-zone.delete.confirm.title",
         })}
       </DialogTitle>
       <DialogContent
@@ -75,9 +72,9 @@ function DeleteApiKeyConfirmDialog({
       >
         <Typography variant="body2">
           <FormattedMessage
-            id="environment-settings.api-keys.delete.confirm.message"
+            id="configuration-settings.danger-zone.delete.confirm.message"
             values={{
-              key: apiKey.hiddenKey,
+              configurationName: configuration.name,
               b: (chunks) => <b>{chunks}</b>,
             }}
           />
@@ -87,7 +84,7 @@ function DeleteApiKeyConfirmDialog({
           sx={{ marginTop: (theme) => theme.spacing(2) }}
         >
           <FormattedMessage
-            id="environment-settings.api-keys.delete.confirm.confirm-input-message"
+            id="configuration-settings.danger-zone.delete.confirm.confirm-input-message"
             values={{
               confirmInput: CONFIRM_INPUT,
               i: (chunks) => <i>{chunks}</i>,
@@ -106,12 +103,12 @@ function DeleteApiKeyConfirmDialog({
         <Button
           color="error"
           disabled={confirmInputValue !== CONFIRM_INPUT}
-          onClick={handleDeleteEnvironment}
+          onClick={handleDeleteConfiguration}
           loading={isLoadingDelete}
           sx={{ width: "100%" }}
         >
           {formatMessage({
-            id: "environment-settings.api-keys.delete.confirm.button-label",
+            id: "configuration-settings.danger-zone.delete.confirm.button-label",
           })}
         </Button>
       </DialogActions>
@@ -119,4 +116,4 @@ function DeleteApiKeyConfirmDialog({
   );
 }
 
-export default DeleteApiKeyConfirmDialog;
+export default DeleteConfigurationConfirmDialog;

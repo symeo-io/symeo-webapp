@@ -20,7 +20,7 @@
       "contract-not-found": "No contract file found at {filePath} on branch {branchName}"
     }
   },
-  "set-up-project-form": {
+  "create-configuration-form": {
     "title": "Set up configuration for {repositoryName}",
     "cancel-button-label": "Cancel",
     "set-up-button-label": "Set Up Configuration",
@@ -39,6 +39,27 @@
       "loading": "Looking for {filePath} on {branch}",
       "error": "No {filePath} found on {branch}",
       "success": "{filePath} found on {branch}"
+    }
+  },
+  "configuration-settings": {
+    "title": "{configurationName} settings",
+    "general": {
+      "title": "General",
+      "update-button-label": "Update"
+    },
+    "danger-zone": {
+      "title": "Danger zone",
+      "delete": {
+        "title": "Delete this configuration",
+        "message": "Once you delete an configuration, there is no going back. Please be certain.",
+        "button-label": "Delete this configuration",
+        "confirm": {
+          "title": "Are you absolutely sure?",
+          "message": "This action <b>cannot</b> be undone. This will permanently delete the <b>{configurationName}</b> configuration, its environments, configuration values and its api keys.",
+          "confirm-input-message": "Please type <i>{confirmInput}</i> to confirm.",
+          "button-label": "I understand the consequences, delete this configuration"
+        }
+      }
     }
   },
   "new-environment": {

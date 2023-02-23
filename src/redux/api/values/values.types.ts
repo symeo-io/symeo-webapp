@@ -3,7 +3,7 @@ export type ConfigurationValues = {
 };
 
 export type GetEnvironmentValuesInput = {
-  repositoryVcsId: string;
+  repositoryVcsId: number;
   configurationId: string;
   environmentId: string;
 };
@@ -13,7 +13,7 @@ export type GetEnvironmentValuesResponse = {
 };
 
 export type SetEnvironmentValuesInput = {
-  repositoryVcsId: string;
+  repositoryVcsId: number;
   configurationId: string;
   environmentId: string;
   values: ConfigurationValues;
