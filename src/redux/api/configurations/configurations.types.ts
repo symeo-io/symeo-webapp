@@ -41,7 +41,7 @@ export type GetConfigurationContractResponse = {
 };
 
 export type GetConfigurationContractInput = {
-  repositoryVcsId: string;
+  repositoryVcsId: number;
   configurationId: string;
   branch?: string;
 };
@@ -55,6 +55,23 @@ export type CreateGitHubConfigurationInput = {
   repositoryVcsId: number;
   contractFilePath: string;
   branch: string;
+};
+
+export type UpdateGitHubConfigurationResponse = {
+  configuration: Configuration;
+};
+
+export type UpdateGitHubConfigurationInput = {
+  repositoryVcsId: number;
+  configurationId: string;
+  name: string;
+  contractFilePath: string;
+  branch: string;
+};
+
+export type DeleteGitHubConfigurationInput = {
+  repositoryVcsId: number;
+  configurationId: string;
 };
 
 export type ValidateGitHubConfigurationResponse = {

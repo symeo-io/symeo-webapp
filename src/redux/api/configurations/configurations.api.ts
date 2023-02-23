@@ -2,10 +2,13 @@ import { api } from "redux/api/api";
 import {
   CreateGitHubConfigurationInput,
   CreateGitHubConfigurationResponse,
+  DeleteGitHubConfigurationInput,
   GetConfigurationContractInput,
   GetConfigurationContractResponse,
   GetConfigurationInput,
   GetConfigurationResponse,
+  UpdateGitHubConfigurationInput,
+  UpdateGitHubConfigurationResponse,
   ValidateGitHubConfigurationInput,
   ValidateGitHubConfigurationResponse,
 } from "redux/api/configurations/configurations.types";
@@ -63,6 +66,27 @@ const configurationsMutationApi = api.injectEndpoints({
       }),
       invalidatesTags: [{ type: "Repositories" }],
     }),
+    updateGitHubConfiguration: builder.mutation<
+      UpdateGitHubConfigurationResponse,
+      UpdateGitHubConfigurationInput
+    >({
+      query: ({ repositoryVcsId, configurationId, ...body }) => ({
+        url: `/api/v1/configurations/github/${repositoryVcsId}/${configurationId}`,
+        method: "PATCH",
+        body,
+      }),
+      invalidatesTags: [{ type: "Repositories" }],
+    }),
+    deleteGitHubConfiguration: builder.mutation<
+      void,
+      DeleteGitHubConfigurationInput
+    >({
+      query: ({ repositoryVcsId, configurationId }) => ({
+        url: `/api/v1/configurations/github/${repositoryVcsId}/${configurationId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: [{ type: "Repositories" }],
+    }),
   }),
 });
 
@@ -71,5 +95,7 @@ export const { useGetConfigurationQuery, useGetConfigurationContractQuery } =
 
 export const {
   useCreateGitHubConfigurationMutation,
+  useUpdateGitHubConfigurationMutation,
+  useDeleteGitHubConfigurationMutation,
   useValidateGitHubConfigurationMutation,
 } = configurationsMutationApi;

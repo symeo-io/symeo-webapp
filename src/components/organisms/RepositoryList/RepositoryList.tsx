@@ -8,8 +8,8 @@ import { colors } from "theme/colors";
 import { useGetRepositoriesQuery } from "redux/api/repositories/repositories.api";
 import LoadingBox from "components/molecules/LoadingBox/LoadingBox";
 import { useSelectedOrganization } from "hooks/useSelectedOrganization";
-import SetUpProjectButton from "components/molecules/SetUpProjectButton/SetUpProjectButton";
-import ConfigurationLink from "components/atoms/ConfigurationLink/ConfigurationLink";
+import AddConfigurationButton from "components/molecules/AddConfigurationButton/AddConfigurationButton";
+import ConfigurationLink from "components/molecules/ConfigurationLink/ConfigurationLink";
 
 export type RepositoryListProps = PropsWithSx;
 
@@ -131,11 +131,11 @@ function RepositoryList({ sx }: RepositoryListProps) {
                   ))}
                 </Box>
                 <Box>
-                  <SetUpProjectButton repository={repository}>
+                  <AddConfigurationButton repository={repository}>
                     {formatMessage({
                       id: "projects.repositories.setup",
                     })}
-                  </SetUpProjectButton>
+                  </AddConfigurationButton>
                 </Box>
               </Box>
             ))}

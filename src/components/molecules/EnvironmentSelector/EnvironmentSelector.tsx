@@ -123,6 +123,8 @@ function EnvironmentSelector({
               cursor: "pointer",
               color: colors.primary.text,
               fontWeight: 700,
+              transition:
+                "background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
 
               "&:hover": {
                 backgroundColor: colors.primary.surfaceHover,

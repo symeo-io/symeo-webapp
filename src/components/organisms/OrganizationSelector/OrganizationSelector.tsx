@@ -53,6 +53,7 @@ function OrganizationSelector() {
           display: "flex",
           alignItems: "center",
           cursor: "pointer",
+          transition: "background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
 
           "&:hover": {
             backgroundColor: "rgba(255,255,255,0.1)",

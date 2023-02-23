@@ -12,7 +12,7 @@ import Button from "components/atoms/Button/Button";
 import { useIntl } from "react-intl";
 import { PropsWithSx } from "types/PropsWithSx";
 import { Repository } from "redux/api/repositories/repositories.types";
-import { useSetUpProjectForm } from "components/organisms/SetUpProjectDialog/useSetUpProjectForm";
+import { useCreateConfigurationForm } from "components/organisms/CreateConfigurationDialog/useCreateConfigurationForm";
 import TextField from "components/molecules/TextField/TextField";
 import {
   useCreateGitHubConfigurationMutation,
@@ -23,21 +23,22 @@ import { useNavigate } from "hooks/useNavigate";
 import { CreateGitHubConfigurationResponse } from "redux/api/configurations/configurations.types";
 import { colors } from "theme/colors";
 
-export type SetUpProjectDialogProps = PropsWithSx & {
+export type CreateConfigurationDialogProps = PropsWithSx & {
   repository: Repository;
   open: boolean;
   handleClose: () => void;
 };
 
-function SetUpProjectDialog({
+function CreateConfigurationDialog({
   repository,
   open,
   handleClose,
   sx,
-}: SetUpProjectDialogProps) {
+}: CreateConfigurationDialogProps) {
   const { formatMessage } = useIntl();
   const navigate = useNavigate();
-  const { values, setValues, errors, reset, validate } = useSetUpProjectForm();
+  const { values, setValues, errors, reset, validate } =
+    useCreateConfigurationForm();
 
   const [
     validateConfiguration,
@@ -53,7 +54,7 @@ function SetUpProjectDialog({
     [validateConfiguration]
   );
 
-  const handleSetUpProject = useCallback(async () => {
+  const handleCreateConfiguration = useCallback(async () => {
     const hasErrors = validate();
 
     if (hasErrors) {
@@ -98,7 +99,7 @@ function SetUpProjectDialog({
       <DialogTitle sx={{ display: "flex", alignItems: "center" }}>
         {formatMessage(
           {
-            id: "set-up-project-form.title",
+            id: "create-configuration-form.title",
           },
           { repositoryName: repository.name }
         )}
@@ -121,14 +122,11 @@ function SetUpProjectDialog({
           fullWidth
           required
           label={formatMessage({
-            id: "set-up-project-form.name-field-label",
+            id: "create-configuration-form.name-field-label",
           })}
-          placeholder={formatMessage(
-            {
-              id: "set-up-project-form.name-field-placeholder",
-            },
-            { repositoryName: repository.name }
-          )}
+          placeholder={formatMessage({
+            id: "create-configuration-form.name-field-placeholder",
+          })}
           sx={{ marginBottom: (theme) => theme.spacing(2) }}
           error={errors.name.length > 0}
           helperText={
@@ -148,11 +146,11 @@ function SetUpProjectDialog({
           fullWidth
           required
           label={formatMessage({
-            id: "set-up-project-form.config-contract-file-path-field-label",
+            id: "create-configuration-form.config-contract-file-path-field-label",
           })}
           placeholder={formatMessage(
             {
-              id: "set-up-project-form.config-contract-file-path-field-placeholder",
+              id: "create-configuration-form.config-contract-file-path-field-placeholder",
             },
             { repositoryName: repository.name }
           )}
@@ -174,14 +172,14 @@ function SetUpProjectDialog({
           }}
         >
           {formatMessage({
-            id: "set-up-project-form.contract-help-message",
+            id: "create-configuration-form.contract-help-message",
           })}
           <Link
             href="https://docs.symeo.io/docs/getting-started"
             target="_blank"
           >
             {formatMessage({
-              id: "set-up-project-form.here",
+              id: "create-configuration-form.here",
             })}
           </Link>
           .
@@ -195,11 +193,11 @@ function SetUpProjectDialog({
           fullWidth
           required
           label={formatMessage({
-            id: "set-up-project-form.branch-field-label",
+            id: "create-configuration-form.branch-field-label",
           })}
           placeholder={formatMessage(
             {
-              id: "set-up-project-form.branch-field-placeholder",
+              id: "create-configuration-form.branch-field-placeholder",
             },
             { repositoryName: repository.name }
           )}
@@ -226,7 +224,7 @@ function SetUpProjectDialog({
               success={isConfigurationValid}
               loadingLabel={formatMessage(
                 {
-                  id: "set-up-project-form.validation.loading",
+                  id: "create-configuration-form.validation.loading",
                 },
                 {
                   filePath: values.contractFilePath,
@@ -235,7 +233,7 @@ function SetUpProjectDialog({
               )}
               errorLabel={formatMessage(
                 {
-                  id: "set-up-project-form.validation.error",
+                  id: "create-configuration-form.validation.error",
                 },
                 {
                   filePath: values.contractFilePath,
@@ -244,7 +242,7 @@ function SetUpProjectDialog({
               )}
               successLabel={formatMessage(
                 {
-                  id: "set-up-project-form.validation.success",
+                  id: "create-configuration-form.validation.success",
                 },
                 {
                   filePath: values.contractFilePath,
@@ -261,15 +259,17 @@ function SetUpProjectDialog({
           variant="outlined"
           disabled={isLoadingCreate}
         >
-          {formatMessage({ id: "set-up-project-form.cancel-button-label" })}
+          {formatMessage({
+            id: "create-configuration-form.cancel-button-label",
+          })}
         </Button>
         <Button
-          onClick={handleSetUpProject}
+          onClick={handleCreateConfiguration}
           disabled={!isConfigurationValid}
           loading={isLoadingCreate}
         >
           {formatMessage({
-            id: "set-up-project-form.set-up-button-label",
+            id: "create-configuration-form.set-up-button-label",
           })}
         </Button>
       </DialogActions>
@@ -277,4 +277,4 @@ function SetUpProjectDialog({
   );
 }
 
-export default SetUpProjectDialog;
+export default CreateConfigurationDialog;

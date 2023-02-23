@@ -317,6 +317,7 @@ export const theme = createTheme({
     MuiMenuItem: {
       styleOverrides: {
         root: {
+          transition: "background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
           "& .MuiListItemIcon-root": {
             color: colors.secondary.bordersHover,
           },
@@ -432,6 +433,11 @@ export const theme = createTheme({
     MuiTable: {
       styleOverrides: {
         root: {
+          "& .MuiTableRow-root": {
+            transition:
+              "background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
+          },
+
           "& .MuiTableBody-root .MuiTableRow-root:hover": {
             background: "#F2F2F4",
           },
@@ -467,6 +473,13 @@ export const theme = createTheme({
           fontSize: "0.9rem",
           lineHeight: "1.2rem",
           boxShadow: "0px 0px 12px -4px rgba(0,0,0,0.75)",
+        },
+      },
+    },
+    MuiAutocomplete: {
+      styleOverrides: {
+        option: {
+          transition: "background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
         },
       },
     },
