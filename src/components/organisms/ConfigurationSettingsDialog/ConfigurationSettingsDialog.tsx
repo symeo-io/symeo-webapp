@@ -1,11 +1,12 @@
 import React from "react";
-import { Dialog, DialogContent, DialogTitle } from "@mui/material";
+import { Dialog, DialogContent, DialogTitle, Divider } from "@mui/material";
 import { useIntl } from "react-intl";
 import { PropsWithSx } from "types/PropsWithSx";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import { colors } from "theme/colors";
 import { Configuration } from "redux/api/configurations/configurations.types";
 import ConfigurationGeneralSettings from "components/organisms/ConfigurationGeneralSettings/ConfigurationGeneralSettings";
+import ConfigurationDangerZoneSettings from "components/organisms/ConfigurationDangerZoneSettings/ConfigurationDangerZoneSettings";
 
 export type ConfigurationSettingsDialogProps = PropsWithSx & {
   configuration: Configuration;
@@ -62,6 +63,15 @@ function ConfigurationSettingsDialog({
           configuration={configuration}
           sx={{
             marginTop: (theme) => theme.spacing(2),
+            marginBottom: (theme) => theme.spacing(2),
+          }}
+        />
+        <Divider />
+        <ConfigurationDangerZoneSettings
+          configuration={configuration}
+          onDelete={handleClose}
+          sx={{
+            marginTop: (theme) => theme.spacing(5),
             marginBottom: (theme) => theme.spacing(2),
           }}
         />
