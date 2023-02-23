@@ -20,7 +20,7 @@
       "contract-not-found": "No contract file found at {filePath} on branch {branchName}"
     }
   },
-  "set-up-project-form": {
+  "create-configuration-form": {
     "title": "Set up configuration for {repositoryName}",
     "cancel-button-label": "Cancel",
     "set-up-button-label": "Set Up Configuration",
@@ -39,6 +39,13 @@
       "loading": "Looking for {filePath} on {branch}",
       "error": "No {filePath} found on {branch}",
       "success": "{filePath} found on {branch}"
+    }
+  },
+  "configuration-settings": {
+    "title": "{configurationName} settings",
+    "general": {
+      "title": "General",
+      "update-button-label": "Update"
     }
   },
   "new-environment": {
