@@ -47,6 +47,8 @@ function CurrentUser({ sx }: CurrentUserProps) {
           padding: (theme) => theme.spacing(1),
           borderRadius: "4px",
           cursor: "pointer",
+          transition: "background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
+
           "&:hover": {
             background: "rgba(220, 231, 242, 0.35)",
           },
