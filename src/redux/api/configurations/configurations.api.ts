@@ -12,6 +12,7 @@ import {
   ValidateGitHubConfigurationInput,
   ValidateGitHubConfigurationResponse,
 } from "redux/api/configurations/configurations.types";
+import { repositoriesQueryApi } from "redux/api/repositories/repositories.api";
 
 export const configurationQueryApi = api.injectEndpoints({
   endpoints: (builder) => ({
@@ -64,7 +65,34 @@ const configurationsMutationApi = api.injectEndpoints({
         method: "POST",
         body,
       }),
-      invalidatesTags: [{ type: "Repositories" }],
+      async onQueryStarted(
+        { repositoryVcsId, ...body },
+        { dispatch, queryFulfilled }
+      ) {
+        try {
+          const createdConfigurationData = await queryFulfilled;
+          dispatch(
+            repositoriesQueryApi.util.updateQueryData(
+              "getRepositories",
+              undefined,
+              (draft) => {
+                const repository = draft.repositories.find(
+                  (repo) => repo.vcsId === repositoryVcsId
+                );
+
+                if (!repository || !repository.configurations) {
+                  return;
+                }
+
+                repository.configurations = [
+                  ...repository.configurations,
+                  createdConfigurationData.data.configuration,
+                ];
+              }
+            )
+          );
+        } catch {}
+      },
     }),
     updateGitHubConfiguration: builder.mutation<
       UpdateGitHubConfigurationResponse,
@@ -75,7 +103,41 @@ const configurationsMutationApi = api.injectEndpoints({
         method: "PATCH",
         body,
       }),
-      invalidatesTags: [{ type: "Repositories" }],
+      async onQueryStarted(
+        { repositoryVcsId, configurationId, ...patch },
+        { dispatch, queryFulfilled }
+      ) {
+        try {
+          await queryFulfilled;
+          dispatch(
+            repositoriesQueryApi.util.updateQueryData(
+              "getRepositories",
+              undefined,
+              (draft) => {
+                const repository = draft.repositories.find(
+                  (repo) => repo.vcsId === repositoryVcsId
+                );
+
+                if (!repository || !repository.configurations) {
+                  return;
+                }
+
+                const configuration = repository.configurations.find(
+                  (configuration) => configuration.id === configurationId
+                );
+
+                if (!configuration) {
+                  return;
+                }
+
+                configuration.name = patch.name;
+                configuration.contractFilePath = patch.contractFilePath;
+                configuration.branch = patch.branch;
+              }
+            )
+          );
+        } catch {}
+      },
     }),
     deleteGitHubConfiguration: builder.mutation<
       void,
@@ -85,7 +147,35 @@ const configurationsMutationApi = api.injectEndpoints({
         url: `/api/v1/configurations/github/${repositoryVcsId}/${configurationId}`,
         method: "DELETE",
       }),
-      invalidatesTags: [{ type: "Repositories" }],
+      async onQueryStarted(
+        { repositoryVcsId, configurationId },
+        { dispatch, queryFulfilled }
+      ) {
+        try {
+          await queryFulfilled;
+          dispatch(
+            repositoriesQueryApi.util.updateQueryData(
+              "getRepositories",
+              undefined,
+              (draft) => {
+                const repository = draft.repositories.find(
+                  (repo) => repo.vcsId === repositoryVcsId
+                );
+
+                if (!repository || !repository.configurations) {
+                  return;
+                }
+
+                repository.configurations = [
+                  ...repository.configurations.filter(
+                    (configuration) => configuration.id !== configurationId
+                  ),
+                ];
+              }
+            )
+          );
+        } catch {}
+      },
     }),
   }),
 });
