@@ -25,7 +25,7 @@
     "cancel-button-label": "Cancel",
     "set-up-button-label": "Set Up Configuration",
     "name-field-label": "Configuration name",
-    "name-field-placeholder": "Give a name to your {repositoryName} configuration",
+    "name-field-placeholder": "e.g: api, backend, infrastructure...",
     "config-contract-file-path-field-label": "Path to your configuration contract file",
     "config-contract-file-path-field-placeholder": "e.g: api/symeo.config.yml",
     "branch-field-label": "Branch",

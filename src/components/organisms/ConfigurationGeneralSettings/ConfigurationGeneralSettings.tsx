@@ -97,12 +97,9 @@ function ConfigurationGeneralSettings({
           label={formatMessage({
             id: "create-configuration-form.name-field-label",
           })}
-          placeholder={formatMessage(
-            {
-              id: "create-configuration-form.name-field-placeholder",
-            },
-            { repositoryName: configuration.repository.name }
-          )}
+          placeholder={formatMessage({
+            id: "create-configuration-form.name-field-placeholder",
+          })}
           sx={{ marginBottom: (theme) => theme.spacing(2) }}
           error={errors.name.length > 0}
           helperText={
