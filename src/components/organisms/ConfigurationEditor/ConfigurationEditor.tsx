@@ -40,7 +40,7 @@ function ConfigurationEditor({
     isFetching: isFetchingContract,
   } = useGetConfigurationContractQuery({
     configurationId: configuration.id,
-    repositoryVcsId: configuration.repository.vcsId.toString(),
+    repositoryVcsId: configuration.repository.vcsId,
     branch,
   });
 
@@ -51,7 +51,7 @@ function ConfigurationEditor({
     isSuccess: isSuccessValues,
   } = useGetValuesForEnvironmentQuery({
     configurationId: configuration.id,
-    repositoryVcsId: configuration.repository.vcsId.toString(),
+    repositoryVcsId: configuration.repository.vcsId,
     environmentId: environment.id,
   });
 
@@ -71,7 +71,7 @@ function ConfigurationEditor({
     if (isSuccessValues && !isFetchingValues) {
       setValues({
         configurationId: configuration.id,
-        repositoryVcsId: configuration.repository.vcsId.toString(),
+        repositoryVcsId: configuration.repository.vcsId,
         environmentId: environment.id,
         values: editorValues,
       });
