@@ -43,12 +43,14 @@ export type ConfigurationEditorInputProps = PropsWithSx & {
   property: ConfigurationProperty;
   onChange: (value: unknown) => void;
   value: unknown;
+  showSecrets?: boolean;
 };
 
 function ConfigurationEditorInput({
   property,
   value,
   onChange,
+  showSecrets,
   sx,
 }: ConfigurationEditorInputProps) {
   const onChangeWithFormatValidation = useCallback(
@@ -75,7 +77,7 @@ function ConfigurationEditorInput({
         }}
       />
       <StyledInput
-        type={property.secret ? "password" : "text"}
+        type={property.secret && !showSecrets ? "password" : "text"}
         fullWidth
         sx={{
           color: getInputColorForProperty(property),

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { Box, Typography } from "@mui/material";
+import { Box, IconButton, Typography } from "@mui/material";
 import { useIntl } from "react-intl";
 import DataObjectIcon from "@mui/icons-material/DataObject";
 import { useGetConfigurationQuery } from "redux/api/configurations/configurations.api";
@@ -11,6 +11,8 @@ import { Environment } from "redux/api/environments/environments.types";
 import EnvironmentSettingsButton from "components/molecules/EnvironmentSettingsButton/EnvironmentSettingsButton";
 import { useGetRepositoryBranchesQuery } from "redux/api/repositories/repositories.api";
 import BranchSelector from "components/molecules/BranchSelector/BranchSelector";
+import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
+import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
 
 function Configuration() {
   const { formatMessage } = useIntl();
@@ -21,6 +23,7 @@ function Configuration() {
   const [selectedBranchName, setSelectedBranchName] = useState<
     string | undefined
   >(undefined);
+  const [showSecrets, setShowSecrets] = useState<boolean>(false);
 
   const { data: configurationData, isLoading } = useGetConfigurationQuery(
     {
@@ -144,6 +147,23 @@ function Configuration() {
                       width: "42px",
                     }}
                   />
+                  <IconButton
+                    onClick={() => setShowSecrets(!showSecrets)}
+                    sx={{
+                      marginLeft: (theme) => theme.spacing(1),
+                      width: "42px",
+                    }}
+                  >
+                    {showSecrets ? (
+                      <VisibilityOutlinedIcon
+                        sx={{ fontSize: "20px !important" }}
+                      />
+                    ) : (
+                      <VisibilityOffOutlinedIcon
+                        sx={{ fontSize: "20px !important" }}
+                      />
+                    )}
+                  </IconButton>
                 </>
               )}
             </Box>
@@ -162,6 +182,7 @@ function Configuration() {
               configuration={configuration}
               environment={selectedEnvironment}
               branch={selectedBranchName}
+              showSecrets={showSecrets}
               sx={{ marginTop: (theme) => theme.spacing(1), flex: 1 }}
             />
           )}

@@ -26,6 +26,7 @@ export type ConfigurationEditorPropertyProps = PropsWithSx & {
   values: ConfigurationValues;
   setValues: (values: ConfigurationValues) => void;
   originalValues: ConfigurationValues;
+  showSecrets?: boolean;
 };
 
 function ConfigurationEditorProperty({
@@ -35,6 +36,7 @@ function ConfigurationEditorProperty({
   values,
   setValues,
   originalValues,
+  showSecrets = false,
   sx,
 }: ConfigurationEditorPropertyProps) {
   const configurationProperty = useMemo(
@@ -96,6 +98,7 @@ function ConfigurationEditorProperty({
           value={getValueByPath(path)}
           onChange={(newValue: unknown) => setValueByPath(path, newValue)}
           property={property as ConfigurationProperty}
+          showSecrets={showSecrets}
         />
       )}
       {!configurationProperty &&
@@ -108,6 +111,7 @@ function ConfigurationEditorProperty({
             values={values}
             setValues={setValues}
             originalValues={originalValues}
+            showSecrets={showSecrets}
             sx={sx}
           />
         ))}
