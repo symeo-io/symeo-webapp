@@ -20,12 +20,14 @@ export type ConfigurationEditorProps = PropsWithSx & {
   configuration: Configuration;
   environment: Environment;
   branch?: string;
+  showSecrets?: boolean;
 };
 
 function ConfigurationEditor({
   configuration,
   environment,
   branch,
+  showSecrets = false,
   sx,
 }: ConfigurationEditorProps) {
   const { formatMessage } = useIntl();
@@ -161,6 +163,7 @@ function ConfigurationEditor({
               values={editorValues}
               originalValues={values}
               setValues={setEditorValues}
+              showSecrets={showSecrets}
             />
           ))}
       </Box>

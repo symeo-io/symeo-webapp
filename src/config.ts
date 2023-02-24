@@ -8,9 +8,6 @@ export const config = {
   api: {
     url: import.meta.env.VITE_API_URL ?? "",
   },
-  githubApp: {
-    name: import.meta.env.VITE_GITHUB_APP_NAME ?? "",
-  },
   datadog: {
     applicationId: import.meta.env.VITE_DATADOG_APPLICATION_ID ?? "",
     clientToken: import.meta.env.VITE_DATADOG_CLIENT_TOKEN ?? "",
