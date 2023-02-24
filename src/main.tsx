@@ -14,8 +14,8 @@ if (config.datadog.clientToken) {
       site: config.datadog.site,
       service: "symeo-webapp",
       env: config.env,
-      sampleRate: 100,
-      trackInteractions: true,
+      sessionSampleRate: 100,
+      trackUserInteractions: true,
     });
     datadogRum.startSessionReplayRecording();
   }
@@ -24,7 +24,7 @@ if (config.datadog.clientToken) {
     clientToken: config.datadog.clientToken,
     site: config.datadog.site,
     forwardErrorsToLogs: true,
-    sampleRate: 100,
+    sessionSampleRate: 100,
   });
 }
 
