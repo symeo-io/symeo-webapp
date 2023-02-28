@@ -8,10 +8,13 @@ export const EnvironmentPermissionRoles = [
 export type EnvironmentPermissionRole =
   (typeof EnvironmentPermissionRoles)[number];
 
+export type GitHubRole = "admin" | "maintain" | "write" | "triage" | "read";
+
 export type VcsUser = {
   vcsId: number;
   name: string;
   avatarUrl: string;
+  roleName: GitHubRole;
 };
 
 export type EnvironmentPermission = {

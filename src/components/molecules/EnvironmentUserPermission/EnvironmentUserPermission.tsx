@@ -52,6 +52,7 @@ function EnvironmentUserPermission({
       <Select
         IconComponent={KeyboardArrowDownIcon}
         value={permission.environmentPermissionRole}
+        disabled={permission.user.roleName === "admin"}
         onChange={(event) =>
           onRoleChange(event.target.value as EnvironmentPermissionRole)
         }
