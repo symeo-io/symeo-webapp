@@ -8,6 +8,7 @@ import EnvironmentApiKeysSettings from "components/organisms/EnvironmentApiKeysS
 import EnvironmentGeneralSettings from "components/organisms/EnvironmentGeneralSettings/EnvironmentGeneralSettings";
 import { colors } from "theme/colors";
 import EnvironmentDangerZoneSettings from "components/organisms/EnvironmentDangerZoneSettings/EnvironmentDangerZoneSettings";
+import EnvironmentPermissionsSettings from "components/organisms/EnvironmentPermissionsSettings/EnvironmentPermissionsSettings";
 
 export type EnvironmentSettingsDialogProps = PropsWithSx & {
   repositoryVcsId: number;
@@ -70,6 +71,16 @@ function EnvironmentSettingsDialog({
           environment={environment}
           sx={{
             marginTop: (theme) => theme.spacing(2),
+            marginBottom: (theme) => theme.spacing(2),
+          }}
+        />
+        <Divider />
+        <EnvironmentPermissionsSettings
+          repositoryVcsId={repositoryVcsId}
+          configurationId={configurationId}
+          environment={environment}
+          sx={{
+            marginTop: (theme) => theme.spacing(5),
             marginBottom: (theme) => theme.spacing(2),
           }}
         />

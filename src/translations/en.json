@@ -80,6 +80,22 @@
       "title": "General",
       "update-button-label": "Update"
     },
+    "permissions": {
+      "title": "Permissions",
+      "save-button-label": "Save",
+      "roles": {
+        "readNonSecret": "Read non Secrets",
+        "readSecret":"Read Secrets",
+        "write": "Write",
+        "admin": "Admin"
+      },
+      "role-messages": {
+        "readNonSecret": "Can view non secret values for the environment",
+        "readSecret":"Can view non secret and secret values for the environment",
+        "write": "Can view and edit all values for the environment",
+        "admin": "Can view and edit values, change permissions, create api keys, and delete the environment"
+      }
+    },
     "api-keys": {
       "title": "API Keys",
       "message": "API Keys are unique to an environment. An API key is required to fetch your configuration from your application running environment.",
