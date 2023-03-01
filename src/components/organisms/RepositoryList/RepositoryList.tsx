@@ -127,15 +127,12 @@ function RepositoryList({ sx }: RepositoryListProps) {
                       sx={{ margin: (theme) => theme.spacing(0.5) }}
                       key={configuration.id}
                       configuration={configuration}
+                      isUserAdmin={repository.isCurrentUserAdmin}
                     />
                   ))}
                 </Box>
                 <Box>
-                  <AddConfigurationButton repository={repository}>
-                    {formatMessage({
-                      id: "projects.repositories.setup",
-                    })}
-                  </AddConfigurationButton>
+                  <AddConfigurationButton repository={repository} />
                 </Box>
               </Box>
             ))}

@@ -8,6 +8,20 @@ export const EnvironmentPermissionRoles = [
 export type EnvironmentPermissionRole =
   (typeof EnvironmentPermissionRoles)[number];
 
+export function meetRoleRequirement(
+  requiredRole: EnvironmentPermissionRole,
+  actualRole?: EnvironmentPermissionRole
+) {
+  if (!actualRole) {
+    return false;
+  }
+
+  return (
+    EnvironmentPermissionRoles.indexOf(actualRole) >=
+    EnvironmentPermissionRoles.indexOf(requiredRole)
+  );
+}
+
 export type GitHubRole = "admin" | "maintain" | "write" | "triage" | "read";
 
 export type VcsUser = {

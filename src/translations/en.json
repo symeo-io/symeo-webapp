@@ -9,7 +9,8 @@
         "configurations": "Configurations",
         "actions": "Actions"
       },
-      "setup": "Add Configuration"
+      "setup": "Add Configuration",
+      "non-admin-message": "The configurations must be set up by the repo admin."
     }
   },
   "configuration": {
