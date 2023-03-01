@@ -9,6 +9,7 @@ export type Repository = {
   vcsType: "github";
   vcsUrl: string;
   configurations?: Configuration[];
+  isCurrentUserAdmin: boolean;
 };
 
 export type Branch = {

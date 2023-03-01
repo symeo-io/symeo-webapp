@@ -10,9 +10,14 @@ import ConfigurationSettingsDialog from "components/organisms/ConfigurationSetti
 
 export type ConfigurationLinkProps = PropsWithSx & {
   configuration: Configuration;
+  isUserAdmin: boolean;
 };
 
-function ConfigurationLink({ configuration, sx }: ConfigurationLinkProps) {
+function ConfigurationLink({
+  configuration,
+  isUserAdmin,
+  sx,
+}: ConfigurationLinkProps) {
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
 
   const handleOpenDialog = useCallback(() => setDialogOpen(true), []);
@@ -44,7 +49,9 @@ function ConfigurationLink({ configuration, sx }: ConfigurationLinkProps) {
               fontWeight: 500,
               border: `1px solid ${colors.primary.main}`,
               paddingX: (theme) => theme.spacing(1),
-              paddingRight: "44px",
+              paddingRight: isUserAdmin
+                ? "44px"
+                : (theme) => theme.spacing(1.5),
               transition:
                 "background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
 
@@ -73,36 +80,38 @@ function ConfigurationLink({ configuration, sx }: ConfigurationLinkProps) {
               {configuration.name}
             </Box>
           </Box>
-          <Box
-            onClick={(e) => {
-              e.stopPropagation();
-              e.preventDefault();
-              handleOpenDialog();
-            }}
-            sx={{
-              height: "28px",
-              width: "28px",
-              borderRadius: "50%",
-              backgroundColor: colors.secondary.surface,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              position: "absolute",
-              border: `1px solid ${colors.secondary.main}`,
-              top: 0,
-              right: 0,
-              transition:
-                "background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
+          {isUserAdmin && (
+            <Box
+              onClick={(e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                handleOpenDialog();
+              }}
+              sx={{
+                height: "28px",
+                width: "28px",
+                borderRadius: "50%",
+                backgroundColor: colors.secondary.surface,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                position: "absolute",
+                border: `1px solid ${colors.secondary.main}`,
+                top: 0,
+                right: 0,
+                transition:
+                  "background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
 
-              "&:hover": {
-                backgroundColor: colors.secondary.surfaceHover,
-              },
-            }}
-          >
-            <SettingsOutlinedIcon
-              sx={{ color: colors.secondary.textActive, fontSize: "20px" }}
-            />
-          </Box>
+                "&:hover": {
+                  backgroundColor: colors.secondary.surfaceHover,
+                },
+              }}
+            >
+              <SettingsOutlinedIcon
+                sx={{ color: colors.secondary.textActive, fontSize: "20px" }}
+              />
+            </Box>
+          )}
         </Box>
       </InternalLink>
       <ConfigurationSettingsDialog
