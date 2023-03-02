@@ -22,7 +22,7 @@ function ConfigurationViewerValue({
         width: "100%",
         color: getInputColorForProperty(property),
         marginLeft: (theme) => theme.spacing(1),
-        fontSize: "16px",
+        fontSize: "14px",
         ...sx,
       }}
     >
