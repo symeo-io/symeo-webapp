@@ -1,10 +1,10 @@
 import React from "react";
-import { Box, CircularProgress } from "@mui/material";
+import { Box, CircularProgress, CircularProgressProps } from "@mui/material";
 import { PropsWithSx } from "types/PropsWithSx";
 
-export type LoadingBoxProps = PropsWithSx;
+export type LoadingBoxProps = PropsWithSx & CircularProgressProps;
 
-function LoadingBox({ sx }: LoadingBoxProps) {
+function LoadingBox({ sx, ...rest }: LoadingBoxProps) {
   return (
     <Box
       sx={{
@@ -15,7 +15,7 @@ function LoadingBox({ sx }: LoadingBoxProps) {
         ...sx,
       }}
     >
-      <CircularProgress />
+      <CircularProgress {...rest} />
     </Box>
   );
 }

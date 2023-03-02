@@ -13,6 +13,8 @@ import { useGetRepositoryBranchesQuery } from "redux/api/repositories/repositori
 import BranchSelector from "components/molecules/BranchSelector/BranchSelector";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
+import { meetRoleRequirement } from "redux/api/environment-permissions/environment-permissions.types";
+import ConfigurationViewer from "components/organisms/ConfigurationViewer/ConfigurationViewer";
 
 function Configuration() {
   const { formatMessage } = useIntl();
@@ -43,6 +45,28 @@ function Configuration() {
     () => configurationData?.configuration,
     [configurationData?.configuration]
   );
+
+  const isCurrentUserAdmin = useMemo(
+    () => configurationData?.isCurrentUserRepositoryAdmin ?? false,
+    [configurationData?.isCurrentUserRepositoryAdmin]
+  );
+
+  const currentUserEnvironmentPermission = useMemo(
+    () =>
+      configurationData?.currentUserEnvironmentsPermissions.find(
+        (permission) => permission.environmentId === selectedEnvironmentId
+      ) ?? undefined,
+    [
+      configurationData?.currentUserEnvironmentsPermissions,
+      selectedEnvironmentId,
+    ]
+  );
+
+  const currentUserEnvironmentRole = useMemo(
+    () => currentUserEnvironmentPermission?.environmentPermissionRole,
+    [currentUserEnvironmentPermission?.environmentPermissionRole]
+  );
+
   const branches = useMemo(
     () => branchesData?.branches ?? [],
     [branchesData?.branches]
@@ -137,33 +161,41 @@ function Configuration() {
                     repositoryVcsId={configuration.repository.vcsId}
                     configurationName={configuration.name}
                     configurationId={configuration.id}
+                    isUserAdmin={isCurrentUserAdmin}
                   />
-                  <EnvironmentSettingsButton
-                    repositoryVcsId={configuration.repository.vcsId}
-                    configurationId={configuration.id}
-                    environment={selectedEnvironment}
-                    sx={{
-                      marginLeft: (theme) => theme.spacing(1),
-                      width: "42px",
-                    }}
-                  />
-                  <IconButton
-                    onClick={() => setShowSecrets(!showSecrets)}
-                    sx={{
-                      marginLeft: (theme) => theme.spacing(1),
-                      width: "42px",
-                    }}
-                  >
-                    {showSecrets ? (
-                      <VisibilityOutlinedIcon
-                        sx={{ fontSize: "20px !important" }}
-                      />
-                    ) : (
-                      <VisibilityOffOutlinedIcon
-                        sx={{ fontSize: "20px !important" }}
-                      />
-                    )}
-                  </IconButton>
+                  {meetRoleRequirement("admin", currentUserEnvironmentRole) && (
+                    <EnvironmentSettingsButton
+                      repositoryVcsId={configuration.repository.vcsId}
+                      configurationId={configuration.id}
+                      environment={selectedEnvironment}
+                      sx={{
+                        marginLeft: (theme) => theme.spacing(1),
+                        width: "42px",
+                      }}
+                    />
+                  )}
+                  {meetRoleRequirement(
+                    "readSecret",
+                    currentUserEnvironmentRole
+                  ) && (
+                    <IconButton
+                      onClick={() => setShowSecrets(!showSecrets)}
+                      sx={{
+                        marginLeft: (theme) => theme.spacing(1),
+                        width: "42px",
+                      }}
+                    >
+                      {showSecrets ? (
+                        <VisibilityOutlinedIcon
+                          sx={{ fontSize: "20px !important" }}
+                        />
+                      ) : (
+                        <VisibilityOffOutlinedIcon
+                          sx={{ fontSize: "20px !important" }}
+                        />
+                      )}
+                    </IconButton>
+                  )}
                 </>
               )}
             </Box>
@@ -177,15 +209,26 @@ function Configuration() {
               )}
             </Box>
           </Box>
-          {selectedEnvironment && (
-            <ConfigurationEditor
-              configuration={configuration}
-              environment={selectedEnvironment}
-              branch={selectedBranchName}
-              showSecrets={showSecrets}
-              sx={{ marginTop: (theme) => theme.spacing(1), flex: 1 }}
-            />
-          )}
+          {selectedEnvironment &&
+            meetRoleRequirement("write", currentUserEnvironmentRole) && (
+              <ConfigurationEditor
+                configuration={configuration}
+                environment={selectedEnvironment}
+                branch={selectedBranchName}
+                showSecrets={showSecrets}
+                sx={{ marginTop: (theme) => theme.spacing(1), flex: 1 }}
+              />
+            )}
+          {selectedEnvironment &&
+            !meetRoleRequirement("write", currentUserEnvironmentRole) && (
+              <ConfigurationViewer
+                configuration={configuration}
+                environment={selectedEnvironment}
+                branch={selectedBranchName}
+                showSecrets={showSecrets}
+                sx={{ marginTop: (theme) => theme.spacing(1), flex: 1 }}
+              />
+            )}
         </>
       )}
     </Box>

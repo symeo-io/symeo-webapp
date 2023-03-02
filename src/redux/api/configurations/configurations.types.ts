@@ -1,4 +1,5 @@
 import { Environment } from "redux/api/environments/environments.types";
+import { EnvironmentPermission } from "redux/api/environment-permissions/environment-permissions.types";
 
 export type Configuration = {
   id: string;
@@ -29,6 +30,8 @@ export type ConfigurationContract = {
 
 export type GetConfigurationResponse = {
   configuration: Configuration;
+  currentUserEnvironmentsPermissions: EnvironmentPermission[];
+  isCurrentUserRepositoryAdmin: boolean;
 };
 
 export type GetConfigurationInput = {

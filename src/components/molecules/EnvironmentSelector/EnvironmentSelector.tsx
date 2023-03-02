@@ -16,6 +16,7 @@ export type EnvironmentSelectorProps = PropsWithSx & {
   value: Environment;
   onChange: (environment: Environment) => void;
   environments: Environment[];
+  isUserAdmin: boolean;
 };
 
 function EnvironmentSelector({
@@ -25,6 +26,7 @@ function EnvironmentSelector({
   value,
   onChange,
   environments,
+  isUserAdmin,
   sx,
 }: EnvironmentSelectorProps) {
   const { formatMessage } = useIntl();
@@ -112,39 +114,43 @@ function EnvironmentSelector({
             />
           </MenuItem>
         ))}
-        <Box sx={{ borderTop: `1px solid ${colors.secondary.borders}` }}>
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              padding: (theme) => theme.spacing(1),
-              margin: (theme) => theme.spacing(0.5),
-              borderRadius: "4px",
-              cursor: "pointer",
-              color: colors.primary.text,
-              fontWeight: 700,
-              transition:
-                "background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
+        {isUserAdmin && (
+          <Box sx={{ borderTop: `1px solid ${colors.secondary.borders}` }}>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                padding: (theme) => theme.spacing(1),
+                margin: (theme) => theme.spacing(0.5),
+                borderRadius: "4px",
+                cursor: "pointer",
+                color: colors.primary.text,
+                fontWeight: 700,
+                transition:
+                  "background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
 
-              "&:hover": {
-                backgroundColor: colors.primary.surfaceHover,
-              },
-            }}
-            onClick={handleOpenDialog}
-          >
-            <AddIcon sx={{ marginRight: (theme) => theme.spacing(1) }} />
-            {formatMessage({ id: "new-environment.button-label" })}
+                "&:hover": {
+                  backgroundColor: colors.primary.surfaceHover,
+                },
+              }}
+              onClick={handleOpenDialog}
+            >
+              <AddIcon sx={{ marginRight: (theme) => theme.spacing(1) }} />
+              {formatMessage({ id: "new-environment.button-label" })}
+            </Box>
           </Box>
-        </Box>
+        )}
       </Select>
-      <NewEnvironmentDialog
-        repositoryVcsId={repositoryVcsId}
-        configurationName={configurationName}
-        configurationId={configurationId}
-        open={dialogOpen}
-        handleClose={handleCloseDialog}
-        onCreate={onChange}
-      />
+      {isUserAdmin && (
+        <NewEnvironmentDialog
+          repositoryVcsId={repositoryVcsId}
+          configurationName={configurationName}
+          configurationId={configurationId}
+          open={dialogOpen}
+          handleClose={handleCloseDialog}
+          onCreate={onChange}
+        />
+      )}
     </>
   );
 }

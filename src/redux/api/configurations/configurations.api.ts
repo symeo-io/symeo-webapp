@@ -60,8 +60,8 @@ const configurationsMutationApi = api.injectEndpoints({
       CreateGitHubConfigurationResponse,
       CreateGitHubConfigurationInput
     >({
-      query: (body) => ({
-        url: `/api/v1/configurations/github`,
+      query: ({ repositoryVcsId, ...body }) => ({
+        url: `/api/v1/configurations/github/${repositoryVcsId}`,
         method: "POST",
         body,
       }),
