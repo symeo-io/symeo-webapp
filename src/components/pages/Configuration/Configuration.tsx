@@ -15,6 +15,8 @@ import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
 import { meetRoleRequirement } from "redux/api/environment-permissions/environment-permissions.types";
 import ConfigurationViewer from "components/organisms/ConfigurationViewer/ConfigurationViewer";
+import ShowSecretsButton from "components/molecules/ShowSecretsButton/ShowSecretsButton";
+import DownloadEnvironmentValuesButton from "components/molecules/DownloadEnvironmentValuesButton/DownloadEnvironmentValuesButton";
 
 function Configuration() {
   const { formatMessage } = useIntl();
@@ -178,23 +180,22 @@ function Configuration() {
                     "readSecret",
                     currentUserEnvironmentRole
                   ) && (
-                    <IconButton
-                      onClick={() => setShowSecrets(!showSecrets)}
-                      sx={{
-                        marginLeft: (theme) => theme.spacing(1),
-                        width: "42px",
-                      }}
-                    >
-                      {showSecrets ? (
-                        <VisibilityOutlinedIcon
-                          sx={{ fontSize: "20px !important" }}
-                        />
-                      ) : (
-                        <VisibilityOffOutlinedIcon
-                          sx={{ fontSize: "20px !important" }}
-                        />
-                      )}
-                    </IconButton>
+                    <ShowSecretsButton
+                      showSecrets={showSecrets}
+                      setShowSecrets={setShowSecrets}
+                      sx={{ marginLeft: (theme) => theme.spacing(1) }}
+                    />
+                  )}
+                  {meetRoleRequirement(
+                    "readSecret",
+                    currentUserEnvironmentRole
+                  ) && (
+                    <DownloadEnvironmentValuesButton
+                      configuration={configuration}
+                      environment={selectedEnvironment}
+                      branch={selectedBranchName}
+                      sx={{ marginLeft: (theme) => theme.spacing(1) }}
+                    />
                   )}
                 </>
               )}
