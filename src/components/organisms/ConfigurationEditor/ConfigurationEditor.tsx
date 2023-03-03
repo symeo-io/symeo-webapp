@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo } from "react";
 import { Box } from "@mui/material";
 import { useGetConfigurationContractQuery } from "redux/api/configurations/configurations.api";
 import { PropsWithSx } from "types/PropsWithSx";
@@ -15,8 +15,11 @@ import Button from "components/atoms/Button/Button";
 import { useIntl } from "react-intl";
 import { Environment } from "redux/api/environments/environments.types";
 import { colors } from "theme/colors";
+import { initializeConfig } from "services/contract/contract.utils";
 
 export type ConfigurationEditorProps = PropsWithSx & {
+  editorValues: ConfigurationValues;
+  setEditorValues: (values: ConfigurationValues) => void;
   configuration: Configuration;
   environment: Environment;
   branch?: string;
@@ -24,6 +27,8 @@ export type ConfigurationEditorProps = PropsWithSx & {
 };
 
 function ConfigurationEditor({
+  editorValues,
+  setEditorValues,
   configuration,
   environment,
   branch,
@@ -31,7 +36,6 @@ function ConfigurationEditor({
   sx,
 }: ConfigurationEditorProps) {
   const { formatMessage } = useIntl();
-  const [editorValues, setEditorValues] = useState<ConfigurationValues>({});
   const [setValues, { isLoading: isLoadingSetValues }] =
     useSetValuesForEnvironmentMutation();
 
@@ -62,11 +66,18 @@ function ConfigurationEditor({
     [configurationContractData?.contract]
   );
 
-  const values = useMemo(() => valuesData?.values, [valuesData?.values]);
+  const values = useMemo(
+    () =>
+      valuesData?.values &&
+      contract &&
+      initializeConfig(contract, valuesData.values),
+    [contract, valuesData]
+  );
+  console.log("values", values);
 
   const reset = useCallback(
     () => values && setEditorValues(cloneDeep(values)),
-    [values]
+    [setEditorValues, values]
   );
 
   const save = useCallback(async () => {
@@ -92,7 +103,7 @@ function ConfigurationEditor({
     if (values) {
       setEditorValues(cloneDeep(values));
     }
-  }, [values]);
+  }, [setEditorValues, values]);
 
   return (
     <>

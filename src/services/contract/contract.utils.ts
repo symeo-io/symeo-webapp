@@ -27,7 +27,7 @@ export function initializeConfig(
       return;
     }
 
-    initializedConfig[propertyName] = valuesProperty;
+    initializedConfig[propertyName] = valuesProperty ?? null;
   });
 
   return initializedConfig;

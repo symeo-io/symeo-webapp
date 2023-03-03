@@ -17,6 +17,8 @@ import { meetRoleRequirement } from "redux/api/environment-permissions/environme
 import ConfigurationViewer from "components/organisms/ConfigurationViewer/ConfigurationViewer";
 import ShowSecretsButton from "components/molecules/ShowSecretsButton/ShowSecretsButton";
 import DownloadEnvironmentValuesButton from "components/molecules/DownloadEnvironmentValuesButton/DownloadEnvironmentValuesButton";
+import UploadEnvironmentValuesButton from "components/molecules/UploadEnvironmentValuesButton/UploadEnvironmentValuesButton";
+import { ConfigurationValues } from "redux/api/values/values.types";
 
 function Configuration() {
   const { formatMessage } = useIntl();
@@ -28,6 +30,7 @@ function Configuration() {
     string | undefined
   >(undefined);
   const [showSecrets, setShowSecrets] = useState<boolean>(false);
+  const [editorValues, setEditorValues] = useState<ConfigurationValues>({});
 
   const { data: configurationData, isLoading } = useGetConfigurationQuery(
     {
@@ -197,6 +200,15 @@ function Configuration() {
                       sx={{ marginLeft: (theme) => theme.spacing(1) }}
                     />
                   )}
+                  {meetRoleRequirement("write", currentUserEnvironmentRole) && (
+                    <UploadEnvironmentValuesButton
+                      editorValues={editorValues}
+                      setEditorValues={setEditorValues}
+                      configuration={configuration}
+                      branch={selectedBranchName}
+                      sx={{ marginLeft: (theme) => theme.spacing(1) }}
+                    />
+                  )}
                 </>
               )}
             </Box>
@@ -213,6 +225,8 @@ function Configuration() {
           {selectedEnvironment &&
             meetRoleRequirement("write", currentUserEnvironmentRole) && (
               <ConfigurationEditor
+                editorValues={editorValues}
+                setEditorValues={setEditorValues}
                 configuration={configuration}
                 environment={selectedEnvironment}
                 branch={selectedBranchName}

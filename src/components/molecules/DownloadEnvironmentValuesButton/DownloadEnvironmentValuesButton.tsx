@@ -53,7 +53,7 @@ function DownloadEnvironmentValuesButton({
   const handleDownload = useCallback(() => {
     if (values && contract) {
       const blob = new Blob([toYamlString(contract, values)], {
-        type: "text/yaml;charset=utf-8",
+        type: "application/x-yaml;charset=utf-8",
       });
       saveAs(blob, buildFileName(configuration, environment));
     }
