@@ -73,7 +73,6 @@ function ConfigurationEditor({
       initializeConfig(contract, valuesData.values),
     [contract, valuesData]
   );
-  console.log("values", values);
 
   const reset = useCallback(
     () => values && setEditorValues(cloneDeep(values)),
