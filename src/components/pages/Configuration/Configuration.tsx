@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { Box, IconButton, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { useIntl } from "react-intl";
 import DataObjectIcon from "@mui/icons-material/DataObject";
 import { useGetConfigurationQuery } from "redux/api/configurations/configurations.api";
@@ -11,10 +11,12 @@ import { Environment } from "redux/api/environments/environments.types";
 import EnvironmentSettingsButton from "components/molecules/EnvironmentSettingsButton/EnvironmentSettingsButton";
 import { useGetRepositoryBranchesQuery } from "redux/api/repositories/repositories.api";
 import BranchSelector from "components/molecules/BranchSelector/BranchSelector";
-import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
-import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
 import { meetRoleRequirement } from "redux/api/environment-permissions/environment-permissions.types";
 import ConfigurationViewer from "components/organisms/ConfigurationViewer/ConfigurationViewer";
+import ShowSecretsButton from "components/molecules/ShowSecretsButton/ShowSecretsButton";
+import DownloadEnvironmentValuesButton from "components/molecules/DownloadEnvironmentValuesButton/DownloadEnvironmentValuesButton";
+import UploadEnvironmentValuesButton from "components/molecules/UploadEnvironmentValuesButton/UploadEnvironmentValuesButton";
+import { ConfigurationValues } from "redux/api/values/values.types";
 
 function Configuration() {
   const { formatMessage } = useIntl();
@@ -26,6 +28,7 @@ function Configuration() {
     string | undefined
   >(undefined);
   const [showSecrets, setShowSecrets] = useState<boolean>(false);
+  const [editorValues, setEditorValues] = useState<ConfigurationValues>({});
 
   const { data: configurationData, isLoading } = useGetConfigurationQuery(
     {
@@ -178,23 +181,31 @@ function Configuration() {
                     "readSecret",
                     currentUserEnvironmentRole
                   ) && (
-                    <IconButton
-                      onClick={() => setShowSecrets(!showSecrets)}
-                      sx={{
-                        marginLeft: (theme) => theme.spacing(1),
-                        width: "42px",
-                      }}
-                    >
-                      {showSecrets ? (
-                        <VisibilityOutlinedIcon
-                          sx={{ fontSize: "20px !important" }}
-                        />
-                      ) : (
-                        <VisibilityOffOutlinedIcon
-                          sx={{ fontSize: "20px !important" }}
-                        />
-                      )}
-                    </IconButton>
+                    <ShowSecretsButton
+                      showSecrets={showSecrets}
+                      setShowSecrets={setShowSecrets}
+                      sx={{ marginLeft: (theme) => theme.spacing(1) }}
+                    />
+                  )}
+                  {meetRoleRequirement(
+                    "readSecret",
+                    currentUserEnvironmentRole
+                  ) && (
+                    <DownloadEnvironmentValuesButton
+                      configuration={configuration}
+                      environment={selectedEnvironment}
+                      branch={selectedBranchName}
+                      sx={{ marginLeft: (theme) => theme.spacing(1) }}
+                    />
+                  )}
+                  {meetRoleRequirement("write", currentUserEnvironmentRole) && (
+                    <UploadEnvironmentValuesButton
+                      editorValues={editorValues}
+                      setEditorValues={setEditorValues}
+                      configuration={configuration}
+                      branch={selectedBranchName}
+                      sx={{ marginLeft: (theme) => theme.spacing(1) }}
+                    />
                   )}
                 </>
               )}
@@ -212,6 +223,8 @@ function Configuration() {
           {selectedEnvironment &&
             meetRoleRequirement("write", currentUserEnvironmentRole) && (
               <ConfigurationEditor
+                editorValues={editorValues}
+                setEditorValues={setEditorValues}
                 configuration={configuration}
                 environment={selectedEnvironment}
                 branch={selectedBranchName}

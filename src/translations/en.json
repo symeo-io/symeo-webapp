@@ -19,6 +19,9 @@
     "reset": "Reset",
     "errors": {
       "contract-not-found": "No contract file found at {filePath} on branch {branchName}"
+    },
+    "dropzone": {
+      "message": "Drop your values file here"
     }
   },
   "create-configuration-form": {
