@@ -70,7 +70,7 @@ function ConfigurationEditorDropZone({
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          pointerEvents: isDragActive ? "none" : "unset",
+          pointerEvents: isDragActive ? "unset" : "none",
           userSelect: "none",
           transition: "opacity 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
           color: colors.secondary.shape,
