@@ -16,6 +16,7 @@ import { useIntl } from "react-intl";
 import { Environment } from "redux/api/environments/environments.types";
 import { colors } from "theme/colors";
 import { initializeConfig } from "services/contract/contract.utils";
+import ConfigurationEditorDropZone from "components/molecules/ConfigurationEditorDropZone/ConfigurationEditorDropZone";
 
 export type ConfigurationEditorProps = PropsWithSx & {
   editorValues: ConfigurationValues;
@@ -106,77 +107,90 @@ function ConfigurationEditor({
 
   return (
     <>
-      <Box
+      <ConfigurationEditorDropZone
+        editorValues={editorValues}
+        setEditorValues={setEditorValues}
+        contract={contract}
         sx={{
+          flex: 1,
           display: "flex",
           flexDirection: "column",
-          backgroundColor: "#131626",
           borderRadius: "8px",
-          fontFamily: "Fira Mono",
-          color: "#A06CE4",
-          padding: (theme) => theme.spacing(3),
-          paddingLeft: (theme) => theme.spacing(1),
-          overflow: "auto",
-
-          "&::-webkit-scrollbar": {
-            width: "18px",
-          },
-          "&::-webkit-scrollbar-track": {
-            background: "transparent",
-            padding: "5px",
-          },
-          "&::-webkit-scrollbar-thumb": {
-            background: "rgba(255,255,255,0.3)",
-            borderRadius: "9999px",
-            border: "6px solid rgba(0, 0, 0, 0)",
-            backgroundClip: "padding-box",
-          },
+          overflow: "hidden",
 
           ...sx,
         }}
       >
-        {(isLoadingContract ||
-          isFetchingContract ||
-          isLoadingValues ||
-          isFetchingValues) && <LoadingBox sx={{ flex: 1 }} />}
-        {!isFetchingContract &&
-          !isFetchingValues &&
-          configurationContractError && (
-            <Box
-              sx={{
-                color: colors.error.text,
-                flex: 1,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              {formatMessage(
-                { id: "configuration.errors.contract-not-found" },
-                {
-                  filePath: configuration.contractFilePath,
-                  branchName: branch ?? configuration.branch,
-                }
-              )}
-            </Box>
-          )}
-        {!isFetchingContract &&
-          !isFetchingValues &&
-          !configurationContractError &&
-          contract &&
-          values &&
-          Object.keys(contract).map((propertyName) => (
-            <ConfigurationEditorProperty
-              key={propertyName}
-              propertyName={propertyName}
-              property={contract[propertyName]}
-              values={editorValues}
-              originalValues={values}
-              setValues={setEditorValues}
-              showSecrets={showSecrets}
-            />
-          ))}
-      </Box>
+        <Box
+          sx={{
+            flex: 1,
+            display: "flex",
+            flexDirection: "column",
+            backgroundColor: "#131626",
+            fontFamily: "Fira Mono",
+            color: "#A06CE4",
+            padding: (theme) => theme.spacing(3),
+            paddingLeft: (theme) => theme.spacing(1),
+            overflow: "auto",
+
+            "&::-webkit-scrollbar": {
+              width: "18px",
+            },
+            "&::-webkit-scrollbar-track": {
+              background: "transparent",
+              padding: "5px",
+            },
+            "&::-webkit-scrollbar-thumb": {
+              background: "rgba(255,255,255,0.3)",
+              borderRadius: "9999px",
+              border: "6px solid rgba(0, 0, 0, 0)",
+              backgroundClip: "padding-box",
+            },
+          }}
+        >
+          {(isLoadingContract ||
+            isFetchingContract ||
+            isLoadingValues ||
+            isFetchingValues) && <LoadingBox sx={{ flex: 1 }} />}
+          {!isFetchingContract &&
+            !isFetchingValues &&
+            configurationContractError && (
+              <Box
+                sx={{
+                  color: colors.error.text,
+                  flex: 1,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                {formatMessage(
+                  { id: "configuration.errors.contract-not-found" },
+                  {
+                    filePath: configuration.contractFilePath,
+                    branchName: branch ?? configuration.branch,
+                  }
+                )}
+              </Box>
+            )}
+          {!isFetchingContract &&
+            !isFetchingValues &&
+            !configurationContractError &&
+            contract &&
+            values &&
+            Object.keys(contract).map((propertyName) => (
+              <ConfigurationEditorProperty
+                key={propertyName}
+                propertyName={propertyName}
+                property={contract[propertyName]}
+                values={editorValues}
+                originalValues={values}
+                setValues={setEditorValues}
+                showSecrets={showSecrets}
+              />
+            ))}
+        </Box>
+      </ConfigurationEditorDropZone>
       <Box
         sx={{
           marginTop: (theme) => theme.spacing(2),

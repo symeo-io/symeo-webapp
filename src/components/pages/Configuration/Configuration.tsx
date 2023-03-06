@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { Box, IconButton, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { useIntl } from "react-intl";
 import DataObjectIcon from "@mui/icons-material/DataObject";
 import { useGetConfigurationQuery } from "redux/api/configurations/configurations.api";
@@ -11,8 +11,6 @@ import { Environment } from "redux/api/environments/environments.types";
 import EnvironmentSettingsButton from "components/molecules/EnvironmentSettingsButton/EnvironmentSettingsButton";
 import { useGetRepositoryBranchesQuery } from "redux/api/repositories/repositories.api";
 import BranchSelector from "components/molecules/BranchSelector/BranchSelector";
-import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
-import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
 import { meetRoleRequirement } from "redux/api/environment-permissions/environment-permissions.types";
 import ConfigurationViewer from "components/organisms/ConfigurationViewer/ConfigurationViewer";
 import ShowSecretsButton from "components/molecules/ShowSecretsButton/ShowSecretsButton";
