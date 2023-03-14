@@ -1,13 +1,9 @@
-import React, { useCallback, useEffect, useMemo } from "react";
+import React, { useCallback, useEffect } from "react";
 import { Box } from "@mui/material";
-import { useGetConfigurationContractQuery } from "redux/api/configurations/configurations.api";
 import { PropsWithSx } from "types/PropsWithSx";
 import { Configuration } from "redux/api/configurations/configurations.types";
 import LoadingBox from "components/molecules/LoadingBox/LoadingBox";
-import {
-  useGetValuesForEnvironmentQuery,
-  useSetValuesForEnvironmentMutation,
-} from "redux/api/values/values.api";
+import { useSetValuesForEnvironmentMutation } from "redux/api/values/values.api";
 import { ConfigurationValues } from "redux/api/values/values.types";
 import ConfigurationEditorProperty from "components/molecules/ConfigurationEditorProperty/ConfigurationEditorProperty";
 import { cloneDeep } from "lodash";
@@ -15,11 +11,14 @@ import Button from "components/atoms/Button/Button";
 import { useIntl } from "react-intl";
 import { Environment } from "redux/api/environments/environments.types";
 import { colors } from "theme/colors";
-import { initializeConfig } from "services/contract/contract.utils";
 import ConfigurationEditorDropZone from "components/molecules/ConfigurationEditorDropZone/ConfigurationEditorDropZone";
+import { useContract } from "components/pages/Configuration/useContract";
+import { useValues } from "components/pages/Configuration/useValues";
+import { buildModifiedValuesObject } from "components/molecules/ConfigurationEditorProperty/utils";
 
 export type ConfigurationEditorProps = PropsWithSx & {
   editorValues: ConfigurationValues;
+  valuesWithSecrets: ConfigurationValues | undefined;
   setEditorValues: (values: ConfigurationValues) => void;
   configuration: Configuration;
   environment: Environment;
@@ -29,6 +28,7 @@ export type ConfigurationEditorProps = PropsWithSx & {
 
 function ConfigurationEditor({
   editorValues,
+  valuesWithSecrets,
   setEditorValues,
   configuration,
   environment,
@@ -41,39 +41,25 @@ function ConfigurationEditor({
     useSetValuesForEnvironmentMutation();
 
   const {
-    data: configurationContractData,
+    contract,
     error: configurationContractError,
     isLoading: isLoadingContract,
     isFetching: isFetchingContract,
-  } = useGetConfigurationContractQuery({
-    configurationId: configuration.id,
-    repositoryVcsId: configuration.repository.vcsId,
+  } = useContract({
+    configuration,
     branch,
   });
 
   const {
-    data: valuesData,
+    values,
     isLoading: isLoadingValues,
     isFetching: isFetchingValues,
     isSuccess: isSuccessValues,
-  } = useGetValuesForEnvironmentQuery({
-    configurationId: configuration.id,
-    repositoryVcsId: configuration.repository.vcsId,
-    environmentId: environment.id,
+  } = useValues({
+    configuration,
+    environment,
+    contract,
   });
-
-  const contract = useMemo(
-    () => configurationContractData?.contract,
-    [configurationContractData?.contract]
-  );
-
-  const values = useMemo(
-    () =>
-      valuesData?.values &&
-      contract &&
-      initializeConfig(contract, valuesData.values),
-    [contract, valuesData]
-  );
 
   const reset = useCallback(
     () => values && setEditorValues(cloneDeep(values)),
@@ -81,22 +67,28 @@ function ConfigurationEditor({
   );
 
   const save = useCallback(async () => {
-    if (isSuccessValues && !isFetchingValues) {
+    if (isSuccessValues && !isFetchingValues && !isLoadingSetValues) {
+      const valuesToSave = buildModifiedValuesObject(editorValues, values);
+
       setValues({
         configurationId: configuration.id,
         repositoryVcsId: configuration.repository.vcsId,
         environmentId: environment.id,
-        values: editorValues,
+        values: valuesToSave,
+        branch,
       });
     }
   }, [
+    branch,
     configuration.id,
     configuration.repository.vcsId,
     editorValues,
     environment.id,
     isFetchingValues,
+    isLoadingSetValues,
     isSuccessValues,
     setValues,
+    values,
   ]);
 
   useEffect(() => {
@@ -184,6 +176,7 @@ function ConfigurationEditor({
                 propertyName={propertyName}
                 property={contract[propertyName]}
                 values={editorValues}
+                valuesWithSecrets={valuesWithSecrets}
                 originalValues={values}
                 setValues={setEditorValues}
                 showSecrets={showSecrets}

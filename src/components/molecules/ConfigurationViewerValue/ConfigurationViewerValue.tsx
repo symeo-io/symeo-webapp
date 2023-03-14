@@ -1,21 +1,28 @@
 import { PropsWithSx } from "types/PropsWithSx";
 import { ConfigurationProperty } from "redux/api/configurations/configurations.types";
 import { Box } from "@mui/material";
-import React from "react";
+import React, { useMemo } from "react";
 import { getInputColorForProperty } from "components/molecules/ConfigurationEditorInput/utils";
 
 export type ConfigurationViewerValueProps = PropsWithSx & {
   property: ConfigurationProperty;
   value: unknown;
+  secretValue: unknown;
   showSecrets?: boolean;
 };
 
 function ConfigurationViewerValue({
   property,
   value,
+  secretValue,
   showSecrets,
   sx,
 }: ConfigurationViewerValueProps) {
+  const valueToDisplay = useMemo(
+    () => (property.secret && showSecrets && secretValue ? secretValue : value),
+    [property.secret, secretValue, showSecrets, value]
+  );
+
   return (
     <Box
       sx={{
@@ -26,13 +33,8 @@ function ConfigurationViewerValue({
         ...sx,
       }}
     >
-      {!!value &&
-        property.secret &&
-        !showSecrets &&
-        "*".repeat(value.toString().length)}
-      {!!value &&
-        (!property.secret || showSecrets) &&
-        (value as boolean | number | string | undefined)?.toString()}
+      {!!valueToDisplay &&
+        (valueToDisplay as boolean | number | string | undefined)?.toString()}
     </Box>
   );
 }

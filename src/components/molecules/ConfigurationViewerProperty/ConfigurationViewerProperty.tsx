@@ -20,6 +20,7 @@ export type ConfigurationViewerPropertyProps = PropsWithSx & {
   property: ConfigurationContract | ConfigurationProperty;
   path?: string;
   values: ConfigurationValues;
+  valuesWithSecrets: ConfigurationValues | undefined;
   showSecrets?: boolean;
 };
 
@@ -28,6 +29,7 @@ function ConfigurationViewerProperty({
   property,
   path = propertyName,
   values,
+  valuesWithSecrets,
   showSecrets = false,
   sx,
 }: ConfigurationViewerPropertyProps) {
@@ -39,6 +41,14 @@ function ConfigurationViewerProperty({
   const getValueByPath = useCallback(
     (path: string) => getObjectValueByPath(values, path),
     [values]
+  );
+
+  const getSecretValueByPath = useCallback(
+    (path: string) =>
+      valuesWithSecrets
+        ? getObjectValueByPath(valuesWithSecrets, path)
+        : undefined,
+    [valuesWithSecrets]
   );
 
   return (
@@ -63,6 +73,7 @@ function ConfigurationViewerProperty({
       {configurationProperty && (
         <ConfigurationViewerValue
           value={getValueByPath(path)}
+          secretValue={getSecretValueByPath(path)}
           property={property as ConfigurationProperty}
           showSecrets={showSecrets}
         />
@@ -75,6 +86,7 @@ function ConfigurationViewerProperty({
             property={(property as ConfigurationContract)[subPropertyName]}
             path={path + "." + subPropertyName}
             values={values}
+            valuesWithSecrets={valuesWithSecrets}
             showSecrets={showSecrets}
             sx={sx}
           />

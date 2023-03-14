@@ -9,10 +9,12 @@ import { useIntl } from "react-intl";
 import { Environment } from "redux/api/environments/environments.types";
 import { colors } from "theme/colors";
 import ConfigurationViewerProperty from "components/molecules/ConfigurationViewerProperty/ConfigurationViewerProperty";
+import { ConfigurationValues } from "redux/api/values/values.types";
 
 export type ConfigurationViewerProps = PropsWithSx & {
   configuration: Configuration;
   environment: Environment;
+  valuesWithSecrets: ConfigurationValues | undefined;
   branch?: string;
   showSecrets?: boolean;
 };
@@ -20,6 +22,7 @@ export type ConfigurationViewerProps = PropsWithSx & {
 function ConfigurationViewer({
   configuration,
   environment,
+  valuesWithSecrets,
   branch,
   showSecrets = false,
   sx,
@@ -120,6 +123,7 @@ function ConfigurationViewer({
               propertyName={propertyName}
               property={contract[propertyName]}
               values={values}
+              valuesWithSecrets={valuesWithSecrets}
               showSecrets={showSecrets}
             />
           ))}

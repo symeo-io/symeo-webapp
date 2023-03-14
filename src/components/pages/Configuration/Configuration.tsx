@@ -1,22 +1,12 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { Box, Typography } from "@mui/material";
 import { useIntl } from "react-intl";
 import DataObjectIcon from "@mui/icons-material/DataObject";
 import { useGetConfigurationQuery } from "redux/api/configurations/configurations.api";
 import { useParams } from "react-router-dom";
 import LoadingBox from "components/molecules/LoadingBox/LoadingBox";
-import ConfigurationEditor from "components/organisms/ConfigurationEditor/ConfigurationEditor";
-import EnvironmentSelector from "components/molecules/EnvironmentSelector/EnvironmentSelector";
 import { Environment } from "redux/api/environments/environments.types";
-import EnvironmentSettingsButton from "components/molecules/EnvironmentSettingsButton/EnvironmentSettingsButton";
-import { useGetRepositoryBranchesQuery } from "redux/api/repositories/repositories.api";
-import BranchSelector from "components/molecules/BranchSelector/BranchSelector";
-import { meetRoleRequirement } from "redux/api/environment-permissions/environment-permissions.types";
-import ConfigurationViewer from "components/organisms/ConfigurationViewer/ConfigurationViewer";
-import ShowSecretsButton from "components/molecules/ShowSecretsButton/ShowSecretsButton";
-import DownloadEnvironmentValuesButton from "components/molecules/DownloadEnvironmentValuesButton/DownloadEnvironmentValuesButton";
-import UploadEnvironmentValuesButton from "components/molecules/UploadEnvironmentValuesButton/UploadEnvironmentValuesButton";
-import { ConfigurationValues } from "redux/api/values/values.types";
+import ConfigurationContent from "components/organisms/ConfigurationContent/ConfigurationContent";
 
 function Configuration() {
   const { formatMessage } = useIntl();
@@ -24,11 +14,6 @@ function Configuration() {
   const [selectedEnvironmentId, setSelectedEnvironmentId] = useState<
     string | undefined
   >(undefined);
-  const [selectedBranchName, setSelectedBranchName] = useState<
-    string | undefined
-  >(undefined);
-  const [showSecrets, setShowSecrets] = useState<boolean>(false);
-  const [editorValues, setEditorValues] = useState<ConfigurationValues>({});
 
   const { data: configurationData, isLoading } = useGetConfigurationQuery(
     {
@@ -36,12 +21,6 @@ function Configuration() {
       repositoryVcsId: (repositoryVcsId && parseInt(repositoryVcsId)) as number,
     },
     { skip: !repositoryVcsId || !configurationId }
-  );
-  const { data: branchesData } = useGetRepositoryBranchesQuery(
-    {
-      repositoryVcsId: (repositoryVcsId && parseInt(repositoryVcsId)) as number,
-    },
-    { skip: !repositoryVcsId }
   );
 
   const configuration = useMemo(
@@ -70,16 +49,11 @@ function Configuration() {
     [currentUserEnvironmentPermission?.environmentPermissionRole]
   );
 
-  const branches = useMemo(
-    () => branchesData?.branches ?? [],
-    [branchesData?.branches]
-  );
-
   const selectedEnvironment = useMemo(
     () =>
       configuration?.environments.find(
         (environment) => environment.id === selectedEnvironmentId
-      ) ?? null,
+      ) ?? undefined,
     [configuration?.environments, selectedEnvironmentId]
   );
 
@@ -87,30 +61,6 @@ function Configuration() {
     (environment: Environment) => setSelectedEnvironmentId(environment.id),
     []
   );
-
-  const sortedEnvironments = useMemo(
-    () =>
-      (configuration &&
-        [...configuration.environments].sort((a, b) => {
-          return (
-            new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
-          );
-        })) ??
-      [],
-    [configuration]
-  );
-
-  useEffect(() => {
-    if (configuration && !selectedEnvironment) {
-      setSelectedEnvironmentId(sortedEnvironments[0]?.id);
-    }
-  }, [configuration, selectedEnvironment, sortedEnvironments]);
-
-  useEffect(() => {
-    if (configuration && !selectedBranchName) {
-      setSelectedBranchName(configuration.branch);
-    }
-  }, [configuration, selectedBranchName]);
 
   return (
     <Box
@@ -147,101 +97,13 @@ function Configuration() {
               )}
             </Typography>
           </Box>
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              marginTop: (theme) => theme.spacing(2),
-            }}
-          >
-            <Box sx={{ flex: 1, display: "flex" }}>
-              {selectedEnvironment && (
-                <>
-                  <EnvironmentSelector
-                    value={selectedEnvironment}
-                    onChange={setSelectedEnvironment}
-                    environments={sortedEnvironments}
-                    repositoryVcsId={configuration.repository.vcsId}
-                    configurationName={configuration.name}
-                    configurationId={configuration.id}
-                    isUserAdmin={isCurrentUserAdmin}
-                  />
-                  {meetRoleRequirement("admin", currentUserEnvironmentRole) && (
-                    <EnvironmentSettingsButton
-                      repositoryVcsId={configuration.repository.vcsId}
-                      configurationId={configuration.id}
-                      environment={selectedEnvironment}
-                      sx={{
-                        marginLeft: (theme) => theme.spacing(1),
-                        width: "42px",
-                      }}
-                    />
-                  )}
-                  {meetRoleRequirement(
-                    "readSecret",
-                    currentUserEnvironmentRole
-                  ) && (
-                    <ShowSecretsButton
-                      showSecrets={showSecrets}
-                      setShowSecrets={setShowSecrets}
-                      sx={{ marginLeft: (theme) => theme.spacing(1) }}
-                    />
-                  )}
-                  {meetRoleRequirement(
-                    "readSecret",
-                    currentUserEnvironmentRole
-                  ) && (
-                    <DownloadEnvironmentValuesButton
-                      configuration={configuration}
-                      environment={selectedEnvironment}
-                      branch={selectedBranchName}
-                      sx={{ marginLeft: (theme) => theme.spacing(1) }}
-                    />
-                  )}
-                  {meetRoleRequirement("write", currentUserEnvironmentRole) && (
-                    <UploadEnvironmentValuesButton
-                      editorValues={editorValues}
-                      setEditorValues={setEditorValues}
-                      configuration={configuration}
-                      branch={selectedBranchName}
-                      sx={{ marginLeft: (theme) => theme.spacing(1) }}
-                    />
-                  )}
-                </>
-              )}
-            </Box>
-            <Box>
-              {selectedBranchName && (
-                <BranchSelector
-                  value={selectedBranchName}
-                  onChange={setSelectedBranchName}
-                  branches={branches}
-                />
-              )}
-            </Box>
-          </Box>
-          {selectedEnvironment &&
-            meetRoleRequirement("write", currentUserEnvironmentRole) && (
-              <ConfigurationEditor
-                editorValues={editorValues}
-                setEditorValues={setEditorValues}
-                configuration={configuration}
-                environment={selectedEnvironment}
-                branch={selectedBranchName}
-                showSecrets={showSecrets}
-                sx={{ marginTop: (theme) => theme.spacing(1), flex: 1 }}
-              />
-            )}
-          {selectedEnvironment &&
-            !meetRoleRequirement("write", currentUserEnvironmentRole) && (
-              <ConfigurationViewer
-                configuration={configuration}
-                environment={selectedEnvironment}
-                branch={selectedBranchName}
-                showSecrets={showSecrets}
-                sx={{ marginTop: (theme) => theme.spacing(1), flex: 1 }}
-              />
-            )}
+          <ConfigurationContent
+            configuration={configuration}
+            isCurrentUserAdmin={isCurrentUserAdmin}
+            currentUserEnvironmentRole={currentUserEnvironmentRole}
+            selectedEnvironment={selectedEnvironment}
+            setSelectedEnvironment={setSelectedEnvironment}
+          />
         </>
       )}
     </Box>
