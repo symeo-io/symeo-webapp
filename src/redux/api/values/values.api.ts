@@ -18,6 +18,17 @@ const valuesQueryApi = api.injectEndpoints({
         { type: "Values", id: environmentId },
       ],
     }),
+    getValuesForEnvironmentWithSecrets: builder.query<
+      GetEnvironmentValuesResponse,
+      GetEnvironmentValuesInput
+    >({
+      query: ({ configurationId, repositoryVcsId, environmentId }) => ({
+        url: `/api/v1/configurations/github/${repositoryVcsId}/${configurationId}/environments/${environmentId}/values/secrets`,
+      }),
+      providesTags: (result, error, { environmentId }) => [
+        { type: "ValuesSecrets", id: environmentId },
+      ],
+    }),
   }),
 });
 
@@ -36,5 +47,8 @@ const valuesMutationApi = api.injectEndpoints({
   }),
 });
 
-export const { useGetValuesForEnvironmentQuery } = valuesQueryApi;
+export const {
+  useGetValuesForEnvironmentQuery,
+  useLazyGetValuesForEnvironmentWithSecretsQuery,
+} = valuesQueryApi;
 export const { useSetValuesForEnvironmentMutation } = valuesMutationApi;

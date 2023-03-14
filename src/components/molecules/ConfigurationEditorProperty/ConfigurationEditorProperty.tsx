@@ -24,6 +24,7 @@ export type ConfigurationEditorPropertyProps = PropsWithSx & {
   property: ConfigurationContract | ConfigurationProperty;
   path?: string;
   values: ConfigurationValues;
+  valuesWithSecrets: ConfigurationValues | undefined;
   setValues: (values: ConfigurationValues) => void;
   originalValues: ConfigurationValues;
   showSecrets?: boolean;
@@ -34,6 +35,7 @@ function ConfigurationEditorProperty({
   property,
   path = propertyName,
   values,
+  valuesWithSecrets,
   setValues,
   originalValues,
   showSecrets = false,
@@ -53,6 +55,14 @@ function ConfigurationEditorProperty({
   const getValueByPath = useCallback(
     (path: string) => getObjectValueByPath(values, path),
     [values]
+  );
+
+  const getSecretValueByPath = useCallback(
+    (path: string) =>
+      valuesWithSecrets
+        ? getObjectValueByPath(valuesWithSecrets, path)
+        : undefined,
+    [valuesWithSecrets]
   );
 
   const setValueByPath = useCallback(
@@ -96,8 +106,10 @@ function ConfigurationEditorProperty({
       {configurationProperty && (
         <ConfigurationEditorInput
           value={getValueByPath(path)}
+          secretValue={getSecretValueByPath(path)}
           onChange={(newValue: unknown) => setValueByPath(path, newValue)}
           property={property as ConfigurationProperty}
+          isModified={isModified}
           showSecrets={showSecrets}
         />
       )}
@@ -109,6 +121,7 @@ function ConfigurationEditorProperty({
             property={(property as ConfigurationContract)[subPropertyName]}
             path={path + "." + subPropertyName}
             values={values}
+            valuesWithSecrets={valuesWithSecrets}
             setValues={setValues}
             originalValues={originalValues}
             showSecrets={showSecrets}

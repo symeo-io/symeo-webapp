@@ -103,6 +103,9 @@ const configurationsMutationApi = api.injectEndpoints({
         method: "PATCH",
         body,
       }),
+      invalidatesTags: (_, __, { configurationId }) => [
+        { type: "ConfigurationContract", id: configurationId },
+      ],
       async onQueryStarted(
         { repositoryVcsId, configurationId, ...patch },
         { dispatch, queryFulfilled }
