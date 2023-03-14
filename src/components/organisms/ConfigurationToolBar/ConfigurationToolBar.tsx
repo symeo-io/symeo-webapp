@@ -125,6 +125,7 @@ function ConfigurationToolBar({
                 setShowSecrets={setShowSecrets}
                 valuesWithSecrets={valuesWithSecrets}
                 setValuesWithSecrets={setValuesWithSecrets}
+                selectedBranchName={selectedBranchName}
                 sx={{ marginLeft: (theme) => theme.spacing(1) }}
               />
             )}

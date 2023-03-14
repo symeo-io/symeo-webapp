@@ -11,8 +11,9 @@ const valuesQueryApi = api.injectEndpoints({
       GetEnvironmentValuesResponse,
       GetEnvironmentValuesInput
     >({
-      query: ({ configurationId, repositoryVcsId, environmentId }) => ({
+      query: ({ configurationId, repositoryVcsId, environmentId, branch }) => ({
         url: `/api/v1/configurations/github/${repositoryVcsId}/${configurationId}/environments/${environmentId}/values`,
+        params: { branch },
       }),
       providesTags: (result, error, { environmentId }) => [
         { type: "Values", id: environmentId },
@@ -22,8 +23,9 @@ const valuesQueryApi = api.injectEndpoints({
       GetEnvironmentValuesResponse,
       GetEnvironmentValuesInput
     >({
-      query: ({ configurationId, repositoryVcsId, environmentId }) => ({
+      query: ({ configurationId, repositoryVcsId, environmentId, branch }) => ({
         url: `/api/v1/configurations/github/${repositoryVcsId}/${configurationId}/environments/${environmentId}/values/secrets`,
+        params: { branch },
       }),
       providesTags: (result, error, { environmentId }) => [
         { type: "ValuesSecrets", id: environmentId },

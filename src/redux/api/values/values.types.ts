@@ -6,6 +6,7 @@ export type GetEnvironmentValuesInput = {
   repositoryVcsId: number;
   configurationId: string;
   environmentId: string;
+  branch?: string;
 };
 
 export type GetEnvironmentValuesResponse = {
@@ -17,4 +18,5 @@ export type SetEnvironmentValuesInput = {
   configurationId: string;
   environmentId: string;
   values: ConfigurationValues;
+  branch?: string;
 };

@@ -14,6 +14,7 @@ import { colors } from "theme/colors";
 import ConfigurationEditorDropZone from "components/molecules/ConfigurationEditorDropZone/ConfigurationEditorDropZone";
 import { useContract } from "components/pages/Configuration/useContract";
 import { useValues } from "components/pages/Configuration/useValues";
+import { buildModifiedValuesObject } from "components/molecules/ConfigurationEditorProperty/utils";
 
 export type ConfigurationEditorProps = PropsWithSx & {
   editorValues: ConfigurationValues;
@@ -66,22 +67,28 @@ function ConfigurationEditor({
   );
 
   const save = useCallback(async () => {
-    if (isSuccessValues && !isFetchingValues) {
+    if (isSuccessValues && !isFetchingValues && !isLoadingSetValues) {
+      const valuesToSave = buildModifiedValuesObject(editorValues, values);
+
       setValues({
         configurationId: configuration.id,
         repositoryVcsId: configuration.repository.vcsId,
         environmentId: environment.id,
-        values: editorValues,
+        values: valuesToSave,
+        branch,
       });
     }
   }, [
+    branch,
     configuration.id,
     configuration.repository.vcsId,
     editorValues,
     environment.id,
     isFetchingValues,
+    isLoadingSetValues,
     isSuccessValues,
     setValues,
+    values,
   ]);
 
   useEffect(() => {

@@ -16,6 +16,7 @@ export type ShowSecretsButtonProps = PropsWithSx & {
   setShowSecrets: (value: boolean) => void;
   valuesWithSecrets: ConfigurationValues | undefined;
   setValuesWithSecrets: (values: ConfigurationValues) => void;
+  selectedBranchName?: string;
 };
 function ShowSecretsButton({
   configuration,
@@ -24,6 +25,7 @@ function ShowSecretsButton({
   setShowSecrets,
   valuesWithSecrets,
   setValuesWithSecrets,
+  selectedBranchName,
   sx,
 }: ShowSecretsButtonProps) {
   const [fetchValuesWithSecrets, { isLoading }] =
@@ -35,6 +37,7 @@ function ShowSecretsButton({
         configurationId: configuration.id,
         repositoryVcsId: configuration.repository.vcsId,
         environmentId: environment.id,
+        branch: selectedBranchName,
       });
 
       if (data) {
