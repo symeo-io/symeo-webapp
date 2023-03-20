@@ -18,8 +18,14 @@ const routes = {
     sidebar: true,
     element: ProjectsPage,
   } as Route,
-  projects: {
+  configurations: {
     path: "/:organizationName",
+    isSecured: true,
+    sidebar: true,
+    element: ProjectsPage,
+  } as Route,
+  projects: {
+    path: "/projects/:organizationName",
     isSecured: true,
     sidebar: true,
     element: ProjectsPage,

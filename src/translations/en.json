@@ -136,6 +136,7 @@
     }
   },
   "sidebar": {
+    "configurations-link-label": "Configurations",
     "projects-link-label": "Projects",
     "documentation-link-label": "Documentation",
     "organization-selector": {
