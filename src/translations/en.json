@@ -1,5 +1,8 @@
 {
   "name": "Symeo",
+  "configurations": {
+    "title": "Configurations"
+  },
   "projects": {
     "title": "Projects",
     "repositories": {

@@ -1,5 +1,6 @@
 import React from "react";
 import ProjectsPage from "components/pages/Projects/Projects";
+import ConfigurationsPage from "components/pages/Configurations/Configurations";
 import ConfigurationPage from "components/pages/Configuration/Configuration";
 
 export type Route = {
@@ -22,7 +23,7 @@ const routes = {
     path: "/:organizationName",
     isSecured: true,
     sidebar: true,
-    element: ProjectsPage,
+    element: ConfigurationsPage,
   } as Route,
   projects: {
     path: "/projects/:organizationName",
