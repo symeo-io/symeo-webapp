@@ -8,12 +8,12 @@ import { colors } from "theme/colors";
 import { useGetRepositoriesQuery } from "redux/api/repositories/repositories.api";
 import LoadingBox from "components/molecules/LoadingBox/LoadingBox";
 import { useSelectedOrganization } from "hooks/useSelectedOrganization";
-import AddConfigurationButton from "components/molecules/AddConfigurationButton/AddConfigurationButton";
-import ConfigurationLink from "components/molecules/ConfigurationLink/ConfigurationLink";
+import InternalLink from "components/atoms/InternalLink/InternalLink";
+import ConfigurationListEmptyState from "components/organisms/ConfigurationListEmptyState/ConfigurationListEmptyState";
 
-export type RepositoryListProps = PropsWithSx;
+export type ConfigurationListProps = PropsWithSx;
 
-function RepositoryList({ sx }: RepositoryListProps) {
+function ConfigurationList({ sx }: ConfigurationListProps) {
   const { formatMessage } = useIntl();
   const [searchValue, setSearchValue] = useState<string>("");
 
@@ -26,7 +26,7 @@ function RepositoryList({ sx }: RepositoryListProps) {
   const { selectedOrganization } = useSelectedOrganization();
   const { data: repositoriesData, isLoading } = useGetRepositoriesQuery();
 
-  const repositories = useMemo(
+  const configurations = useMemo(
     () =>
       repositoriesData?.repositories
         .filter(
@@ -37,7 +37,8 @@ function RepositoryList({ sx }: RepositoryListProps) {
             new Date(b.pushedAt ?? "").getTime() -
             new Date(a.pushedAt ?? "").getTime()
           );
-        }) ?? [],
+        })
+        .flatMap((repository) => repository.configurations ?? []) ?? [],
     [repositoriesData?.repositories, selectedOrganization?.vcsId]
   );
 
@@ -50,14 +51,19 @@ function RepositoryList({ sx }: RepositoryListProps) {
       }}
     >
       {isLoading && <LoadingBox sx={{ flex: 1 }} />}
-      {!isLoading && (
+      {!isLoading && configurations.length === 0 && (
+        <ConfigurationListEmptyState
+          sx={{ marginTop: (theme) => theme.spacing(5) }}
+        />
+      )}
+      {!isLoading && configurations.length > 0 && (
         <>
           <TextField
             value={searchValue}
             onChange={handleSearchChange}
             sx={{ width: "320px", marginTop: 0 }}
             placeholder={formatMessage({
-              id: "projects.repositories.search-placeholder",
+              id: "configurations.search-placeholder",
             })}
             InputProps={{
               startAdornment: (
@@ -84,29 +90,19 @@ function RepositoryList({ sx }: RepositoryListProps) {
             >
               <Box>
                 {formatMessage({
-                  id: "projects.repositories.columns.repository",
-                })}
-              </Box>
-              <Box>
-                {formatMessage({
-                  id: "projects.repositories.columns.configurations",
-                })}
-              </Box>
-              <Box>
-                {formatMessage({
-                  id: "projects.repositories.columns.actions",
+                  id: "configurations.columns.configuration",
                 })}
               </Box>
             </Box>
-            {repositories
-              .filter((repository) =>
-                repository.name
+            {configurations
+              .filter((configuration) =>
+                configuration.name
                   .toLowerCase()
                   .includes(searchValue.toLowerCase())
               )
-              .map((repository) => (
+              .map((configuration) => (
                 <Box
-                  key={repository.vcsId}
+                  key={configuration.id}
                   sx={{
                     display: "grid",
                     gridTemplateColumns: "250px 1fr 150px",
@@ -122,20 +118,25 @@ function RepositoryList({ sx }: RepositoryListProps) {
                       fontWeight: 500,
                     }}
                   >
-                    {repository.name}
-                  </Box>
-                  <Box sx={{ display: "flex", flexWrap: "wrap" }}>
-                    {repository.configurations?.map((configuration) => (
-                      <ConfigurationLink
-                        sx={{ margin: (theme) => theme.spacing(0.5) }}
-                        key={configuration.id}
-                        configuration={configuration}
-                        isUserAdmin={repository.isCurrentUserAdmin}
-                      />
-                    ))}
-                  </Box>
-                  <Box>
-                    <AddConfigurationButton repository={repository} />
+                    <InternalLink
+                      to="configuration"
+                      params={{
+                        organizationName: configuration.owner.name,
+                        repositoryVcsId: configuration.repository.vcsId,
+                        configurationId: configuration.id,
+                      }}
+                      sx={{
+                        textDecoration: "none",
+                        color: colors.primary.text,
+
+                        "&:hover": {
+                          textDecoration: "underline",
+                          color: colors.primary.textHover,
+                        },
+                      }}
+                    >
+                      {configuration.name}
+                    </InternalLink>
                   </Box>
                 </Box>
               ))}
@@ -146,4 +147,4 @@ function RepositoryList({ sx }: RepositoryListProps) {
   );
 }
 
-export default RepositoryList;
+export default ConfigurationList;

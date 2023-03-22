@@ -3,6 +3,7 @@ import { Box, Typography } from "@mui/material";
 import { useIntl } from "react-intl";
 import DataObjectIcon from "@mui/icons-material/DataObject";
 import { useSelectedOrganization } from "hooks/useSelectedOrganization";
+import ConfigurationList from "components/organisms/ConfigurationList/ConfigurationList";
 
 function Configurations() {
   const { formatMessage } = useIntl();
@@ -46,6 +47,7 @@ function Configurations() {
           {formatMessage({ id: "configurations.title" })}
         </Typography>
       </Box>
+      <ConfigurationList sx={{ flex: 1 }} />
     </Box>
   );
 }

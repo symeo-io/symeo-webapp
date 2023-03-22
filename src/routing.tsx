@@ -17,7 +17,7 @@ const routes = {
     path: "/",
     isSecured: true,
     sidebar: true,
-    element: ProjectsPage,
+    element: ConfigurationsPage,
   } as Route,
   configurations: {
     path: "/:organizationName",

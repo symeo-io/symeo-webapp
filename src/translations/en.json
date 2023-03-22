@@ -1,7 +1,16 @@
 {
   "name": "Symeo",
   "configurations": {
-    "title": "Configurations"
+    "title": "Configurations",
+    "empty-state": {
+      "title": "Create your first project configuration!",
+      "message": "Define your application needs as code and use Configurations to centralized your variables and secrets by environment.",
+      "cta-label": "Create Configuration"
+    },
+    "search-placeholder": "Configuration name",
+    "columns": {
+      "configuration": "Configuration"
+    }
   },
   "projects": {
     "title": "Projects",
@@ -25,6 +34,19 @@
     },
     "dropzone": {
       "message": "Drop your values file here"
+    }
+  },
+  "create-configuration": {
+    "title": "Set up new Configuration",
+    "has-created-contract": {
+      "has-created-contract-button-title": "You already created your Symeo contract",
+      "has-created-contract-button-message1": "You have pushed a",
+      "has-created-contract-button-message2": "symeo.config.yml",
+      "has-created-contract-button-message3": "file to your repository",
+      "has-not-created-contract-button-title": "You do not have a Symeo contract",
+      "has-not-created-contract-button-message": "We will guide you through your contract creation",
+      "learn-more-message": "To learn more about Symeo contracts, consult this",
+      "learn-more-link": "documentation"
     }
   },
   "create-configuration-form": {

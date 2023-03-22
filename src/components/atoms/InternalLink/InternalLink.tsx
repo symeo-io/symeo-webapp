@@ -2,11 +2,16 @@ import React, { useMemo } from "react";
 import { Link, LinkProps } from "react-router-dom";
 import routes from "routing";
 import { generatePath } from "react-router";
+import { PropsWithSx } from "types/PropsWithSx";
+import { styled } from "@mui/material";
 
-export type InternalLinkProps = Omit<LinkProps, "to"> & {
-  to: keyof typeof routes;
-  params?: any;
-};
+export type InternalLinkProps = PropsWithSx &
+  Omit<LinkProps, "to"> & {
+    to: keyof typeof routes;
+    params?: any;
+  };
+
+const LinkWithSx = styled(Link)();
 
 function InternalLink({ children, to, params, ...rest }: InternalLinkProps) {
   const route = routes[to];
@@ -20,9 +25,9 @@ function InternalLink({ children, to, params, ...rest }: InternalLinkProps) {
   );
 
   return (
-    <Link to={path} {...rest}>
+    <LinkWithSx to={path} {...rest}>
       {children}
-    </Link>
+    </LinkWithSx>
   );
 }
 
