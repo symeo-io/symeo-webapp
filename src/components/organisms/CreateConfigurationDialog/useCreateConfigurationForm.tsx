@@ -1,6 +1,7 @@
 import { useForm } from "hooks/useForm";
 
 export type CreateConfigurationFormValues = {
+  repositoryVcsId: number;
   name: string;
 
   contractFilePath: string;
@@ -10,16 +11,23 @@ export type CreateConfigurationFormValues = {
 
 export const createConfigurationFormDefaultValues: CreateConfigurationFormValues =
   {
+    repositoryVcsId: 0,
     name: "",
     contractFilePath: "symeo.config.yml",
     branch: "",
   };
 
-export function useCreateConfigurationForm() {
+export function useCreateConfigurationForm(
+  initialValues?: Partial<CreateConfigurationFormValues>
+) {
   return useForm<CreateConfigurationFormValues>({
-    defaultValues: createConfigurationFormDefaultValues,
+    defaultValues: {
+      ...createConfigurationFormDefaultValues,
+      ...initialValues,
+    },
     onValidate: (values) => {
       const errors: Record<keyof CreateConfigurationFormValues, string[]> = {
+        repositoryVcsId: [],
         name: [],
         contractFilePath: [],
         branch: [],

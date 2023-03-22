@@ -1,15 +1,14 @@
-import React, { ChangeEvent, useCallback, useMemo, useState } from "react";
+import React, { ChangeEvent, useCallback, useState } from "react";
 import { Box, InputAdornment } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { PropsWithSx } from "types/PropsWithSx";
 import TextField from "components/molecules/TextField/TextField";
 import { useIntl } from "react-intl";
 import { colors } from "theme/colors";
-import { useGetRepositoriesQuery } from "redux/api/repositories/repositories.api";
 import LoadingBox from "components/molecules/LoadingBox/LoadingBox";
-import { useSelectedOrganization } from "hooks/useSelectedOrganization";
 import AddConfigurationButton from "components/molecules/AddConfigurationButton/AddConfigurationButton";
 import ConfigurationLink from "components/molecules/ConfigurationLink/ConfigurationLink";
+import { useRepositories } from "hooks/useRepositories";
 
 export type RepositoryListProps = PropsWithSx;
 
@@ -23,23 +22,7 @@ function RepositoryList({ sx }: RepositoryListProps) {
     []
   );
 
-  const { selectedOrganization } = useSelectedOrganization();
-  const { data: repositoriesData, isLoading } = useGetRepositoriesQuery();
-
-  const repositories = useMemo(
-    () =>
-      repositoriesData?.repositories
-        .filter(
-          (repository) => repository.owner.vcsId === selectedOrganization?.vcsId
-        )
-        .sort((a, b) => {
-          return (
-            new Date(b.pushedAt ?? "").getTime() -
-            new Date(a.pushedAt ?? "").getTime()
-          );
-        }) ?? [],
-    [repositoriesData?.repositories, selectedOrganization?.vcsId]
-  );
+  const { repositories, isLoading } = useRepositories();
 
   return (
     <Box

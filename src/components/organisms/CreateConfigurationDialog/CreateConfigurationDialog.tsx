@@ -1,14 +1,10 @@
 import React, { useCallback, useEffect, useState } from "react";
-import {
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-} from "@mui/material";
+import { Dialog, DialogContent, DialogTitle } from "@mui/material";
 import { useIntl } from "react-intl";
 import { PropsWithSx } from "types/PropsWithSx";
 import { Repository } from "redux/api/repositories/repositories.types";
 import CreateConfigurationHasAlreadyCreatedContract from "components/organisms/CreateConfigurationDialog/steps/CreateConfigurationHasAlreadyCreatedContract";
+import CreateConfigurationFastForm from "components/organisms/CreateConfigurationDialog/steps/CreateConfigurationFastForm";
 
 export type CreateConfigurationDialogProps = PropsWithSx & {
   repository?: Repository;
@@ -46,15 +42,18 @@ function CreateConfigurationDialog({
           id: "create-configuration.title",
         })}
       </DialogTitle>
-      <DialogContent sx={{ overflow: "visible" }}>
-        {haveContract === undefined && (
-          <CreateConfigurationHasAlreadyCreatedContract
-            onHaveContractClick={() => setHaveContract(true)}
-            onDontHaveContractClick={() => setHaveContract(false)}
-          />
-        )}
-      </DialogContent>
-      <DialogActions></DialogActions>
+      {haveContract === undefined && (
+        <CreateConfigurationHasAlreadyCreatedContract
+          onHaveContractClick={() => setHaveContract(true)}
+          onDontHaveContractClick={() => setHaveContract(false)}
+        />
+      )}
+      {haveContract === true && (
+        <CreateConfigurationFastForm
+          repository={repository}
+          onCancel={handleClose}
+        />
+      )}
     </Dialog>
   );
 }

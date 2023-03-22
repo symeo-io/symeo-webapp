@@ -1,15 +1,14 @@
-import React, { ChangeEvent, useCallback, useMemo, useState } from "react";
+import React, { ChangeEvent, useCallback, useState } from "react";
 import { Box, InputAdornment } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { PropsWithSx } from "types/PropsWithSx";
 import TextField from "components/molecules/TextField/TextField";
 import { useIntl } from "react-intl";
 import { colors } from "theme/colors";
-import { useGetRepositoriesQuery } from "redux/api/repositories/repositories.api";
 import LoadingBox from "components/molecules/LoadingBox/LoadingBox";
-import { useSelectedOrganization } from "hooks/useSelectedOrganization";
 import InternalLink from "components/atoms/InternalLink/InternalLink";
 import ConfigurationListEmptyState from "components/organisms/ConfigurationListEmptyState/ConfigurationListEmptyState";
+import { useConfigurations } from "hooks/useConfigurations";
 
 export type ConfigurationListProps = PropsWithSx;
 
@@ -23,24 +22,7 @@ function ConfigurationList({ sx }: ConfigurationListProps) {
     []
   );
 
-  const { selectedOrganization } = useSelectedOrganization();
-  const { data: repositoriesData, isLoading } = useGetRepositoriesQuery();
-
-  const configurations = useMemo(
-    () =>
-      repositoriesData?.repositories
-        .filter(
-          (repository) => repository.owner.vcsId === selectedOrganization?.vcsId
-        )
-        .sort((a, b) => {
-          return (
-            new Date(b.pushedAt ?? "").getTime() -
-            new Date(a.pushedAt ?? "").getTime()
-          );
-        })
-        .flatMap((repository) => repository.configurations ?? []) ?? [],
-    [repositoriesData?.repositories, selectedOrganization?.vcsId]
-  );
+  const { configurations, isLoading } = useConfigurations();
 
   return (
     <Box

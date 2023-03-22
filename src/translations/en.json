@@ -53,6 +53,7 @@
     "title": "Set up configuration for {repositoryName}",
     "cancel-button-label": "Cancel",
     "set-up-button-label": "Set Up Configuration",
+    "repository-field-label": "Repository",
     "name-field-label": "Configuration name",
     "name-field-placeholder": "e.g: api, backend, infrastructure...",
     "config-contract-file-path-field-label": "Path to your configuration contract file",

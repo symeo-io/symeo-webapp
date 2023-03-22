@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Link, Typography } from "@mui/material";
+import { Box, DialogContent, Link, Typography } from "@mui/material";
 import { useIntl } from "react-intl";
 import { PropsWithSx } from "types/PropsWithSx";
 import CreateConfigurationButton from "components/molecules/CreateConfigurationButton/CreateConfigurationButton";
@@ -18,7 +18,14 @@ function CreateConfigurationHasAlreadyCreatedContract({
   const { formatMessage } = useIntl();
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", ...sx }}>
+    <DialogContent
+      sx={{
+        overflow: "visible",
+        display: "flex",
+        flexDirection: "column",
+        ...sx,
+      }}
+    >
       <CreateConfigurationButton
         onClick={onHaveContractClick}
         title={formatMessage({
@@ -66,7 +73,7 @@ function CreateConfigurationHasAlreadyCreatedContract({
           </Link>
         </Typography>
       </Box>
-    </Box>
+    </DialogContent>
   );
 }
 
