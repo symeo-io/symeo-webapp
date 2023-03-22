@@ -8,6 +8,7 @@ export type Repository = {
   pushedAt?: string;
   vcsType: "github";
   vcsUrl: string;
+  defaultBranch: string;
   configurations?: Configuration[];
   isCurrentUserAdmin: boolean;
 };

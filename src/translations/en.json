@@ -47,6 +47,14 @@
       "has-not-created-contract-button-message": "Guide me through contract creation",
       "learn-more-message": "To learn more about Symeo contracts, consult this",
       "learn-more-link": "documentation"
+    },
+    "create-configuration-guided-form": {
+      "repository-label": "Select the project for which to create a configuration contract",
+      "repository-message": "Choose the repository hosting the code of the application you need to configure.",
+      "branch-label": "Choose the branch on which to commit the contract",
+      "branch-message": "Choose your main development branch, on which features are merged.",
+      "next-button-label": "Next",
+      "back-button-label": "Back"
     }
   },
   "create-configuration-form": {

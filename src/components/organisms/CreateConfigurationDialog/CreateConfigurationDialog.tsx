@@ -1,10 +1,11 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { Dialog, DialogContent, DialogTitle } from "@mui/material";
+import { Dialog, DialogTitle } from "@mui/material";
 import { useIntl } from "react-intl";
 import { PropsWithSx } from "types/PropsWithSx";
 import { Repository } from "redux/api/repositories/repositories.types";
 import CreateConfigurationHasAlreadyCreatedContract from "components/organisms/CreateConfigurationDialog/steps/CreateConfigurationHasAlreadyCreatedContract";
 import CreateConfigurationFastForm from "components/organisms/CreateConfigurationDialog/steps/CreateConfigurationFastForm";
+import CreateConfigurationGuidedForm from "components/organisms/CreateConfigurationDialog/steps/guided-form/CreateConfigurationGuidedForm";
 
 export type CreateConfigurationDialogProps = PropsWithSx & {
   repository?: Repository;
@@ -51,7 +52,13 @@ function CreateConfigurationDialog({
       {haveContract === true && (
         <CreateConfigurationFastForm
           repository={repository}
-          onCancel={handleClose}
+          onCancel={() => setHaveContract(undefined)}
+        />
+      )}
+      {haveContract === false && (
+        <CreateConfigurationGuidedForm
+          repository={repository}
+          onCancel={() => setHaveContract(undefined)}
         />
       )}
     </Dialog>

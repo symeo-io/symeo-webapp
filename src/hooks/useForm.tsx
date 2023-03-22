@@ -1,16 +1,18 @@
-import { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { cloneDeep } from "lodash";
+
+export type UseFormErrors<T extends object> = Record<keyof T, string[]>;
 
 export type UseFormInput<T extends object> = {
   defaultValues: T;
-  onValidate: (values: T) => Record<keyof T, string[]>;
+  onValidate: (values: T) => UseFormErrors<T>;
 };
 
 export type UseFormOutput<T extends object> = {
   values: T;
-  errors: Record<keyof T, string[]>;
-  setValues: (values: T) => void;
-  setErrors: (errors: Record<keyof T, string[]>) => void;
+  errors: UseFormErrors<T>;
+  setValues: React.Dispatch<React.SetStateAction<T>>;
+  setErrors: (errors: UseFormErrors<T>) => void;
   reset: () => void;
   validate: () => boolean;
 };
@@ -21,7 +23,7 @@ export function useForm<T extends object>({
 }: UseFormInput<T>): UseFormOutput<T> {
   const [values, setValues] = useState<T>(cloneDeep(defaultValues));
 
-  const [errors, setErrors] = useState<Record<keyof T, string[]>>(
+  const [errors, setErrors] = useState<UseFormErrors<T>>(
     buildDefaultErrorObjectFrom(defaultValues)
   );
 
@@ -58,11 +60,11 @@ export function useForm<T extends object>({
 
 function buildDefaultErrorObjectFrom<T extends object>(
   defaultValue: T
-): Record<keyof T, string[]> {
+): UseFormErrors<T> {
   const result: Record<string, string[]> = {};
   for (const key of Object.keys(defaultValue)) {
     result[key] = [] as string[];
   }
 
-  return result as Record<keyof T, string[]>;
+  return result as UseFormErrors<T>;
 }

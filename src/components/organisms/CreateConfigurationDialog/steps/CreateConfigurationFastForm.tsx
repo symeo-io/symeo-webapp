@@ -93,6 +93,15 @@ function CreateConfigurationFastForm({
   }, [onCancel, reset]);
 
   useEffect(() => {
+    if (selectedRepository) {
+      setValues((values) => ({
+        ...values,
+        branch: selectedRepository.defaultBranch,
+      }));
+    }
+  }, [selectedRepository, setValues]);
+
+  useEffect(() => {
     if (values.branch && values.contractFilePath) {
       debouncedValidateConfiguration({
         repositoryVcsId: values.repositoryVcsId,
