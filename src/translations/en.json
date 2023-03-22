@@ -39,12 +39,12 @@
   "create-configuration": {
     "title": "Set up new Configuration",
     "has-created-contract": {
-      "has-created-contract-button-title": "You already created your Symeo contract",
-      "has-created-contract-button-message1": "You have pushed a",
+      "has-created-contract-button-title": "I already created my Symeo contract",
+      "has-created-contract-button-message1": "I have pushed a",
       "has-created-contract-button-message2": "symeo.config.yml",
-      "has-created-contract-button-message3": "file to your repository",
-      "has-not-created-contract-button-title": "You do not have a Symeo contract",
-      "has-not-created-contract-button-message": "We will guide you through your contract creation",
+      "has-created-contract-button-message3": "file to my repository",
+      "has-not-created-contract-button-title": "I do not have a Symeo contract yet",
+      "has-not-created-contract-button-message": "Guide me through contract creation",
       "learn-more-message": "To learn more about Symeo contracts, consult this",
       "learn-more-link": "documentation"
     }
