@@ -1,5 +1,7 @@
 import { useForm } from "hooks/useForm";
 
+export const defaultContractFileName = "symeo.config.yml";
+
 export type CreateConfigurationFormValues = {
   repositoryVcsId: number;
   name: string;
@@ -13,7 +15,7 @@ export const createConfigurationFormDefaultValues: CreateConfigurationFormValues
   {
     repositoryVcsId: 0,
     name: "",
-    contractFilePath: "symeo.config.yml",
+    contractFilePath: defaultContractFileName,
     branch: "",
   };
 

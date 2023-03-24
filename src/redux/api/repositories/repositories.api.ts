@@ -3,6 +3,8 @@ import {
   GetRepositoriesResponse,
   GetRepositoryBranchesInput,
   GetRepositoryBranchesResponse,
+  GetRepositoryEnvFilesInput,
+  GetRepositoryEnvFilesResponse,
 } from "redux/api/repositories/repositories.types";
 
 export const repositoriesQueryApi = api.injectEndpoints({
@@ -24,8 +26,22 @@ export const repositoriesQueryApi = api.injectEndpoints({
         { type: "Branches", id: repositoryVcsId },
       ],
     }),
+    getRepositoryEnvFiles: builder.query<
+      GetRepositoryEnvFilesResponse,
+      GetRepositoryEnvFilesInput
+    >({
+      query: ({ repositoryVcsId, branch }) => ({
+        url: `/api/v1/repositories/${repositoryVcsId}/env-files/${branch}`,
+      }),
+      providesTags: (_, __, { repositoryVcsId, branch }) => [
+        { type: "EnvFiles", id: repositoryVcsId, branch },
+      ],
+    }),
   }),
 });
 
-export const { useGetRepositoriesQuery, useGetRepositoryBranchesQuery } =
-  repositoriesQueryApi;
+export const {
+  useGetRepositoriesQuery,
+  useGetRepositoryBranchesQuery,
+  useGetRepositoryEnvFilesQuery,
+} = repositoriesQueryApi;

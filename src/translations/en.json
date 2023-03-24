@@ -53,6 +53,27 @@
       "repository-message": "Choose the repository hosting the code of the application you need to configure.",
       "branch-label": "Choose the branch on which to commit the contract",
       "branch-message": "Choose your main development branch, on which features are merged.",
+      "contract-label": "Edit your configuration contract",
+      "contract-messages": {
+        "no-env-file": "We created an example contract bellow. Edit it to match your needs.",
+        "one-env-file1": "We found the",
+        "one-env-file2": "file in your repository and converted it to a Symeo contract. Edit it if needed.",
+        "multiple-env-files": "We found multiple .env file in your repository. Choose the one you want to convert to Symeo contract."
+      },
+      "contract-documentation": {
+        "nesting": "You can nest properties to any depth level",
+        "types": {
+          "start": "Supported types are",
+          "and": "and"
+        },
+        "flags": {
+          "start": "Properties can be flagged with",
+          "or": "or"
+        }
+      },
+      "contract-file-path-label": "Choose where to commit your contract file",
+      "contract-file-path-message1": "We’ll commit the contract file on the",
+      "contract-file-path-message2": "branch in this location:",
       "next-button-label": "Next",
       "back-button-label": "Back"
     }

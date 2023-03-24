@@ -19,6 +19,12 @@ export type Branch = {
   vcsType: "github";
 };
 
+export type EnvFile = {
+  path: string;
+  content: string;
+  contract: string;
+};
+
 export type GetRepositoriesResponse = {
   repositories: Repository[];
 };
@@ -29,4 +35,13 @@ export type GetRepositoryBranchesInput = {
 
 export type GetRepositoryBranchesResponse = {
   branches: Branch[];
+};
+
+export type GetRepositoryEnvFilesInput = {
+  repositoryVcsId: number;
+  branch: string;
+};
+
+export type GetRepositoryEnvFilesResponse = {
+  files: EnvFile[];
 };
