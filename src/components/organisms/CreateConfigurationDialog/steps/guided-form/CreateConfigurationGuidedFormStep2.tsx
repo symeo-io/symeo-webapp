@@ -29,7 +29,7 @@ import { colors } from "theme/colors";
 
 const CodeEditor = styled(RawCodeEditor)();
 
-const DEFAULT_CONTRACT = `port:
+export const DEFAULT_CONTRACT = `port:
   type: integer
   optional: true
 database:
@@ -52,6 +52,8 @@ export type CreateConfigurationGuidedFormStep2Props = PropsWithSx & {
     React.SetStateAction<CreateConfigurationFormValues>
   >;
   errors: UseFormErrors<CreateConfigurationFormValues>;
+  contract: string;
+  setContract: (value: string) => void;
   onBack: () => void;
   onNext: () => void;
 };
@@ -69,13 +71,14 @@ function generateContractPathFromEnvFilePath(envFilePath: string): string {
 function CreateConfigurationGuidedFormStep2({
   onBack,
   onNext,
+  contract,
+  setContract,
   values,
   setValues,
   errors,
   sx,
 }: CreateConfigurationGuidedFormStep2Props) {
   const { formatMessage } = useIntl();
-  const [contract, setContract] = useState<string>(DEFAULT_CONTRACT);
   const [selectedEnvFile, setSelectedEnvFile] = useState<EnvFile | undefined>(
     undefined
   );

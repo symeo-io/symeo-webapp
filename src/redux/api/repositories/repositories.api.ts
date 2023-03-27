@@ -1,5 +1,6 @@
 import { api } from "../api";
 import {
+  CreateRepositoryCommitInput,
   GetRepositoriesResponse,
   GetRepositoryBranchesInput,
   GetRepositoryBranchesResponse,
@@ -40,8 +41,22 @@ export const repositoriesQueryApi = api.injectEndpoints({
   }),
 });
 
+export const repositoriesMutationApi = api.injectEndpoints({
+  endpoints: (builder) => ({
+    commitFile: builder.mutation<void, CreateRepositoryCommitInput>({
+      query: ({ repositoryVcsId, branch, ...body }) => ({
+        url: `/api/v1/repositories/${repositoryVcsId}/commit/${branch}`,
+        method: "POST",
+        body,
+      }),
+    }),
+  }),
+});
+
 export const {
   useGetRepositoriesQuery,
   useGetRepositoryBranchesQuery,
   useGetRepositoryEnvFilesQuery,
 } = repositoriesQueryApi;
+
+export const { useCommitFileMutation } = repositoriesMutationApi;

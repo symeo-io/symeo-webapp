@@ -74,8 +74,11 @@
       "contract-file-path-label": "Choose where to commit your contract file",
       "contract-file-path-message1": "We’ll commit the contract file on the",
       "contract-file-path-message2": "branch in this location:",
+      "name-label": "Finally, give a name to your Configuration",
+      "name-message": "This is useful if your have multiple Configurations in the same repository",
       "next-button-label": "Next",
-      "back-button-label": "Back"
+      "back-button-label": "Back",
+      "submit-button-label": "Commit & Create Configuration"
     }
   },
   "create-configuration-form": {

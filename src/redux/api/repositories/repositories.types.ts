@@ -45,3 +45,11 @@ export type GetRepositoryEnvFilesInput = {
 export type GetRepositoryEnvFilesResponse = {
   files: EnvFile[];
 };
+
+export type CreateRepositoryCommitInput = {
+  repositoryVcsId: number;
+  branch: string;
+  fileContent: string;
+  filePath: string;
+  commitMessage: string;
+};
