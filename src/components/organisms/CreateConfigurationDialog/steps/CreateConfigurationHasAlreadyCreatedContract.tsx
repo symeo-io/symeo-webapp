@@ -2,7 +2,7 @@ import React from "react";
 import { Box, DialogContent, Link, Typography } from "@mui/material";
 import { useIntl } from "react-intl";
 import { PropsWithSx } from "types/PropsWithSx";
-import CreateConfigurationButton from "components/molecules/CreateConfigurationButton/CreateConfigurationButton";
+import CreateConfigurationDialogButton from "components/molecules/CreateConfigurationDialogButton/CreateConfigurationDialogButton";
 import Code from "components/atoms/Code/Code";
 
 export type CreateConfigurationHasAlreadyCreatedContractProps = PropsWithSx & {
@@ -26,7 +26,7 @@ function CreateConfigurationHasAlreadyCreatedContract({
         ...sx,
       }}
     >
-      <CreateConfigurationButton
+      <CreateConfigurationDialogButton
         onClick={onHaveContractClick}
         title={formatMessage({
           id: "create-configuration.has-created-contract.has-created-contract-button-title",
@@ -47,7 +47,7 @@ function CreateConfigurationHasAlreadyCreatedContract({
           </>
         }
       />
-      <CreateConfigurationButton
+      <CreateConfigurationDialogButton
         onClick={onDontHaveContractClick}
         title={formatMessage({
           id: "create-configuration.has-created-contract.has-not-created-contract-button-title",

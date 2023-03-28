@@ -8,8 +8,11 @@
       "cta-label": "Create Configuration"
     },
     "search-placeholder": "Configuration name",
+    "cta-label": "Create Configuration",
     "columns": {
-      "configuration": "Configuration"
+      "configuration": "Configuration",
+      "repository": "Repository",
+      "actions": "Actions"
     }
   },
   "projects": {
