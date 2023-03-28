@@ -197,38 +197,66 @@ function CreateConfigurationGuidedFormStep2({
                 renderInput={({ ...params }) => <TextField {...params} />}
               />
             )}
-            <CodeEditor
-              data-color-mode="dark"
-              value={contract}
-              language="yaml"
-              placeholder="Please enter contract."
-              onChange={(evn) => setContract(evn.target.value)}
-              padding={15}
+            <Box
               sx={{
-                marginTop: (theme) => theme.spacing(3),
-                backgroundColor: "rgb(19, 22, 38)",
                 borderRadius: "8px",
-                fontSize: 16,
-                fontFamily:
-                  "ui-monospace,SFMono-Regular,SF Mono,Consolas,Liberation Mono,Menlo,monospace",
-
-                "& .language-yaml.code-highlight .code-line": {
-                  color: "rgb(105, 211, 167)",
-                },
-
-                "& .language-yaml.code-highlight .token.atrule": {
-                  color: "rgb(160, 108, 228)",
-                },
-
-                "& .language-yaml.code-highlight .token.punctuation": {
-                  color: "rgb(160, 108, 228)",
-                },
-
-                "& .language-yaml.code-highlight .token.boolean": {
-                  color: "rgb(243, 195, 100)",
-                },
+                overflow: "hidden",
+                marginTop: (theme) => theme.spacing(3),
               }}
-            />
+            >
+              <Box
+                sx={{
+                  maxHeight: "350px",
+                  overflow: "auto",
+                  backgroundColor: "rgb(19, 22, 38)",
+
+                  "&::-webkit-scrollbar": {
+                    width: "18px",
+                  },
+                  "&::-webkit-scrollbar-track": {
+                    background: "transparent",
+                    padding: "5px",
+                  },
+                  "&::-webkit-scrollbar-thumb": {
+                    background: "rgba(255,255,255,0.3)",
+                    borderRadius: "9999px",
+                    border: "6px solid rgba(0, 0, 0, 0)",
+                    backgroundClip: "padding-box",
+                  },
+                }}
+              >
+                <CodeEditor
+                  data-color-mode="dark"
+                  value={contract}
+                  language="yaml"
+                  placeholder="Please enter contract."
+                  onChange={(evn) => setContract(evn.target.value)}
+                  padding={15}
+                  sx={{
+                    backgroundColor: "rgb(19, 22, 38)",
+                    fontSize: 16,
+                    fontFamily:
+                      "ui-monospace,SFMono-Regular,SF Mono,Consolas,Liberation Mono,Menlo,monospace",
+
+                    "& .language-yaml.code-highlight .code-line": {
+                      color: "rgb(105, 211, 167)",
+                    },
+
+                    "& .language-yaml.code-highlight .token.atrule": {
+                      color: "rgb(160, 108, 228)",
+                    },
+
+                    "& .language-yaml.code-highlight .token.punctuation": {
+                      color: "rgb(160, 108, 228)",
+                    },
+
+                    "& .language-yaml.code-highlight .token.boolean": {
+                      color: "rgb(243, 195, 100)",
+                    },
+                  }}
+                />
+              </Box>
+            </Box>
             <Box
               sx={{
                 marginTop: (theme) => theme.spacing(1),
