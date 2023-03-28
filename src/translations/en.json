@@ -98,6 +98,9 @@
     "contract-help-message": "Need help defining your contract? Follow documentation ",
     "here": "here",
     "errors": {
+      "empty-repository": "You must provide a repository for your configuration",
+      "empty-branch": "You must provide a branch for your configuration",
+      "empty-path": "You must provide a contract file path for your configuration",
       "empty-name": "You must provide a name for your configuration"
     },
     "validation": {

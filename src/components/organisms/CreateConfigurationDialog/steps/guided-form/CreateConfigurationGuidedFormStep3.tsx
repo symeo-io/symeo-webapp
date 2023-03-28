@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useCallback, useEffect, useMemo } from "react";
 import { DialogActions, DialogContent, Typography } from "@mui/material";
 import Button from "components/atoms/Button/Button";
 import { useIntl } from "react-intl";
@@ -7,7 +7,7 @@ import { Repository } from "redux/api/repositories/repositories.types";
 import { CreateConfigurationFormValues } from "components/organisms/CreateConfigurationDialog/useCreateConfigurationForm";
 import { useRepositories } from "hooks/useRepositories";
 import TextField from "components/molecules/TextField/TextField";
-import { UseFormErrors } from "hooks/useForm";
+import { UseFormErrors, UseFormOutput } from "hooks/useForm";
 
 export type CreateConfigurationGuidedFormStep3Props = PropsWithSx & {
   repository?: Repository;
@@ -16,6 +16,7 @@ export type CreateConfigurationGuidedFormStep3Props = PropsWithSx & {
     React.SetStateAction<CreateConfigurationFormValues>
   >;
   errors: UseFormErrors<CreateConfigurationFormValues>;
+  validate: UseFormOutput<CreateConfigurationFormValues>["validate"];
   onBack: () => void;
   onSubmit: () => void;
   isLoadingSubmit: boolean;
@@ -27,6 +28,7 @@ function CreateConfigurationGuidedFormStep3({
   values,
   setValues,
   errors,
+  validate,
   isLoadingSubmit,
   sx,
 }: CreateConfigurationGuidedFormStep3Props) {
@@ -40,6 +42,16 @@ function CreateConfigurationGuidedFormStep3({
       ),
     [repositories, values.repositoryVcsId]
   );
+
+  const handleSubmit = useCallback(() => {
+    const hasErrors = validate("name");
+
+    if (hasErrors) {
+      return;
+    }
+
+    onSubmit();
+  }, [onSubmit, validate]);
 
   useEffect(() => {
     if (selectedRepository) {
@@ -98,7 +110,7 @@ function CreateConfigurationGuidedFormStep3({
             id: "create-configuration.create-configuration-guided-form.back-button-label",
           })}
         </Button>
-        <Button onClick={onSubmit} loading={isLoadingSubmit}>
+        <Button onClick={handleSubmit} loading={isLoadingSubmit}>
           {formatMessage({
             id: "create-configuration.create-configuration-guided-form.submit-button-label",
           })}

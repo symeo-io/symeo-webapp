@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useState } from "react";
-import { cloneDeep } from "lodash";
+import { cloneDeep, pick } from "lodash";
 
 export type UseFormErrors<T extends object> = Record<keyof T, string[]>;
 
@@ -14,7 +14,7 @@ export type UseFormOutput<T extends object> = {
   setValues: React.Dispatch<React.SetStateAction<T>>;
   setErrors: (errors: UseFormErrors<T>) => void;
   reset: () => void;
-  validate: () => boolean;
+  validate: (...keys: (keyof T)[]) => boolean;
 };
 
 export function useForm<T extends object>({
@@ -32,18 +32,28 @@ export function useForm<T extends object>({
     setErrors(buildDefaultErrorObjectFrom(defaultValues));
   }, [defaultValues]);
 
-  const validate = useCallback(() => {
-    const newErrors = onValidate(values);
-    setErrors(newErrors);
+  const validate = useCallback(
+    (...keys: (keyof T)[]) => {
+      const newErrors =
+        keys.length === 0
+          ? onValidate(values)
+          : {
+              ...buildDefaultErrorObjectFrom(defaultValues),
+              ...pick(onValidate(values), keys),
+            };
 
-    for (const key of Object.keys(newErrors)) {
-      if (newErrors[key as keyof T].length > 0) {
-        return true;
+      setErrors(newErrors);
+
+      for (const key of Object.keys(newErrors)) {
+        if (newErrors[key as keyof T].length > 0) {
+          return true;
+        }
       }
-    }
 
-    return false;
-  }, [onValidate, values]);
+      return false;
+    },
+    [defaultValues, onValidate, values]
+  );
 
   return useMemo(
     () => ({

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
   Autocomplete,
   Box,
@@ -15,7 +15,7 @@ import {
   CreateConfigurationFormValues,
   defaultContractFileName,
 } from "components/organisms/CreateConfigurationDialog/useCreateConfigurationForm";
-import { UseFormErrors } from "hooks/useForm";
+import { UseFormErrors, UseFormOutput } from "hooks/useForm";
 import { useGetRepositoryEnvFilesQuery } from "redux/api/repositories/repositories.api";
 import RawCodeEditor from "@uiw/react-textarea-code-editor";
 import LoadingBox from "components/molecules/LoadingBox/LoadingBox";
@@ -27,7 +27,7 @@ import DescriptionIcon from "@mui/icons-material/Description";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { colors } from "theme/colors";
 
-const CodeEditor = styled(RawCodeEditor)();
+const CodeEditor = styled(RawCodeEditor)({});
 
 export const DEFAULT_CONTRACT = `port:
   type: integer
@@ -52,6 +52,7 @@ export type CreateConfigurationGuidedFormStep2Props = PropsWithSx & {
     React.SetStateAction<CreateConfigurationFormValues>
   >;
   errors: UseFormErrors<CreateConfigurationFormValues>;
+  validate: UseFormOutput<CreateConfigurationFormValues>["validate"];
   contract: string;
   setContract: (value: string) => void;
   onBack: () => void;
@@ -76,6 +77,7 @@ function CreateConfigurationGuidedFormStep2({
   values,
   setValues,
   errors,
+  validate,
   sx,
 }: CreateConfigurationGuidedFormStep2Props) {
   const { formatMessage } = useIntl();
@@ -89,6 +91,16 @@ function CreateConfigurationGuidedFormStep2({
     });
 
   const envFiles = useMemo(() => envFilesData?.files ?? [], [envFilesData]);
+
+  const handleNext = useCallback(() => {
+    const hasErrors = validate("contractFilePath");
+
+    if (hasErrors) {
+      return;
+    }
+
+    onNext();
+  }, [onNext, validate]);
 
   useEffect(() => {
     if (envFiles.length > 0) {
@@ -112,7 +124,7 @@ function CreateConfigurationGuidedFormStep2({
         contractFilePath: defaultContractFileName,
       }));
     }
-  }, [selectedEnvFile, setValues]);
+  }, [selectedEnvFile, setContract, setValues]);
 
   return (
     <>
@@ -320,7 +332,7 @@ function CreateConfigurationGuidedFormStep2({
             id: "create-configuration.create-configuration-guided-form.back-button-label",
           })}
         </Button>
-        <Button onClick={onNext} disabled={isLoadingEnvFiles}>
+        <Button onClick={handleNext} disabled={isLoadingEnvFiles}>
           {formatMessage({
             id: "create-configuration.create-configuration-guided-form.next-button-label",
           })}

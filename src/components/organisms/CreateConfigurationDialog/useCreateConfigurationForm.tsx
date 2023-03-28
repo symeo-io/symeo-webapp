@@ -35,16 +35,24 @@ export function useCreateConfigurationForm(
         branch: [],
       };
 
+      if (!values.repositoryVcsId) {
+        errors.repositoryVcsId.push(
+          "create-configuration-form.errors.empty-repository"
+        );
+      }
+
       if (!values.name) {
         errors.name.push("create-configuration-form.errors.empty-name");
       }
 
       if (!values.contractFilePath) {
-        errors.name.push("create-configuration-form.errors.empty-name");
+        errors.contractFilePath.push(
+          "create-configuration-form.errors.empty-path"
+        );
       }
 
       if (!values.branch) {
-        errors.name.push("create-configuration-form.errors.empty-name");
+        errors.branch.push("create-configuration-form.errors.empty-branch");
       }
 
       return errors;

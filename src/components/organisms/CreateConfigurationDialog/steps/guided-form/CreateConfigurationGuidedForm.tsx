@@ -73,6 +73,7 @@ function CreateConfigurationGuidedForm({
           values={values}
           setValues={setValues}
           errors={errors}
+          validate={validate}
           onBack={onCancel}
           onNext={() => setStep(2)}
         />
@@ -82,6 +83,7 @@ function CreateConfigurationGuidedForm({
           values={values}
           setValues={setValues}
           errors={errors}
+          validate={validate}
           contract={contract}
           setContract={setContract}
           onBack={() => setStep(1)}
@@ -93,6 +95,7 @@ function CreateConfigurationGuidedForm({
           values={values}
           setValues={setValues}
           errors={errors}
+          validate={validate}
           onBack={() => setStep(2)}
           onSubmit={handleSubmit}
           isLoadingSubmit={isLoading}

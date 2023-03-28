@@ -11,7 +11,7 @@ export type InternalLinkProps = PropsWithSx &
     params?: any;
   };
 
-const LinkWithSx = styled(Link)();
+const LinkWithSx = styled(Link)({});
 
 function InternalLink({ children, to, params, ...rest }: InternalLinkProps) {
   const route = routes[to];

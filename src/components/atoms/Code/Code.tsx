@@ -5,7 +5,7 @@ import { colors } from "theme/colors";
 
 export type CodeProps = PropsWithSx & PropsWithChildren;
 
-const CodeWithSx = styled("code")();
+const CodeWithSx = styled("code")({});
 function Code({ children, sx }: CodeProps) {
   return (
     <CodeWithSx

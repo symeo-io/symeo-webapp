@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useCallback, useEffect, useMemo } from "react";
 import {
   Autocomplete,
   DialogActions,
@@ -16,7 +16,7 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import TextField from "components/molecules/TextField/TextField";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import GitBranchIcon from "components/atoms/icons/GitBranchIcon";
-import { UseFormErrors } from "hooks/useForm";
+import { UseFormErrors, UseFormOutput } from "hooks/useForm";
 
 export type CreateConfigurationGuidedFormStep1Props = PropsWithSx & {
   repository?: Repository;
@@ -25,6 +25,7 @@ export type CreateConfigurationGuidedFormStep1Props = PropsWithSx & {
     React.SetStateAction<CreateConfigurationFormValues>
   >;
   errors: UseFormErrors<CreateConfigurationFormValues>;
+  validate: UseFormOutput<CreateConfigurationFormValues>["validate"];
   onBack: () => void;
   onNext: () => void;
 };
@@ -36,6 +37,7 @@ function CreateConfigurationGuidedFormStep1({
   values,
   setValues,
   errors,
+  validate,
   sx,
 }: CreateConfigurationGuidedFormStep1Props) {
   const { formatMessage } = useIntl();
@@ -48,6 +50,16 @@ function CreateConfigurationGuidedFormStep1({
       ),
     [repositories, values.repositoryVcsId]
   );
+
+  const handleNext = useCallback(() => {
+    const hasErrors = validate("repositoryVcsId", "branch");
+
+    if (hasErrors) {
+      return;
+    }
+
+    onNext();
+  }, [onNext, validate]);
 
   useEffect(() => {
     if (selectedRepository) {
@@ -160,7 +172,7 @@ function CreateConfigurationGuidedFormStep1({
             id: "create-configuration.create-configuration-guided-form.back-button-label",
           })}
         </Button>
-        <Button onClick={onNext}>
+        <Button onClick={handleNext}>
           {formatMessage({
             id: "create-configuration.create-configuration-guided-form.next-button-label",
           })}
