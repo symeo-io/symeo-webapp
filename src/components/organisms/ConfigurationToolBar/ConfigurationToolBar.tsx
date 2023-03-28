@@ -13,8 +13,8 @@ import DownloadEnvironmentValuesButton from "components/molecules/DownloadEnviro
 import UploadEnvironmentValuesButton from "components/molecules/UploadEnvironmentValuesButton/UploadEnvironmentValuesButton";
 import { PropsWithSx } from "types/PropsWithSx";
 import { Configuration } from "redux/api/configurations/configurations.types";
-import { useGetRepositoryBranchesQuery } from "redux/api/repositories/repositories.api";
 import { ConfigurationValues } from "redux/api/values/values.types";
+import { useBranches } from "hooks/useBranches";
 
 export type ConfigurationToolBarProps = PropsWithSx & {
   configuration: Configuration;
@@ -48,14 +48,7 @@ function ConfigurationToolBar({
   setValuesWithSecrets,
   sx,
 }: ConfigurationToolBarProps) {
-  const { data: branchesData } = useGetRepositoryBranchesQuery({
-    repositoryVcsId: configuration.repository.vcsId,
-  });
-
-  const branches = useMemo(
-    () => branchesData?.branches ?? [],
-    [branchesData?.branches]
-  );
+  const { branches } = useBranches(configuration.repository.vcsId);
 
   const environments = useMemo(
     () =>
