@@ -60,7 +60,9 @@ export function useSelectedOrganization(): UseSelectedOrganizationOutput {
 
   const setSelectedOrganization = useCallback(
     (organization: Organization) =>
-      navigate("projects", { params: { organizationName: organization.name } }),
+      navigate("configurations", {
+        params: { organizationName: organization.name },
+      }),
     [navigate]
   );
 

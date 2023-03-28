@@ -25,12 +25,17 @@ function Button({ loading, children, onClick, sx, ...props }: ButtonProps) {
       }}
       {...props}
     >
-      <Box component="span" sx={{ visibility: loading ? "hidden" : undefined }}>
+      <Box
+        component="span"
+        className="MuiButton-content"
+        sx={{ visibility: loading ? "hidden" : undefined, width: "100%" }}
+      >
         {children}
       </Box>
       {loading && (
         <Box
           component="span"
+          className="MuiButton-loader"
           sx={{
             position: "absolute",
             top: 0,

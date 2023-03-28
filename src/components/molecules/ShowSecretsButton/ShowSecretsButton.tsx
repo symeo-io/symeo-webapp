@@ -47,14 +47,15 @@ function ShowSecretsButton({
 
     setShowSecrets(!showSecrets);
   }, [
-    configuration.id,
-    configuration.repository.vcsId,
     valuesWithSecrets,
-    environment.id,
-    fetchValuesWithSecrets,
-    setValuesWithSecrets,
     setShowSecrets,
     showSecrets,
+    fetchValuesWithSecrets,
+    configuration.id,
+    configuration.repository.vcsId,
+    environment.id,
+    selectedBranchName,
+    setValuesWithSecrets,
   ]);
 
   return (

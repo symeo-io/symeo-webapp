@@ -32,7 +32,7 @@ function ConfigurationLink({
           repositoryVcsId: configuration.repository.vcsId,
           configurationId: configuration.id,
         }}
-        style={{
+        sx={{
           textDecoration: "none",
           color: colors.primary.textActive,
         }}

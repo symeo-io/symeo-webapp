@@ -8,6 +8,7 @@ export type Repository = {
   pushedAt?: string;
   vcsType: "github";
   vcsUrl: string;
+  defaultBranch: string;
   configurations?: Configuration[];
   isCurrentUserAdmin: boolean;
 };
@@ -16,6 +17,12 @@ export type Branch = {
   name: string;
   commitSha: string;
   vcsType: "github";
+};
+
+export type EnvFile = {
+  path: string;
+  content: string;
+  contract: string;
 };
 
 export type GetRepositoriesResponse = {
@@ -28,4 +35,21 @@ export type GetRepositoryBranchesInput = {
 
 export type GetRepositoryBranchesResponse = {
   branches: Branch[];
+};
+
+export type GetRepositoryEnvFilesInput = {
+  repositoryVcsId: number;
+  branch: string;
+};
+
+export type GetRepositoryEnvFilesResponse = {
+  files: EnvFile[];
+};
+
+export type CreateRepositoryCommitInput = {
+  repositoryVcsId: number;
+  branch: string;
+  fileContent: string;
+  filePath: string;
+  commitMessage: string;
 };
