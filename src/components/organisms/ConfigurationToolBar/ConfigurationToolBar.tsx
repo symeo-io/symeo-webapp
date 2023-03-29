@@ -140,13 +140,11 @@ function ConfigurationToolBar({
                 sx={{ marginLeft: (theme) => theme.spacing(1) }}
               />
             )}
-            {meetRoleRequirement("admin", currentUserEnvironmentRole) && (
-              <EnvironmentActivityLogButton
-                configuration={configuration}
-                environment={selectedEnvironment}
-                sx={{ marginLeft: (theme) => theme.spacing(1) }}
-              />
-            )}
+            <EnvironmentActivityLogButton
+              configuration={configuration}
+              environment={selectedEnvironment}
+              sx={{ marginLeft: (theme) => theme.spacing(1) }}
+            />
           </>
         )}
       </Box>
