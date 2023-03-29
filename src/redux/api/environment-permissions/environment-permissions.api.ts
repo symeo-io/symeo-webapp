@@ -38,6 +38,9 @@ const environmentPermissionsMutationApi = api.injectEndpoints({
         method: "POST",
         body,
       }),
+      invalidatesTags: (result, error, { environmentId }) => [
+        { type: "EnvironmentActivityLog", id: environmentId },
+      ],
     }),
   }),
 });

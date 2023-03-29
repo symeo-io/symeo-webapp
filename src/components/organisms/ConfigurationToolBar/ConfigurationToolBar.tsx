@@ -15,6 +15,7 @@ import { PropsWithSx } from "types/PropsWithSx";
 import { Configuration } from "redux/api/configurations/configurations.types";
 import { ConfigurationValues } from "redux/api/values/values.types";
 import { useBranches } from "hooks/useBranches";
+import EnvironmentActivityLogButton from "components/molecules/EnvironmentActivityLogButton/EnvironmentActivityLogButton";
 
 export type ConfigurationToolBarProps = PropsWithSx & {
   configuration: Configuration;
@@ -136,6 +137,13 @@ function ConfigurationToolBar({
                 setEditorValues={setEditorValues}
                 configuration={configuration}
                 branch={selectedBranchName}
+                sx={{ marginLeft: (theme) => theme.spacing(1) }}
+              />
+            )}
+            {meetRoleRequirement("admin", currentUserEnvironmentRole) && (
+              <EnvironmentActivityLogButton
+                configuration={configuration}
+                environment={selectedEnvironment}
                 sx={{ marginLeft: (theme) => theme.spacing(1) }}
               />
             )}
