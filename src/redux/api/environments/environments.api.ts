@@ -45,8 +45,9 @@ const environmentsMutationApi = api.injectEndpoints({
         url: `/api/v1/configurations/github/${repositoryVcsId}/${configurationId}/environments/${environmentId}`,
         method: "DELETE",
       }),
-      invalidatesTags: (_, __, { configurationId }) => [
+      invalidatesTags: (_, __, { configurationId, environmentId }) => [
         { type: "Configuration", id: configurationId },
+        { type: "EnvironmentActivityLog", id: environmentId },
       ],
     }),
     updateEnvironment: builder.mutation<
@@ -63,8 +64,9 @@ const environmentsMutationApi = api.injectEndpoints({
         method: "PATCH",
         body,
       }),
-      invalidatesTags: (_, __, { configurationId }) => [
+      invalidatesTags: (_, __, { configurationId, environmentId }) => [
         { type: "Configuration", id: configurationId },
+        { type: "EnvironmentActivityLog", id: environmentId },
       ],
     }),
   }),

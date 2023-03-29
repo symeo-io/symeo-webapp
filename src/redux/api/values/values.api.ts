@@ -29,6 +29,7 @@ const valuesQueryApi = api.injectEndpoints({
       }),
       providesTags: (result, error, { environmentId }) => [
         { type: "ValuesSecrets", id: environmentId },
+        { type: "EnvironmentActivityLog", id: environmentId },
       ],
     }),
   }),
@@ -44,6 +45,7 @@ const valuesMutationApi = api.injectEndpoints({
       }),
       invalidatesTags: (_, __, { environmentId }) => [
         { type: "Values", id: environmentId },
+        { type: "EnvironmentActivityLog", id: environmentId },
       ],
     }),
   }),

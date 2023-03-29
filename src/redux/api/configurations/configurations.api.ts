@@ -105,6 +105,7 @@ const configurationsMutationApi = api.injectEndpoints({
       }),
       invalidatesTags: (_, __, { configurationId }) => [
         { type: "ConfigurationContract", id: configurationId },
+        { type: "ConfigurationActivityLog", id: configurationId },
       ],
       async onQueryStarted(
         { repositoryVcsId, configurationId, ...patch },
@@ -150,6 +151,9 @@ const configurationsMutationApi = api.injectEndpoints({
         url: `/api/v1/configurations/github/${repositoryVcsId}/${configurationId}`,
         method: "DELETE",
       }),
+      invalidatesTags: (_, __, { configurationId }) => [
+        { type: "ConfigurationActivityLog", id: configurationId },
+      ],
       async onQueryStarted(
         { repositoryVcsId, configurationId },
         { dispatch, queryFulfilled }

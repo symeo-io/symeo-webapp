@@ -199,6 +199,24 @@
       }
     }
   },
+  "environment-activity-log": {
+    "title": "{environmentName} activity log",
+    "configuration-events": {
+      "created": "<user>{logUsername}</user> created configuration <b>{name}</b> for <b>{repositoryName}</b> with branch <b>{branch}</b> and contract <b>{contractFilePath}</b>",
+      "updated": "<user>{logUsername}</user> updated configuration <b>{name}</b> for <b>{repositoryName}</b> with branch <b>{branch}</b> and contract <b>{contractFilePath}</b>",
+      "deleted": "<user>{logUsername}</user> deleted configuration <b>{name}</b> for <b>{repositoryName}</b>"
+    },
+    "environment-events": {
+      "created": "<user>{logUsername}</user> created environment <b>{environmentName}</b> with color <b>{color}</b>",
+      "updated":"<user>{logUsername}</user> updated environment <b>{environmentName}</b> with color <b>{color}</b>",
+      "deleted": "<user>{logUsername}</user> deleted environment <b>{environmentName}</b>",
+      "permissionUpdated":"<user>{logUsername}</user> updated permissions for <b>{userName}</b> from <b>{previousRole}</b> to <b>{newRole}</b>",
+      "apiKeyCreated": "<user>{logUsername}</user> created api key <b>{hiddenKey}</b>",
+      "apiKeyDeleted":"<user>{logUsername}</user> deleted api key <b>{hiddenKey}</b>",
+      "valuesUpdated": "<user>{logUsername}</user> updated values <b>{updatedProperties}</b>",
+      "secretsRead": "<user>{logUsername}</user> read secret values <b>{readProperties}</b>"
+    }
+  },
   "sidebar": {
     "configurations-link-label": "Configurations",
     "projects-link-label": "Projects",
