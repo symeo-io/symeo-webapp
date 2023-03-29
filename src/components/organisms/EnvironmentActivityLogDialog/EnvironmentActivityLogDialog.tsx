@@ -107,14 +107,13 @@ function EnvironmentActivityLogDialog({
       >
         <Box sx={{ paddingY: (theme) => theme.spacing(2) }}>
           {logs.map((logData, index) => (
-            <>
-              <ActivityLog
-                log={logData.log}
-                configuration={configuration}
-                type={logData.type}
-                last={index === logs.length - 1}
-              />
-            </>
+            <ActivityLog
+              key={index}
+              log={logData.log}
+              configuration={configuration}
+              type={logData.type}
+              last={index === logs.length - 1}
+            />
           ))}
         </Box>
       </DialogContent>
