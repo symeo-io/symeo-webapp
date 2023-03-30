@@ -200,7 +200,7 @@
     }
   },
   "environment-activity-log": {
-    "title": "{environmentName} activity log",
+    "title": "{environmentName} Activity Log",
     "configuration-events": {
       "created": "<user>{logUsername}</user> created configuration <b>{name}</b> for <b>{repositoryName}</b> with branch <b>{branch}</b> and contract <b>{contractFilePath}</b>",
       "updated": "<user>{logUsername}</user> updated configuration <b>{name}</b> for <b>{repositoryName}</b> with branch <b>{branch}</b> and contract <b>{contractFilePath}</b>",
@@ -215,6 +215,14 @@
       "apiKeyDeleted":"<user>{logUsername}</user> deleted api key <b>{hiddenKey}</b>",
       "valuesUpdated": "<user>{logUsername}</user> updated values <b>{updatedProperties}</b>",
       "secretsRead": "<user>{logUsername}</user> read secret values <b>{readProperties}</b>"
+    }
+  },
+  "environment-point-in-time-recovery": {
+    "title": "{environmentName} Point-in-Time Recovery",
+    "sub-title": "{count, plural, =0 {no versions in history} one {# version} other {# versions}}",
+    "rollback-button-label": "Rollback",
+    "rollback": {
+      "title": "Rollback {environmentName} to {date} version"
     }
   },
   "sidebar": {

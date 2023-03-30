@@ -6,12 +6,12 @@ import {
 import React, { useCallback, useMemo } from "react";
 import { Box } from "@mui/material";
 import ConfigurationEditorInput from "components/molecules/ConfigurationEditorInput/ConfigurationEditorInput";
-import { ConfigurationValues } from "redux/api/values/values.types";
 import {
   getObjectValueByPath,
   setObjectValueByPath,
   isModifiedByPath,
 } from "components/molecules/ConfigurationEditorProperty/utils";
+import { Editor } from "hooks/useConfigurationEditor";
 
 function isConfigurationProperty(
   value: ConfigurationContract | ConfigurationProperty
@@ -23,22 +23,14 @@ export type ConfigurationEditorPropertyProps = PropsWithSx & {
   propertyName: string;
   property: ConfigurationContract | ConfigurationProperty;
   path?: string;
-  values: ConfigurationValues;
-  valuesWithSecrets: ConfigurationValues | undefined;
-  setValues: (values: ConfigurationValues) => void;
-  originalValues: ConfigurationValues;
-  showSecrets?: boolean;
+  editor: Editor;
 };
 
 function ConfigurationEditorProperty({
   propertyName,
   property,
   path = propertyName,
-  values,
-  valuesWithSecrets,
-  setValues,
-  originalValues,
-  showSecrets = false,
+  editor,
   sx,
 }: ConfigurationEditorPropertyProps) {
   const configurationProperty = useMemo(
@@ -48,27 +40,28 @@ function ConfigurationEditorProperty({
 
   const isModified = useMemo(
     () =>
-      configurationProperty && isModifiedByPath(values, originalValues, path),
-    [configurationProperty, originalValues, path, values]
+      configurationProperty &&
+      isModifiedByPath(editor.values, editor.originalValues.value, path),
+    [configurationProperty, editor.originalValues.value, editor.values, path]
   );
 
   const getValueByPath = useCallback(
-    (path: string) => getObjectValueByPath(values, path),
-    [values]
+    (path: string) => getObjectValueByPath(editor.values, path),
+    [editor.values]
   );
 
   const getSecretValueByPath = useCallback(
     (path: string) =>
-      valuesWithSecrets
-        ? getObjectValueByPath(valuesWithSecrets, path)
+      editor.valuesWithSecrets
+        ? getObjectValueByPath(editor.valuesWithSecrets, path)
         : undefined,
-    [valuesWithSecrets]
+    [editor.valuesWithSecrets]
   );
 
   const setValueByPath = useCallback(
     (path: string, newValue: unknown) =>
-      setValues(setObjectValueByPath(values, path, newValue)),
-    [setValues, values]
+      editor.setValues(setObjectValueByPath(editor.values, path, newValue)),
+    [editor]
   );
 
   return (
@@ -110,7 +103,7 @@ function ConfigurationEditorProperty({
           onChange={(newValue: unknown) => setValueByPath(path, newValue)}
           property={property as ConfigurationProperty}
           isModified={isModified}
-          showSecrets={showSecrets}
+          showSecrets={editor.showSecrets}
         />
       )}
       {!configurationProperty &&
@@ -120,11 +113,7 @@ function ConfigurationEditorProperty({
             propertyName={subPropertyName}
             property={(property as ConfigurationContract)[subPropertyName]}
             path={path + "." + subPropertyName}
-            values={values}
-            valuesWithSecrets={valuesWithSecrets}
-            setValues={setValues}
-            originalValues={originalValues}
-            showSecrets={showSecrets}
+            editor={editor}
             sx={sx}
           />
         ))}
