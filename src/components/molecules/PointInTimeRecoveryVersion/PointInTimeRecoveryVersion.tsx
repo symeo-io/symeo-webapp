@@ -12,12 +12,16 @@ export type PointInTimeRecoveryVersionProps = PropsWithSx & {
   configuration: Configuration;
   environment: Environment;
   version: ValuesVersion;
+  current?: boolean;
+  onRollback?: () => void;
 };
 
 function PointInTimeRecoveryVersion({
   configuration,
   environment,
   version,
+  current = false,
+  onRollback,
   sx,
 }: PointInTimeRecoveryVersionProps) {
   return (
@@ -37,7 +41,7 @@ function PointInTimeRecoveryVersion({
     >
       <Box sx={{ flex: 1 }}>
         <Typography sx={{ fontWeight: 500 }}>
-          {dayjs(version.creationDate).format("YYYY/MM/DD, HH:mm")}
+          {dayjs(version.creationDate).format("YYYY/MM/DD HH:mm")}
         </Typography>
       </Box>
       <Box>
@@ -45,6 +49,8 @@ function PointInTimeRecoveryVersion({
           configuration={configuration}
           environment={environment}
           version={version}
+          current={current}
+          onRollback={onRollback}
         />
       </Box>
     </Box>

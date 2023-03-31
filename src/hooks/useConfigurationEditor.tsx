@@ -26,6 +26,7 @@ export type UseConfigurationEditorInput = {
   configuration: Configuration;
   environment: Environment;
   branch?: string;
+  versionId?: string;
 };
 
 export type Editor = {
@@ -69,6 +70,7 @@ export function useConfigurationEditor({
   configuration,
   environment,
   branch,
+  versionId,
 }: UseConfigurationEditorInput): Editor {
   const [showSecrets, setShowSecrets] = useState<boolean>(false);
   const [values, setValues] = useState<ConfigurationValues>({});
@@ -88,6 +90,7 @@ export function useConfigurationEditor({
         repositoryVcsId: configuration.repository.vcsId,
         environmentId: environment.id,
         branch,
+        versionId,
       });
 
       if (data) {
@@ -97,15 +100,14 @@ export function useConfigurationEditor({
 
     setShowSecrets(!showSecrets);
   }, [
-    valuesWithSecrets,
-    setShowSecrets,
     showSecrets,
+    valuesWithSecrets,
     fetchValuesWithSecrets,
     configuration.id,
     configuration.repository.vcsId,
     environment.id,
     branch,
-    setValuesWithSecrets,
+    versionId,
   ]);
 
   const {
@@ -127,6 +129,8 @@ export function useConfigurationEditor({
     configuration,
     environment,
     contract,
+    branch,
+    versionId,
   });
 
   const reset = useCallback(
@@ -147,7 +151,6 @@ export function useConfigurationEditor({
         repositoryVcsId: configuration.repository.vcsId,
         environmentId: environment.id,
         values: valuesToSave,
-        branch,
       });
     }
   }, [
@@ -160,7 +163,6 @@ export function useConfigurationEditor({
     configuration.id,
     configuration.repository.vcsId,
     environment.id,
-    branch,
   ]);
 
   const download = useCallback(() => {

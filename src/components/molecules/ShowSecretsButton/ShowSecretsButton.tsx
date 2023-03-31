@@ -15,6 +15,8 @@ function ShowSecretsButton({ editor, sx }: ShowSecretsButtonProps) {
       onClick={editor.toggleShowSecrets}
       sx={{
         width: "42px",
+        height: "42px",
+        background: "white",
         ...sx,
       }}
     >

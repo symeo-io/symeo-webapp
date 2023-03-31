@@ -11,12 +11,16 @@ export type PointInTimeRecoveryRollbackButtonProps = PropsWithSx & {
   configuration: Configuration;
   environment: Environment;
   version: ValuesVersion;
+  current?: boolean;
+  onRollback?: () => void;
 };
 
 function PointInTimeRecoveryRollbackButton({
   configuration,
   environment,
   version,
+  current = false,
+  onRollback,
   sx,
 }: PointInTimeRecoveryRollbackButtonProps) {
   const { formatMessage } = useIntl();
@@ -27,9 +31,11 @@ function PointInTimeRecoveryRollbackButton({
 
   return (
     <>
-      <Button onClick={handleOpenDialog} sx={{ ...sx }}>
+      <Button onClick={handleOpenDialog} disabled={current} sx={{ ...sx }}>
         {formatMessage({
-          id: "environment-point-in-time-recovery.rollback-button-label",
+          id: current
+            ? "environment-point-in-time-recovery.current-button-label"
+            : "environment-point-in-time-recovery.rollback-button-label",
         })}
       </Button>
       {dialogOpen && (
@@ -39,6 +45,7 @@ function PointInTimeRecoveryRollbackButton({
           configuration={configuration}
           environment={environment}
           version={version}
+          onRollback={onRollback}
         />
       )}
     </>

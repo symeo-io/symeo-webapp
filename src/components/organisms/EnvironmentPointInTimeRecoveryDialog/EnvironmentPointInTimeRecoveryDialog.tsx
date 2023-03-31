@@ -83,12 +83,14 @@ function EnvironmentPointInTimeRecoveryDialog({
             { count: versions.length }
           )}
         </Typography>
-        {versions.map((version) => (
+        {versions.map((version, index) => (
           <PointInTimeRecoveryVersion
             key={version.versionId}
             configuration={configuration}
             environment={environment}
             version={version}
+            current={index === 0}
+            onRollback={handleClose}
           />
         ))}
       </DialogContent>

@@ -214,13 +214,17 @@
       "apiKeyCreated": "<user>{logUsername}</user> created api key <b>{hiddenKey}</b>",
       "apiKeyDeleted":"<user>{logUsername}</user> deleted api key <b>{hiddenKey}</b>",
       "valuesUpdated": "<user>{logUsername}</user> updated values <b>{updatedProperties}</b>",
-      "secretsRead": "<user>{logUsername}</user> read secret values <b>{readProperties}</b>"
+      "secretsRead": "<user>{logUsername}</user> read secret values <b>{readProperties}</b>",
+      "versionRollback": "<user>{logUsername}</user> rolled back values to <b>{versionCreationDate}</b> version"
     }
   },
   "environment-point-in-time-recovery": {
     "title": "{environmentName} Point-in-Time Recovery",
     "sub-title": "{count, plural, =0 {no versions in history} one {# version} other {# versions}}",
     "rollback-button-label": "Rollback",
+    "current-button-label": "Current version",
+    "rollback-confirm-button-label": "Confirm rollback",
+    "cancel-button-label": "Cancel",
     "rollback": {
       "title": "Rollback {environmentName} to {date} version"
     }

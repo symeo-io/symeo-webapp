@@ -10,7 +10,8 @@ export type EnvironmentAuditEventType =
   | "apiKeyCreated"
   | "apiKeyDeleted"
   | "valuesUpdated"
-  | "secretsRead";
+  | "secretsRead"
+  | "versionRollback";
 
 export type ConfigurationAuditMetadata = {
   metadata: {
