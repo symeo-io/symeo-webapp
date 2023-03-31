@@ -1,6 +1,5 @@
 import { PropsWithSx } from "types/PropsWithSx";
 import {
-  Box,
   Dialog,
   DialogActions,
   DialogContent,
