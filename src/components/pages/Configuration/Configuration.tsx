@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Box, Typography } from "@mui/material";
 import { useIntl } from "react-intl";
 import DataObjectIcon from "@mui/icons-material/DataObject";
@@ -12,6 +12,9 @@ function Configuration() {
   const { formatMessage } = useIntl();
   const { repositoryVcsId, configurationId } = useParams();
   const [selectedEnvironmentId, setSelectedEnvironmentId] = useState<
+    string | undefined
+  >(undefined);
+  const [selectedBranchName, setSelectedBranchName] = useState<
     string | undefined
   >(undefined);
 
@@ -62,6 +65,18 @@ function Configuration() {
     []
   );
 
+  useEffect(() => {
+    if (configuration && !selectedEnvironment) {
+      setSelectedEnvironment(configuration.environments[0]);
+    }
+  }, [configuration, selectedEnvironment, setSelectedEnvironment]);
+
+  useEffect(() => {
+    if (configuration && !selectedBranchName) {
+      setSelectedBranchName(configuration.branch);
+    }
+  }, [configuration, selectedBranchName, setSelectedBranchName]);
+
   return (
     <Box
       sx={{
@@ -97,13 +112,17 @@ function Configuration() {
               )}
             </Typography>
           </Box>
-          <ConfigurationContent
-            configuration={configuration}
-            isCurrentUserAdmin={isCurrentUserAdmin}
-            currentUserEnvironmentRole={currentUserEnvironmentRole}
-            selectedEnvironment={selectedEnvironment}
-            setSelectedEnvironment={setSelectedEnvironment}
-          />
+          {selectedEnvironment && selectedBranchName && (
+            <ConfigurationContent
+              configuration={configuration}
+              environment={selectedEnvironment}
+              setEnvironment={setSelectedEnvironment}
+              branch={selectedBranchName}
+              setBranch={setSelectedBranchName}
+              isCurrentUserAdmin={isCurrentUserAdmin}
+              currentUserEnvironmentRole={currentUserEnvironmentRole}
+            />
+          )}
         </>
       )}
     </Box>

@@ -11,12 +11,16 @@ export type UseValuesInput = {
   configuration: Configuration;
   environment: Environment;
   contract?: ConfigurationContract;
+  branch?: string;
+  versionId?: string;
 };
 
 export function useValues({
   configuration,
   environment,
   contract,
+  branch,
+  versionId,
 }: UseValuesInput) {
   const {
     data: valuesData,
@@ -27,6 +31,8 @@ export function useValues({
     configurationId: configuration.id,
     repositoryVcsId: configuration.repository.vcsId,
     environmentId: environment.id,
+    branch,
+    versionId,
   });
 
   const values = useMemo(

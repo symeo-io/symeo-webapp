@@ -18,6 +18,7 @@ import KeyOffIcon from "@mui/icons-material/KeyOff";
 import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
 import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
 import RemoveRedEyeOutlinedIcon from "@mui/icons-material/RemoveRedEyeOutlined";
+import HistoryIcon from "@mui/icons-material/History";
 
 export type ActivityLogType = "configuration" | "environment";
 
@@ -36,6 +37,7 @@ const logIcons: Record<ActivityLogType, Record<string, typeof AddIcon>> = {
     apiKeyDeleted: KeyOffIcon,
     valuesUpdated: FileUploadOutlinedIcon,
     secretsRead: RemoveRedEyeOutlinedIcon,
+    versionRollback: HistoryIcon,
   },
 };
 
@@ -89,7 +91,7 @@ function ActivityLog({
         sx={{ marginLeft: (theme) => theme.spacing(2), marginBottom: "28px" }}
       >
         <Typography sx={{ fontWeight: 500, color: colors.secondary.text }}>
-          {dayjs(log.createdAt).format("YYYY/MM/DD, HH:mm")}
+          {dayjs(log.createdAt).format("YYYY/MM/DD HH:mm")}
         </Typography>
         <Typography variant="body2">
           <FormattedMessage
@@ -109,6 +111,9 @@ function ActivityLog({
               readProperties: (log.metadata.metadata as any).readProperties
                 ? (log.metadata.metadata as any).readProperties.join(", ")
                 : undefined,
+              versionCreationDate: dayjs(
+                (log.metadata.metadata as any).versionCreationDate
+              ).format("YYYY/MM/DD HH:mm"),
             }}
           />
         </Typography>

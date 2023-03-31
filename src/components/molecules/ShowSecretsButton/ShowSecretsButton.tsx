@@ -1,81 +1,35 @@
+import React from "react";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
 import { CircularProgress, IconButton } from "@mui/material";
-import React, { useCallback } from "react";
 import { PropsWithSx } from "types/PropsWithSx";
-import { ConfigurationValues } from "redux/api/values/values.types";
-import { useLazyGetValuesForEnvironmentWithSecretsQuery } from "redux/api/values/values.api";
-import { Configuration } from "redux/api/configurations/configurations.types";
-import { Environment } from "redux/api/environments/environments.types";
 import { colors } from "theme/colors";
+import { Editor } from "hooks/useConfigurationEditor";
 
 export type ShowSecretsButtonProps = PropsWithSx & {
-  configuration: Configuration;
-  environment: Environment;
-  showSecrets: boolean;
-  setShowSecrets: (value: boolean) => void;
-  valuesWithSecrets: ConfigurationValues | undefined;
-  setValuesWithSecrets: (values: ConfigurationValues) => void;
-  selectedBranchName?: string;
+  editor: Editor;
 };
-function ShowSecretsButton({
-  configuration,
-  environment,
-  showSecrets,
-  setShowSecrets,
-  valuesWithSecrets,
-  setValuesWithSecrets,
-  selectedBranchName,
-  sx,
-}: ShowSecretsButtonProps) {
-  const [fetchValuesWithSecrets, { isLoading }] =
-    useLazyGetValuesForEnvironmentWithSecretsQuery();
-
-  const handleClick = useCallback(async () => {
-    if (!valuesWithSecrets) {
-      const { data } = await fetchValuesWithSecrets({
-        configurationId: configuration.id,
-        repositoryVcsId: configuration.repository.vcsId,
-        environmentId: environment.id,
-        branch: selectedBranchName,
-      });
-
-      if (data) {
-        setValuesWithSecrets(data.values);
-      }
-    }
-
-    setShowSecrets(!showSecrets);
-  }, [
-    valuesWithSecrets,
-    setShowSecrets,
-    showSecrets,
-    fetchValuesWithSecrets,
-    configuration.id,
-    configuration.repository.vcsId,
-    environment.id,
-    selectedBranchName,
-    setValuesWithSecrets,
-  ]);
-
+function ShowSecretsButton({ editor, sx }: ShowSecretsButtonProps) {
   return (
     <IconButton
-      onClick={handleClick}
+      onClick={editor.toggleShowSecrets}
       sx={{
         width: "42px",
+        height: "42px",
+        background: "white",
         ...sx,
       }}
     >
-      {isLoading && (
+      {editor.isLoadingShowSecrets && (
         <CircularProgress
           size={16}
           sx={{ color: colors.secondary.text, padding: "2px" }}
         />
       )}
-      {!isLoading && showSecrets && (
+      {!editor.isLoadingShowSecrets && editor.showSecrets && (
         <VisibilityOutlinedIcon sx={{ fontSize: "20px !important" }} />
       )}
-      {!isLoading && !showSecrets && (
+      {!editor.isLoadingShowSecrets && !editor.showSecrets && (
         <VisibilityOffOutlinedIcon sx={{ fontSize: "20px !important" }} />
       )}
     </IconButton>
