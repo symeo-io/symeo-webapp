@@ -1,29 +1,35 @@
+import React from "react";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
-import { IconButton } from "@mui/material";
-import React from "react";
+import { CircularProgress, IconButton } from "@mui/material";
 import { PropsWithSx } from "types/PropsWithSx";
+import { colors } from "theme/colors";
+import { Editor } from "hooks/useConfigurationEditor";
 
 export type ShowSecretsButtonProps = PropsWithSx & {
-  showSecrets: boolean;
-  setShowSecrets: (value: boolean) => void;
+  editor: Editor;
 };
-function ShowSecretsButton({
-  showSecrets,
-  setShowSecrets,
-  sx,
-}: ShowSecretsButtonProps) {
+function ShowSecretsButton({ editor, sx }: ShowSecretsButtonProps) {
   return (
     <IconButton
-      onClick={() => setShowSecrets(!showSecrets)}
+      onClick={editor.toggleShowSecrets}
       sx={{
         width: "42px",
+        height: "42px",
+        background: "white",
         ...sx,
       }}
     >
-      {showSecrets ? (
+      {editor.isLoadingShowSecrets && (
+        <CircularProgress
+          size={16}
+          sx={{ color: colors.secondary.text, padding: "2px" }}
+        />
+      )}
+      {!editor.isLoadingShowSecrets && editor.showSecrets && (
         <VisibilityOutlinedIcon sx={{ fontSize: "20px !important" }} />
-      ) : (
+      )}
+      {!editor.isLoadingShowSecrets && !editor.showSecrets && (
         <VisibilityOffOutlinedIcon sx={{ fontSize: "20px !important" }} />
       )}
     </IconButton>

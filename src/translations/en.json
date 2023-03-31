@@ -1,5 +1,20 @@
 {
   "name": "Symeo",
+  "configurations": {
+    "title": "Configurations",
+    "empty-state": {
+      "title": "Create your first project configuration!",
+      "message": "Define your application needs as code and use Configurations to centralized your variables and secrets by environment.",
+      "cta-label": "Create Configuration"
+    },
+    "search-placeholder": "Configuration name",
+    "cta-label": "Create Configuration",
+    "columns": {
+      "configuration": "Configuration",
+      "repository": "Repository",
+      "actions": "Actions"
+    }
+  },
   "projects": {
     "title": "Projects",
     "repositories": {
@@ -24,10 +39,56 @@
       "message": "Drop your values file here"
     }
   },
+  "create-configuration": {
+    "title": "Set up new Configuration",
+    "has-created-contract": {
+      "has-created-contract-button-title": "I already created my Symeo contract",
+      "has-created-contract-button-message1": "I have pushed a",
+      "has-created-contract-button-message2": "symeo.config.yml",
+      "has-created-contract-button-message3": "file to my repository",
+      "has-not-created-contract-button-title": "I do not have a Symeo contract yet",
+      "has-not-created-contract-button-message": "Guide me through contract creation",
+      "learn-more-message": "To learn more about Symeo contracts, consult this",
+      "learn-more-link": "documentation"
+    },
+    "create-configuration-guided-form": {
+      "repository-label": "Select the project for which to create a configuration contract",
+      "repository-message": "Choose the repository hosting the code of the application you need to configure.",
+      "branch-label": "Choose the branch on which to commit the contract",
+      "branch-message": "Choose your main development branch, on which features are merged.",
+      "contract-label": "Edit your configuration contract",
+      "contract-messages": {
+        "no-env-file": "We created an example contract bellow. Edit it to match your needs.",
+        "one-env-file1": "We found the",
+        "one-env-file2": "file in your repository and converted it to a Symeo contract. Edit it if needed.",
+        "multiple-env-files": "We found multiple .env file in your repository. Choose the one you want to convert to Symeo contract."
+      },
+      "contract-documentation": {
+        "nesting": "You can nest properties to any depth level",
+        "types": {
+          "start": "Supported types are",
+          "and": "and"
+        },
+        "flags": {
+          "start": "Properties can be flagged with",
+          "or": "or"
+        }
+      },
+      "contract-file-path-label": "Choose where to commit your contract file",
+      "contract-file-path-message1": "We’ll commit the contract file on the",
+      "contract-file-path-message2": "branch in this location:",
+      "name-label": "Finally, give a name to your Configuration",
+      "name-message": "This is useful if your have multiple Configurations in the same repository",
+      "next-button-label": "Next",
+      "back-button-label": "Back",
+      "submit-button-label": "Commit & Create Configuration"
+    }
+  },
   "create-configuration-form": {
     "title": "Set up configuration for {repositoryName}",
     "cancel-button-label": "Cancel",
     "set-up-button-label": "Set Up Configuration",
+    "repository-field-label": "Repository",
     "name-field-label": "Configuration name",
     "name-field-placeholder": "e.g: api, backend, infrastructure...",
     "config-contract-file-path-field-label": "Path to your configuration contract file",
@@ -37,6 +98,9 @@
     "contract-help-message": "Need help defining your contract? Follow documentation ",
     "here": "here",
     "errors": {
+      "empty-repository": "You must provide a repository for your configuration",
+      "empty-branch": "You must provide a branch for your configuration",
+      "empty-path": "You must provide a contract file path for your configuration",
       "empty-name": "You must provide a name for your configuration"
     },
     "validation": {
@@ -135,7 +199,38 @@
       }
     }
   },
+  "environment-activity-log": {
+    "title": "{environmentName} Activity Log",
+    "configuration-events": {
+      "created": "<user>{logUsername}</user> created configuration <b>{name}</b> for <b>{repositoryName}</b> with branch <b>{branch}</b> and contract <b>{contractFilePath}</b>",
+      "updated": "<user>{logUsername}</user> updated configuration <b>{name}</b> for <b>{repositoryName}</b> with branch <b>{branch}</b> and contract <b>{contractFilePath}</b>",
+      "deleted": "<user>{logUsername}</user> deleted configuration <b>{name}</b> for <b>{repositoryName}</b>"
+    },
+    "environment-events": {
+      "created": "<user>{logUsername}</user> created environment <b>{environmentName}</b> with color <b>{color}</b>",
+      "updated":"<user>{logUsername}</user> updated environment <b>{environmentName}</b> with color <b>{color}</b>",
+      "deleted": "<user>{logUsername}</user> deleted environment <b>{environmentName}</b>",
+      "permissionUpdated":"<user>{logUsername}</user> updated permissions for <b>{userName}</b> from <b>{previousRole}</b> to <b>{newRole}</b>",
+      "apiKeyCreated": "<user>{logUsername}</user> created api key <b>{hiddenKey}</b>",
+      "apiKeyDeleted":"<user>{logUsername}</user> deleted api key <b>{hiddenKey}</b>",
+      "valuesUpdated": "<user>{logUsername}</user> updated values <b>{updatedProperties}</b>",
+      "secretsRead": "<user>{logUsername}</user> read secret values <b>{readProperties}</b>",
+      "versionRollback": "<user>{logUsername}</user> rolled back values to <b>{versionCreationDate}</b> version"
+    }
+  },
+  "environment-point-in-time-recovery": {
+    "title": "{environmentName} Point-in-Time Recovery",
+    "sub-title": "{count, plural, =0 {no versions in history} one {# version} other {# versions}}",
+    "rollback-button-label": "Rollback",
+    "current-button-label": "Current version",
+    "rollback-confirm-button-label": "Confirm rollback",
+    "cancel-button-label": "Cancel",
+    "rollback": {
+      "title": "Rollback {environmentName} to {date} version"
+    }
+  },
   "sidebar": {
+    "configurations-link-label": "Configurations",
     "projects-link-label": "Projects",
     "documentation-link-label": "Documentation",
     "organization-selector": {

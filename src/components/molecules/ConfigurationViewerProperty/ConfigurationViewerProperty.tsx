@@ -5,9 +5,9 @@ import {
 } from "redux/api/configurations/configurations.types";
 import React, { useCallback, useMemo } from "react";
 import { Box } from "@mui/material";
-import { ConfigurationValues } from "redux/api/values/values.types";
 import { getObjectValueByPath } from "components/molecules/ConfigurationEditorProperty/utils";
 import ConfigurationViewerValue from "components/molecules/ConfigurationViewerValue/ConfigurationViewerValue";
+import { Editor } from "hooks/useConfigurationEditor";
 
 function isConfigurationProperty(
   value: ConfigurationContract | ConfigurationProperty
@@ -19,16 +19,14 @@ export type ConfigurationViewerPropertyProps = PropsWithSx & {
   propertyName: string;
   property: ConfigurationContract | ConfigurationProperty;
   path?: string;
-  values: ConfigurationValues;
-  showSecrets?: boolean;
+  editor: Editor;
 };
 
 function ConfigurationViewerProperty({
   propertyName,
   property,
   path = propertyName,
-  values,
-  showSecrets = false,
+  editor,
   sx,
 }: ConfigurationViewerPropertyProps) {
   const configurationProperty = useMemo(
@@ -37,8 +35,16 @@ function ConfigurationViewerProperty({
   );
 
   const getValueByPath = useCallback(
-    (path: string) => getObjectValueByPath(values, path),
-    [values]
+    (path: string) => getObjectValueByPath(editor.values, path),
+    [editor.values]
+  );
+
+  const getSecretValueByPath = useCallback(
+    (path: string) =>
+      editor.valuesWithSecrets
+        ? getObjectValueByPath(editor.valuesWithSecrets, path)
+        : undefined,
+    [editor.valuesWithSecrets]
   );
 
   return (
@@ -63,8 +69,9 @@ function ConfigurationViewerProperty({
       {configurationProperty && (
         <ConfigurationViewerValue
           value={getValueByPath(path)}
+          secretValue={getSecretValueByPath(path)}
           property={property as ConfigurationProperty}
-          showSecrets={showSecrets}
+          showSecrets={editor.showSecrets}
         />
       )}
       {!configurationProperty &&
@@ -74,8 +81,7 @@ function ConfigurationViewerProperty({
             propertyName={subPropertyName}
             property={(property as ConfigurationContract)[subPropertyName]}
             path={path + "." + subPropertyName}
-            values={values}
-            showSecrets={showSecrets}
+            editor={editor}
             sx={sx}
           />
         ))}

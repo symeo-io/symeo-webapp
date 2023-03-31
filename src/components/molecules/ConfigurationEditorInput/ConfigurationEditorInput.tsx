@@ -1,7 +1,7 @@
 import { PropsWithSx } from "types/PropsWithSx";
 import { ConfigurationProperty } from "redux/api/configurations/configurations.types";
 import { Box, InputBase, MenuItem, Select, styled } from "@mui/material";
-import React, { useCallback } from "react";
+import React, { useCallback, useMemo } from "react";
 import { colors } from "theme/colors";
 import {
   getInputColorForProperty,
@@ -43,13 +43,17 @@ export type ConfigurationEditorInputProps = PropsWithSx & {
   property: ConfigurationProperty;
   onChange: (value: unknown) => void;
   value: unknown;
+  secretValue: unknown;
+  isModified: boolean;
   showSecrets?: boolean;
 };
 
 function ConfigurationEditorInput({
   property,
   value,
+  secretValue,
   onChange,
+  isModified,
   showSecrets,
   sx,
 }: ConfigurationEditorInputProps) {
@@ -63,11 +67,29 @@ function ConfigurationEditorInput({
     [onChange, property]
   );
 
+  const displayedValue = useMemo(() => {
+    if (!property.secret) {
+      return value;
+    }
+
+    if (showSecrets && !isModified) {
+      return secretValue;
+    }
+
+    return value;
+  }, [isModified, property.secret, secretValue, showSecrets, value]);
+
+  const onFocus = useCallback(() => {
+    if (property.secret && !showSecrets) {
+      onChange("");
+    }
+  }, [onChange, property.secret, showSecrets]);
+
   return property.type !== "boolean" ? (
     <Box sx={{ width: "100%", position: "relative" }}>
       <ConfigurationEditorInputPlaceHolder
         property={property}
-        value={value ?? ""}
+        value={displayedValue ?? ""}
         sx={{
           position: "absolute",
           top: 0,
@@ -83,8 +105,9 @@ function ConfigurationEditorInput({
           color: getInputColorForProperty(property),
           ...sx,
         }}
-        value={value ?? ""}
+        value={displayedValue ?? ""}
         onChange={onChangeWithFormatValidation}
+        onFocus={onFocus}
       />
     </Box>
   ) : (
@@ -128,7 +151,7 @@ function ConfigurationEditorInput({
           value.toString()
         )
       }
-      value={value ?? ""}
+      value={displayedValue ?? ""}
       onChange={onChangeWithFormatValidation}
       sx={{
         color: getInputColorForProperty(property),

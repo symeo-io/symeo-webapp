@@ -6,6 +6,8 @@ export type GetEnvironmentValuesInput = {
   repositoryVcsId: number;
   configurationId: string;
   environmentId: string;
+  branch?: string;
+  versionId?: string;
 };
 
 export type GetEnvironmentValuesResponse = {
@@ -17,4 +19,11 @@ export type SetEnvironmentValuesInput = {
   configurationId: string;
   environmentId: string;
   values: ConfigurationValues;
+};
+
+export type RollbackEnvironmentValuesInput = {
+  repositoryVcsId: number;
+  configurationId: string;
+  environmentId: string;
+  versionId: string;
 };

@@ -1,6 +1,9 @@
 import { useForm } from "hooks/useForm";
 
+export const defaultContractFileName = "symeo.config.yml";
+
 export type CreateConfigurationFormValues = {
+  repositoryVcsId: number;
   name: string;
 
   contractFilePath: string;
@@ -10,31 +13,46 @@ export type CreateConfigurationFormValues = {
 
 export const createConfigurationFormDefaultValues: CreateConfigurationFormValues =
   {
+    repositoryVcsId: 0,
     name: "",
-    contractFilePath: "symeo.config.yml",
+    contractFilePath: defaultContractFileName,
     branch: "",
   };
 
-export function useCreateConfigurationForm() {
+export function useCreateConfigurationForm(
+  initialValues?: Partial<CreateConfigurationFormValues>
+) {
   return useForm<CreateConfigurationFormValues>({
-    defaultValues: createConfigurationFormDefaultValues,
+    defaultValues: {
+      ...createConfigurationFormDefaultValues,
+      ...initialValues,
+    },
     onValidate: (values) => {
       const errors: Record<keyof CreateConfigurationFormValues, string[]> = {
+        repositoryVcsId: [],
         name: [],
         contractFilePath: [],
         branch: [],
       };
+
+      if (!values.repositoryVcsId) {
+        errors.repositoryVcsId.push(
+          "create-configuration-form.errors.empty-repository"
+        );
+      }
 
       if (!values.name) {
         errors.name.push("create-configuration-form.errors.empty-name");
       }
 
       if (!values.contractFilePath) {
-        errors.name.push("create-configuration-form.errors.empty-name");
+        errors.contractFilePath.push(
+          "create-configuration-form.errors.empty-path"
+        );
       }
 
       if (!values.branch) {
-        errors.name.push("create-configuration-form.errors.empty-name");
+        errors.branch.push("create-configuration-form.errors.empty-branch");
       }
 
       return errors;

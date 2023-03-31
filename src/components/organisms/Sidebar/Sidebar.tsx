@@ -11,6 +11,7 @@ import { SIDE_BAR_WIDTH } from "theme/theme";
 import { useSelectedOrganization } from "hooks/useSelectedOrganization";
 import SidebarExternalLink from "components/molecules/SidebarExternalLink/SidebarExternalLink";
 import DescriptionIcon from "@mui/icons-material/Description";
+import DataObjectIcon from "@mui/icons-material/DataObject";
 
 function Sidebar() {
   const { formatMessage } = useIntl();
@@ -52,10 +53,18 @@ function Sidebar() {
         {selectedOrganization && (
           <MenuList>
             <SidebarNavLink
+              label={formatMessage({ id: "sidebar.configurations-link-label" })}
+              icon={<DataObjectIcon />}
+              to="configurations"
+              params={{ organizationName: selectedOrganization.name }}
+              sx={{ marginY: (theme) => theme.spacing(1) }}
+            />
+            <SidebarNavLink
               label={formatMessage({ id: "sidebar.projects-link-label" })}
               icon={<SourceIcon />}
               to="projects"
               params={{ organizationName: selectedOrganization.name }}
+              sx={{ marginY: (theme) => theme.spacing(1) }}
             />
           </MenuList>
         )}

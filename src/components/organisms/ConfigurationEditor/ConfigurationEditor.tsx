@@ -1,116 +1,36 @@
-import React, { useCallback, useEffect, useMemo } from "react";
+import React from "react";
 import { Box } from "@mui/material";
-import { useGetConfigurationContractQuery } from "redux/api/configurations/configurations.api";
 import { PropsWithSx } from "types/PropsWithSx";
-import { Configuration } from "redux/api/configurations/configurations.types";
-import LoadingBox from "components/molecules/LoadingBox/LoadingBox";
 import {
-  useGetValuesForEnvironmentQuery,
-  useSetValuesForEnvironmentMutation,
-} from "redux/api/values/values.api";
-import { ConfigurationValues } from "redux/api/values/values.types";
+  Configuration,
+  ConfigurationContract,
+} from "redux/api/configurations/configurations.types";
+import LoadingBox from "components/molecules/LoadingBox/LoadingBox";
 import ConfigurationEditorProperty from "components/molecules/ConfigurationEditorProperty/ConfigurationEditorProperty";
-import { cloneDeep } from "lodash";
 import Button from "components/atoms/Button/Button";
 import { useIntl } from "react-intl";
-import { Environment } from "redux/api/environments/environments.types";
 import { colors } from "theme/colors";
-import { initializeConfig } from "services/contract/contract.utils";
 import ConfigurationEditorDropZone from "components/molecules/ConfigurationEditorDropZone/ConfigurationEditorDropZone";
+import { Editor } from "hooks/useConfigurationEditor";
 
 export type ConfigurationEditorProps = PropsWithSx & {
-  editorValues: ConfigurationValues;
-  setEditorValues: (values: ConfigurationValues) => void;
   configuration: Configuration;
-  environment: Environment;
-  branch?: string;
-  showSecrets?: boolean;
+  branch: string;
+  editor: Editor;
 };
 
 function ConfigurationEditor({
-  editorValues,
-  setEditorValues,
   configuration,
-  environment,
   branch,
-  showSecrets = false,
+  editor,
   sx,
 }: ConfigurationEditorProps) {
   const { formatMessage } = useIntl();
-  const [setValues, { isLoading: isLoadingSetValues }] =
-    useSetValuesForEnvironmentMutation();
-
-  const {
-    data: configurationContractData,
-    error: configurationContractError,
-    isLoading: isLoadingContract,
-    isFetching: isFetchingContract,
-  } = useGetConfigurationContractQuery({
-    configurationId: configuration.id,
-    repositoryVcsId: configuration.repository.vcsId,
-    branch,
-  });
-
-  const {
-    data: valuesData,
-    isLoading: isLoadingValues,
-    isFetching: isFetchingValues,
-    isSuccess: isSuccessValues,
-  } = useGetValuesForEnvironmentQuery({
-    configurationId: configuration.id,
-    repositoryVcsId: configuration.repository.vcsId,
-    environmentId: environment.id,
-  });
-
-  const contract = useMemo(
-    () => configurationContractData?.contract,
-    [configurationContractData?.contract]
-  );
-
-  const values = useMemo(
-    () =>
-      valuesData?.values &&
-      contract &&
-      initializeConfig(contract, valuesData.values),
-    [contract, valuesData]
-  );
-
-  const reset = useCallback(
-    () => values && setEditorValues(cloneDeep(values)),
-    [setEditorValues, values]
-  );
-
-  const save = useCallback(async () => {
-    if (isSuccessValues && !isFetchingValues) {
-      setValues({
-        configurationId: configuration.id,
-        repositoryVcsId: configuration.repository.vcsId,
-        environmentId: environment.id,
-        values: editorValues,
-      });
-    }
-  }, [
-    configuration.id,
-    configuration.repository.vcsId,
-    editorValues,
-    environment.id,
-    isFetchingValues,
-    isSuccessValues,
-    setValues,
-  ]);
-
-  useEffect(() => {
-    if (values) {
-      setEditorValues(cloneDeep(values));
-    }
-  }, [setEditorValues, values]);
 
   return (
     <>
       <ConfigurationEditorDropZone
-        editorValues={editorValues}
-        setEditorValues={setEditorValues}
-        contract={contract}
+        editor={editor}
         sx={{
           flex: 1,
           display: "flex",
@@ -148,13 +68,12 @@ function ConfigurationEditor({
             },
           }}
         >
-          {(isLoadingContract ||
-            isFetchingContract ||
-            isLoadingValues ||
-            isFetchingValues) && <LoadingBox sx={{ flex: 1 }} />}
-          {!isFetchingContract &&
-            !isFetchingValues &&
-            configurationContractError && (
+          {(editor.contract.isFetching || editor.originalValues.isFetching) && (
+            <LoadingBox sx={{ flex: 1 }} />
+          )}
+          {!editor.contract.isFetching &&
+            !editor.originalValues.isFetching &&
+            editor.contract.error && (
               <Box
                 sx={{
                   color: colors.error.text,
@@ -173,20 +92,19 @@ function ConfigurationEditor({
                 )}
               </Box>
             )}
-          {!isFetchingContract &&
-            !isFetchingValues &&
-            !configurationContractError &&
-            contract &&
-            values &&
-            Object.keys(contract).map((propertyName) => (
+          {!editor.contract.isFetching &&
+            !editor.originalValues.isFetching &&
+            !editor.contract.error &&
+            editor.contract.value &&
+            editor.originalValues.value &&
+            Object.keys(editor.contract.value).map((propertyName) => (
               <ConfigurationEditorProperty
                 key={propertyName}
                 propertyName={propertyName}
-                property={contract[propertyName]}
-                values={editorValues}
-                originalValues={values}
-                setValues={setEditorValues}
-                showSecrets={showSecrets}
+                property={
+                  (editor.contract.value as ConfigurationContract)[propertyName]
+                }
+                editor={editor}
               />
             ))}
         </Box>
@@ -203,15 +121,19 @@ function ConfigurationEditor({
         <Button
           variant="outlined"
           sx={{ marginRight: (theme) => theme.spacing(1) }}
-          onClick={reset}
-          disabled={!isSuccessValues || isFetchingValues}
+          onClick={editor.reset}
+          disabled={
+            !editor.originalValues.isSuccess || editor.originalValues.isFetching
+          }
         >
           {formatMessage({ id: "configuration.reset" })}
         </Button>
         <Button
-          onClick={save}
-          loading={isLoadingSetValues}
-          disabled={!isSuccessValues || isFetchingValues}
+          onClick={editor.save}
+          loading={editor.isLoadingSave}
+          disabled={
+            !editor.originalValues.isSuccess || editor.originalValues.isFetching
+          }
         >
           {formatMessage({ id: "configuration.save" })}
         </Button>

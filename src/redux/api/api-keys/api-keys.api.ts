@@ -29,6 +29,7 @@ const apiKeysMutationApi = api.injectEndpoints({
       }),
       invalidatesTags: (result, error, { environmentId }) => [
         { type: "ApiKeys", id: environmentId },
+        { type: "EnvironmentActivityLog", id: environmentId },
       ],
     }),
     deleteApiKey: builder.mutation<void, DeleteApiKeysInput>({
@@ -43,6 +44,7 @@ const apiKeysMutationApi = api.injectEndpoints({
       }),
       invalidatesTags: (result, error, { environmentId }) => [
         { type: "ApiKeys", id: environmentId },
+        { type: "EnvironmentActivityLog", id: environmentId },
       ],
     }),
   }),

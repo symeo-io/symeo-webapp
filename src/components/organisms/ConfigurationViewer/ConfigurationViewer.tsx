@@ -1,57 +1,29 @@
-import React, { useMemo } from "react";
+import React from "react";
 import { Box } from "@mui/material";
-import { useGetConfigurationContractQuery } from "redux/api/configurations/configurations.api";
 import { PropsWithSx } from "types/PropsWithSx";
-import { Configuration } from "redux/api/configurations/configurations.types";
+import {
+  Configuration,
+  ConfigurationContract,
+} from "redux/api/configurations/configurations.types";
 import LoadingBox from "components/molecules/LoadingBox/LoadingBox";
-import { useGetValuesForEnvironmentQuery } from "redux/api/values/values.api";
 import { useIntl } from "react-intl";
-import { Environment } from "redux/api/environments/environments.types";
 import { colors } from "theme/colors";
 import ConfigurationViewerProperty from "components/molecules/ConfigurationViewerProperty/ConfigurationViewerProperty";
+import { Editor } from "hooks/useConfigurationEditor";
 
 export type ConfigurationViewerProps = PropsWithSx & {
   configuration: Configuration;
-  environment: Environment;
   branch?: string;
-  showSecrets?: boolean;
+  editor: Editor;
 };
 
 function ConfigurationViewer({
   configuration,
-  environment,
+  editor,
   branch,
-  showSecrets = false,
   sx,
 }: ConfigurationViewerProps) {
   const { formatMessage } = useIntl();
-  const {
-    data: configurationContractData,
-    error: configurationContractError,
-    isLoading: isLoadingContract,
-    isFetching: isFetchingContract,
-  } = useGetConfigurationContractQuery({
-    configurationId: configuration.id,
-    repositoryVcsId: configuration.repository.vcsId,
-    branch,
-  });
-
-  const {
-    data: valuesData,
-    isLoading: isLoadingValues,
-    isFetching: isFetchingValues,
-  } = useGetValuesForEnvironmentQuery({
-    configurationId: configuration.id,
-    repositoryVcsId: configuration.repository.vcsId,
-    environmentId: environment.id,
-  });
-
-  const contract = useMemo(
-    () => configurationContractData?.contract,
-    [configurationContractData?.contract]
-  );
-
-  const values = useMemo(() => valuesData?.values, [valuesData?.values]);
 
   return (
     <>
@@ -84,13 +56,12 @@ function ConfigurationViewer({
           ...sx,
         }}
       >
-        {(isLoadingContract ||
-          isFetchingContract ||
-          isLoadingValues ||
-          isFetchingValues) && <LoadingBox sx={{ flex: 1 }} />}
-        {!isFetchingContract &&
-          !isFetchingValues &&
-          configurationContractError && (
+        {(editor.contract.isFetching || editor.originalValues.isFetching) && (
+          <LoadingBox sx={{ flex: 1 }} />
+        )}
+        {!editor.contract.isFetching &&
+          !editor.originalValues.isFetching &&
+          editor.contract.error && (
             <Box
               sx={{
                 color: colors.error.text,
@@ -109,18 +80,19 @@ function ConfigurationViewer({
               )}
             </Box>
           )}
-        {!isFetchingContract &&
-          !isFetchingValues &&
-          !configurationContractError &&
-          contract &&
-          values &&
-          Object.keys(contract).map((propertyName) => (
+        {!editor.contract.isFetching &&
+          !editor.originalValues.isFetching &&
+          !editor.contract.error &&
+          editor.contract.value &&
+          editor.originalValues.value &&
+          Object.keys(editor.contract.value).map((propertyName) => (
             <ConfigurationViewerProperty
               key={propertyName}
               propertyName={propertyName}
-              property={contract[propertyName]}
-              values={values}
-              showSecrets={showSecrets}
+              property={
+                (editor.contract.value as ConfigurationContract)[propertyName]
+              }
+              editor={editor}
             />
           ))}
       </Box>
