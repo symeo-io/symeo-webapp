@@ -13,7 +13,7 @@ export const environmentPermissionsQueryApi = api.injectEndpoints({
       GetEnvironmentPermissionsInput
     >({
       query: ({ repositoryVcsId, configurationId, environmentId }) => ({
-        url: `/api/v1/configurations/github/${repositoryVcsId}/${configurationId}/environments/${environmentId}/permissions`,
+        url: `/api/v1/configurations/${repositoryVcsId}/${configurationId}/environments/${environmentId}/permissions`,
       }),
       providesTags: (_, __, { environmentId }) => [
         { type: "EnvironmentPermissions", id: environmentId },
@@ -34,7 +34,7 @@ const environmentPermissionsMutationApi = api.injectEndpoints({
         environmentId,
         ...body
       }) => ({
-        url: `/api/v1/configurations/github/${repositoryVcsId}/${configurationId}/environments/${environmentId}/permissions`,
+        url: `/api/v1/configurations/${repositoryVcsId}/${configurationId}/environments/${environmentId}/permissions`,
         method: "POST",
         body,
       }),

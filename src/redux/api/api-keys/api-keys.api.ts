@@ -11,7 +11,7 @@ const apiKeysQueryApi = api.injectEndpoints({
   endpoints: (builder) => ({
     getApiKeys: builder.query<GetApiKeysResponse, GetApiKeysInput>({
       query: ({ configurationId, repositoryVcsId, environmentId }) => ({
-        url: `/api/v1/configurations/github/${repositoryVcsId}/${configurationId}/environments/${environmentId}/api-keys`,
+        url: `/api/v1/configurations/${repositoryVcsId}/${configurationId}/environments/${environmentId}/api-keys`,
       }),
       providesTags: (result, error, { environmentId }) => [
         { type: "ApiKeys", id: environmentId },
@@ -24,7 +24,7 @@ const apiKeysMutationApi = api.injectEndpoints({
   endpoints: (builder) => ({
     createApiKey: builder.mutation<CreateApiKeysResponse, CreateApiKeysInput>({
       query: ({ configurationId, repositoryVcsId, environmentId }) => ({
-        url: `/api/v1/configurations/github/${repositoryVcsId}/${configurationId}/environments/${environmentId}/api-keys`,
+        url: `/api/v1/configurations/${repositoryVcsId}/${configurationId}/environments/${environmentId}/api-keys`,
         method: "POST",
       }),
       invalidatesTags: (result, error, { environmentId }) => [
@@ -39,7 +39,7 @@ const apiKeysMutationApi = api.injectEndpoints({
         environmentId,
         apiKeyId,
       }) => ({
-        url: `/api/v1/configurations/github/${repositoryVcsId}/${configurationId}/environments/${environmentId}/api-keys/${apiKeyId}`,
+        url: `/api/v1/configurations/${repositoryVcsId}/${configurationId}/environments/${environmentId}/api-keys/${apiKeyId}`,
         method: "DELETE",
       }),
       invalidatesTags: (result, error, { environmentId }) => [

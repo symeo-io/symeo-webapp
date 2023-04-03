@@ -11,7 +11,7 @@ export const pointInTimeRecoveryQueryApi = api.injectEndpoints({
       GetValuesVersionsInput
     >({
       query: ({ configurationId, repositoryVcsId, environmentId }) => ({
-        url: `/api/v1/configurations/github/${repositoryVcsId}/${configurationId}/environments/${environmentId}/versions`,
+        url: `/api/v1/configurations/${repositoryVcsId}/${configurationId}/environments/${environmentId}/versions`,
       }),
       providesTags: (result, error, { environmentId }) => [
         { type: "EnvironmentValuesVersions", id: environmentId },
