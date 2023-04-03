@@ -21,7 +21,7 @@ export const configurationQueryApi = api.injectEndpoints({
       GetConfigurationInput
     >({
       query: ({ configurationId, repositoryVcsId }) => ({
-        url: `/api/v1/configurations/github/${repositoryVcsId}/${configurationId}`,
+        url: `/api/v1/configurations/${repositoryVcsId}/${configurationId}`,
       }),
       providesTags: (result, error, { configurationId }) => [
         { type: "Configuration", id: configurationId },
@@ -32,7 +32,7 @@ export const configurationQueryApi = api.injectEndpoints({
       GetConfigurationContractInput
     >({
       query: ({ configurationId, repositoryVcsId, branch }) => ({
-        url: `/api/v1/configurations/github/${repositoryVcsId}/${configurationId}/contract`,
+        url: `/api/v1/configurations/${repositoryVcsId}/${configurationId}/contract`,
         params: {
           branch,
         },
@@ -51,7 +51,7 @@ const configurationsMutationApi = api.injectEndpoints({
       ValidateGitHubConfigurationInput
     >({
       query: (body) => ({
-        url: `/api/v1/configurations/github/validate`,
+        url: `/api/v1/configurations/validate`,
         method: "POST",
         body,
       }),
@@ -61,7 +61,7 @@ const configurationsMutationApi = api.injectEndpoints({
       CreateGitHubConfigurationInput
     >({
       query: ({ repositoryVcsId, ...body }) => ({
-        url: `/api/v1/configurations/github/${repositoryVcsId}`,
+        url: `/api/v1/configurations/${repositoryVcsId}`,
         method: "POST",
         body,
       }),
@@ -99,7 +99,7 @@ const configurationsMutationApi = api.injectEndpoints({
       UpdateGitHubConfigurationInput
     >({
       query: ({ repositoryVcsId, configurationId, ...body }) => ({
-        url: `/api/v1/configurations/github/${repositoryVcsId}/${configurationId}`,
+        url: `/api/v1/configurations/${repositoryVcsId}/${configurationId}`,
         method: "PATCH",
         body,
       }),
@@ -148,7 +148,7 @@ const configurationsMutationApi = api.injectEndpoints({
       DeleteGitHubConfigurationInput
     >({
       query: ({ repositoryVcsId, configurationId }) => ({
-        url: `/api/v1/configurations/github/${repositoryVcsId}/${configurationId}`,
+        url: `/api/v1/configurations/${repositoryVcsId}/${configurationId}`,
         method: "DELETE",
       }),
       invalidatesTags: (_, __, { configurationId }) => [

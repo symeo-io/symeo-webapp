@@ -13,7 +13,7 @@ export const activityLogQueryApi = api.injectEndpoints({
       GetConfigurationAuditsInput
     >({
       query: ({ configurationId, repositoryVcsId }) => ({
-        url: `/api/v1/configurations/github/${repositoryVcsId}/${configurationId}/audits`,
+        url: `/api/v1/configurations/${repositoryVcsId}/${configurationId}/audits`,
       }),
       providesTags: (result, error, { configurationId }) => [
         { type: "ConfigurationActivityLog", id: configurationId },
@@ -24,7 +24,7 @@ export const activityLogQueryApi = api.injectEndpoints({
       GetEnvironmentAuditsInput
     >({
       query: ({ environmentId, configurationId, repositoryVcsId }) => ({
-        url: `/api/v1/configurations/github/${repositoryVcsId}/${configurationId}/${environmentId}/audits`,
+        url: `/api/v1/configurations/${repositoryVcsId}/${configurationId}/${environmentId}/audits`,
       }),
       providesTags: (result, error, { environmentId }) => [
         { type: "EnvironmentActivityLog", id: environmentId },
