@@ -14,11 +14,11 @@ import { CreateConfigurationFormValues } from "components/organisms/CreateConfig
 import { useRepositories } from "hooks/useRepositories";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import TextField from "components/molecules/TextField/TextField";
-import GitHubIcon from "@mui/icons-material/GitHub";
 import GitBranchIcon from "components/atoms/icons/GitBranchIcon";
 import { UseFormErrors, UseFormOutput } from "hooks/useForm";
 import { useBranches } from "hooks/useBranches";
 import LoadingBox from "components/molecules/LoadingBox/LoadingBox";
+import { useVcsIcon } from "hooks/useVcsIcon";
 
 export type CreateConfigurationGuidedFormStep1Props = PropsWithSx & {
   repository?: Repository;
@@ -43,6 +43,7 @@ function CreateConfigurationGuidedFormStep1({
   sx,
 }: CreateConfigurationGuidedFormStep1Props) {
   const { formatMessage } = useIntl();
+  const VcsIcon = useVcsIcon();
   const { repositories } = useRepositories();
   const selectedRepository = useMemo(
     () =>
@@ -130,7 +131,7 @@ function CreateConfigurationGuidedFormStep1({
                 ...InputProps,
                 startAdornment: (
                   <InputAdornment position="start">
-                    <GitHubIcon />
+                    <VcsIcon />
                   </InputAdornment>
                 ),
               }}

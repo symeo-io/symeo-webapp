@@ -1,21 +1,19 @@
 import React from "react";
-import { Avatar } from "@mui/material";
-import { colors } from "theme/colors";
 import { User } from "@auth0/auth0-react";
+import { PropsWithSx } from "types/PropsWithSx";
+import Avatar from "components/atoms/Avatar/Avatar";
 
-export type UserAvatarProps = {
+export type UserAvatarProps = PropsWithSx & {
   user: User;
 };
 
 function UserAvatar({ user }: UserAvatarProps) {
   return (
     <Avatar
-      alt={user.name}
-      sx={{ background: colors.primary.main, width: "26px", height: "26px" }}
+      name={user.name}
+      sx={{ width: "26px", height: "26px" }}
       src={user.picture}
-    >
-      {user.name && user.name[0]}
-    </Avatar>
+    />
   );
 }
 

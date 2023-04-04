@@ -11,7 +11,7 @@ import { PropsWithSx } from "types/PropsWithSx";
 import Button from "components/atoms/Button/Button";
 import { Configuration } from "redux/api/configurations/configurations.types";
 import TextField from "components/molecules/TextField/TextField";
-import { useDeleteGitHubConfigurationMutation } from "redux/api/configurations/configurations.api";
+import { useDeleteConfigurationMutation } from "redux/api/configurations/configurations.api";
 
 const CONFIRM_INPUT = "permanently delete";
 
@@ -33,7 +33,7 @@ function DeleteConfigurationConfirmDialog({
   const [confirmInputValue, setConfirmInputValue] = useState<string>("");
 
   const [deleteConfiguration, { isLoading: isLoadingDelete }] =
-    useDeleteGitHubConfigurationMutation();
+    useDeleteConfigurationMutation();
 
   const handleDeleteConfiguration = useCallback(async () => {
     await deleteConfiguration({
