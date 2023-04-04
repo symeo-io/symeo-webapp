@@ -18,12 +18,13 @@ import { colors } from "theme/colors";
 import { config } from "config";
 import { SIDE_BAR_WIDTH } from "theme/theme";
 import { useSelectedOrganization } from "hooks/useSelectedOrganization";
+import Avatar from "components/atoms/Avatar/Avatar";
 
 const GITHUB_PERMISSIONS_LINK = `https://github.com/settings/connections/applications/${config.github.appClientId}`;
 
 function OrganizationSelector() {
   const { formatMessage } = useIntl();
-  const { currentUser } = useCurrentUser();
+  const { currentUser, vcsType } = useCurrentUser();
   const { selectedOrganization, organizations, setSelectedOrganization } =
     useSelectedOrganization();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -60,21 +61,15 @@ function OrganizationSelector() {
           },
         }}
       >
-        <Box
+        <Avatar
+          name={selectedOrganization?.name}
           sx={{
             borderRadius: "6px",
             width: "40px",
             height: "40px",
-            backgroundColor: "white",
-            overflow: "hidden",
           }}
-        >
-          <img
-            src={selectedOrganization?.avatarUrl}
-            alt={selectedOrganization?.name}
-            style={{ width: "40px", height: "40px" }}
-          />
-        </Box>
+          src={selectedOrganization?.avatarUrl}
+        />
         <Box
           sx={{
             paddingX: (theme) => theme.spacing(2),
@@ -93,7 +88,7 @@ function OrganizationSelector() {
               whiteSpace: "nowrap",
             }}
           >
-            {selectedOrganization?.name}
+            {selectedOrganization?.displayName}
           </Box>
           <Box
             sx={{
@@ -149,18 +144,18 @@ function OrganizationSelector() {
                 <ListItemIcon
                   sx={{
                     minWidth: "unset !important",
-                    width: "24px",
-                    height: "24px",
-                    backgroundColor: "white",
-                    overflow: "hidden",
-                    borderRadius: "3px",
                     marginRight: (theme) => theme.spacing(1),
                   }}
                 >
-                  <img
+                  <Avatar
+                    name={organization.name}
+                    sx={{
+                      borderRadius: "3px",
+                      width: "24px",
+                      height: "24px",
+                      fontSize: "14px",
+                    }}
                     src={organization.avatarUrl}
-                    alt={organization.name}
-                    style={{ width: "24px", height: "24px" }}
                   />
                 </ListItemIcon>
                 <Typography
@@ -185,34 +180,38 @@ function OrganizationSelector() {
                 )}
               </MenuItem>
             ))}
-          <Divider />
-          <MenuItem
-            onClick={() => window.open(GITHUB_PERMISSIONS_LINK, "_blank")}
-          >
-            <Box>
-              <Typography
-                variant="inherit"
-                sx={{ lineHeight: "24px", fontSize: "16px", flex: 1 }}
+          {vcsType === "github" && (
+            <>
+              <Divider />
+              <MenuItem
+                onClick={() => window.open(GITHUB_PERMISSIONS_LINK, "_blank")}
               >
-                {formatMessage({
-                  id: "sidebar.organization-selector.cant-find",
-                })}
-              </Typography>
-              <Typography
-                variant="inherit"
-                sx={{
-                  lineHeight: "24px",
-                  fontSize: "16px",
-                  flex: 1,
-                  color: colors.primary.main,
-                }}
-              >
-                {formatMessage({
-                  id: "sidebar.organization-selector.check-permissions",
-                })}
-              </Typography>
-            </Box>
-          </MenuItem>
+                <Box>
+                  <Typography
+                    variant="inherit"
+                    sx={{ lineHeight: "24px", fontSize: "16px", flex: 1 }}
+                  >
+                    {formatMessage({
+                      id: "sidebar.organization-selector.cant-find",
+                    })}
+                  </Typography>
+                  <Typography
+                    variant="inherit"
+                    sx={{
+                      lineHeight: "24px",
+                      fontSize: "16px",
+                      flex: 1,
+                      color: colors.primary.main,
+                    }}
+                  >
+                    {formatMessage({
+                      id: "sidebar.organization-selector.check-permissions",
+                    })}
+                  </Typography>
+                </Box>
+              </MenuItem>
+            </>
+          )}
         </MenuList>
       </Menu>
     </>

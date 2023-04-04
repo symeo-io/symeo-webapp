@@ -1,16 +1,16 @@
 import { api } from "redux/api/api";
 import {
-  CreateGitHubConfigurationInput,
-  CreateGitHubConfigurationResponse,
-  DeleteGitHubConfigurationInput,
+  CreateConfigurationInput,
+  CreateConfigurationResponse,
+  DeleteConfigurationInput,
   GetConfigurationContractInput,
   GetConfigurationContractResponse,
   GetConfigurationInput,
   GetConfigurationResponse,
-  UpdateGitHubConfigurationInput,
-  UpdateGitHubConfigurationResponse,
-  ValidateGitHubConfigurationInput,
-  ValidateGitHubConfigurationResponse,
+  UpdateConfigurationInput,
+  UpdateConfigurationResponse,
+  ValidateConfigurationInput,
+  ValidateConfigurationResponse,
 } from "redux/api/configurations/configurations.types";
 import { repositoriesQueryApi } from "redux/api/repositories/repositories.api";
 
@@ -46,9 +46,9 @@ export const configurationQueryApi = api.injectEndpoints({
 
 const configurationsMutationApi = api.injectEndpoints({
   endpoints: (builder) => ({
-    validateGitHubConfiguration: builder.mutation<
-      ValidateGitHubConfigurationResponse,
-      ValidateGitHubConfigurationInput
+    validateConfiguration: builder.mutation<
+      ValidateConfigurationResponse,
+      ValidateConfigurationInput
     >({
       query: (body) => ({
         url: `/api/v1/configurations/validate`,
@@ -56,9 +56,9 @@ const configurationsMutationApi = api.injectEndpoints({
         body,
       }),
     }),
-    createGitHubConfiguration: builder.mutation<
-      CreateGitHubConfigurationResponse,
-      CreateGitHubConfigurationInput
+    createConfiguration: builder.mutation<
+      CreateConfigurationResponse,
+      CreateConfigurationInput
     >({
       query: ({ repositoryVcsId, ...body }) => ({
         url: `/api/v1/configurations/${repositoryVcsId}`,
@@ -94,9 +94,9 @@ const configurationsMutationApi = api.injectEndpoints({
         } catch {}
       },
     }),
-    updateGitHubConfiguration: builder.mutation<
-      UpdateGitHubConfigurationResponse,
-      UpdateGitHubConfigurationInput
+    updateConfiguration: builder.mutation<
+      UpdateConfigurationResponse,
+      UpdateConfigurationInput
     >({
       query: ({ repositoryVcsId, configurationId, ...body }) => ({
         url: `/api/v1/configurations/${repositoryVcsId}/${configurationId}`,
@@ -143,10 +143,7 @@ const configurationsMutationApi = api.injectEndpoints({
         } catch {}
       },
     }),
-    deleteGitHubConfiguration: builder.mutation<
-      void,
-      DeleteGitHubConfigurationInput
-    >({
+    deleteConfiguration: builder.mutation<void, DeleteConfigurationInput>({
       query: ({ repositoryVcsId, configurationId }) => ({
         url: `/api/v1/configurations/${repositoryVcsId}/${configurationId}`,
         method: "DELETE",
@@ -191,8 +188,8 @@ export const { useGetConfigurationQuery, useGetConfigurationContractQuery } =
   configurationQueryApi;
 
 export const {
-  useCreateGitHubConfigurationMutation,
-  useUpdateGitHubConfigurationMutation,
-  useDeleteGitHubConfigurationMutation,
-  useValidateGitHubConfigurationMutation,
+  useCreateConfigurationMutation,
+  useUpdateConfigurationMutation,
+  useDeleteConfigurationMutation,
+  useValidateConfigurationMutation,
 } = configurationsMutationApi;
