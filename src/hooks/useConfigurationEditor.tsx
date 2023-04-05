@@ -134,8 +134,8 @@ export function useConfigurationEditor({
   });
 
   const reset = useCallback(
-    () => values && setValues(cloneDeep(values)),
-    [setValues, values]
+    () => originalValues && setValues(cloneDeep(originalValues)),
+    [setValues, originalValues]
   );
 
   const save = useCallback(async () => {
