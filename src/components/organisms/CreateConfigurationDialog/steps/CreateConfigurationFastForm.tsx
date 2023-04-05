@@ -236,7 +236,7 @@ function CreateConfigurationFastForm({
             id: "create-configuration-form.contract-help-message",
           })}
           <Link
-            href="https://docs.symeo.io/docs/getting-started"
+            href="https://docs.symeo.io/docs/category/getting-started"
             target="_blank"
           >
             {formatMessage({
