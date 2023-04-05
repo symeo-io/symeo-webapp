@@ -20,7 +20,7 @@ import {
   toYamlString,
 } from "services/contract/contract.utils";
 import { saveAs } from "file-saver";
-import YAML from "yamljs";
+import { YamlUtils } from "services/yaml/yaml.utils";
 
 export type UseConfigurationEditorInput = {
   configuration: Configuration;
@@ -180,13 +180,18 @@ export function useConfigurationEditor({
       reader.onload = async (readerEvent) => {
         const yamlString = readerEvent.target?.result;
         if (typeof yamlString === "string" && contract) {
-          const values = YAML.parse(yamlString);
-          setValues(initializeConfig(contract, merge(values, originalValues)));
+          const fileValues = YamlUtils.parse(yamlString);
+          setValues(
+            initializeConfig(
+              contract,
+              merge(cloneDeep(values), cloneDeep(fileValues))
+            )
+          );
         }
       };
       reader.readAsText(file);
     },
-    [contract, originalValues]
+    [contract, values]
   );
 
   useEffect(() => {
