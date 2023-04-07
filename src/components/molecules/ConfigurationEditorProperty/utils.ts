@@ -49,7 +49,7 @@ export function getObjectPaths(object: any) {
   const paths: string[] = [];
   const walk = function (object: any, path?: string) {
     for (const n in object) {
-      if (object[n]) {
+      if (object[n] !== undefined) {
         if (typeof object[n] === "object" || object[n] instanceof Array) {
           walk(object[n], path ? path + "." + n : n);
         } else {
