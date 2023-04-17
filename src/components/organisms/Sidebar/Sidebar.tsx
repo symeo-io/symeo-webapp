@@ -13,6 +13,7 @@ import SidebarExternalLink from "components/molecules/SidebarExternalLink/Sideba
 import DescriptionIcon from "@mui/icons-material/Description";
 import DataObjectIcon from "@mui/icons-material/DataObject";
 import SlackIcon from "components/atoms/icons/SlackIcon";
+import { config } from "config";
 
 function Sidebar() {
   const { formatMessage } = useIntl();
@@ -81,7 +82,7 @@ function Sidebar() {
           <SidebarExternalLink
             label={formatMessage({ id: "sidebar.slack-link-label" })}
             icon={<SlackIcon />}
-            href="https://join.slack.com/t/symeocommunity/shared_invite/zt-1tmpk333k-xT7GWfaq3t1KPSURUULQ0g"
+            href={config.slack.inviteLink}
             target="_blank"
           />
         </MenuList>

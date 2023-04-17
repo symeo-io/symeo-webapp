@@ -245,6 +245,12 @@
       "logout": "Logout"
     }
   },
+  "slack-invitation": {
+    "title": "Join our Slack community",
+    "message": "Join our Slack Community and be the first to hear about new release, ask any questions or request for features!",
+    "join-button-label": "Join Symeo Community",
+    "maybe-later-button-label": "Maybe later"
+  },
   "errors": {
     "unknown": "An unknown error happened. Please try again later.",
     "CONFIGURATION_NOT_FOUND": "Configuration not found",
