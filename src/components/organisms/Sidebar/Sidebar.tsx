@@ -12,6 +12,7 @@ import { useSelectedOrganization } from "hooks/useSelectedOrganization";
 import SidebarExternalLink from "components/molecules/SidebarExternalLink/SidebarExternalLink";
 import DescriptionIcon from "@mui/icons-material/Description";
 import DataObjectIcon from "@mui/icons-material/DataObject";
+import SlackIcon from "components/atoms/icons/SlackIcon";
 
 function Sidebar() {
   const { formatMessage } = useIntl();
@@ -75,6 +76,12 @@ function Sidebar() {
             label={formatMessage({ id: "sidebar.documentation-link-label" })}
             icon={<DescriptionIcon />}
             href="https://docs.symeo.io"
+            target="_blank"
+          />
+          <SidebarExternalLink
+            label={formatMessage({ id: "sidebar.slack-link-label" })}
+            icon={<SlackIcon />}
+            href="https://join.slack.com/t/symeocommunity/shared_invite/zt-1tmpk333k-xT7GWfaq3t1KPSURUULQ0g"
             target="_blank"
           />
         </MenuList>

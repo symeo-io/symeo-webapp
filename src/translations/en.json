@@ -233,6 +233,7 @@
     "configurations-link-label": "Configurations",
     "projects-link-label": "Projects",
     "documentation-link-label": "Documentation",
+    "slack-link-label": "Community Slack",
     "organization-selector": {
       "organizations": "Organizations",
       "current": "current",
