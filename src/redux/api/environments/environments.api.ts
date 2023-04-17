@@ -15,7 +15,7 @@ const environmentsMutationApi = api.injectEndpoints({
       CreateEnvironmentInput
     >({
       query: ({ repositoryVcsId, configurationId, ...body }) => ({
-        url: `/api/v1/configurations/github/${repositoryVcsId}/${configurationId}/environments`,
+        url: `/api/v1/configurations/${repositoryVcsId}/${configurationId}/environments`,
         method: "POST",
         body,
       }),
@@ -42,7 +42,7 @@ const environmentsMutationApi = api.injectEndpoints({
     }),
     deleteEnvironment: builder.mutation<void, DeleteEnvironmentInput>({
       query: ({ repositoryVcsId, configurationId, environmentId }) => ({
-        url: `/api/v1/configurations/github/${repositoryVcsId}/${configurationId}/environments/${environmentId}`,
+        url: `/api/v1/configurations/${repositoryVcsId}/${configurationId}/environments/${environmentId}`,
         method: "DELETE",
       }),
       invalidatesTags: (_, __, { configurationId, environmentId }) => [
@@ -60,7 +60,7 @@ const environmentsMutationApi = api.injectEndpoints({
         environmentId,
         ...body
       }) => ({
-        url: `/api/v1/configurations/github/${repositoryVcsId}/${configurationId}/environments/${environmentId}`,
+        url: `/api/v1/configurations/${repositoryVcsId}/${configurationId}/environments/${environmentId}`,
         method: "PATCH",
         body,
       }),

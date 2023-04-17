@@ -19,7 +19,7 @@ const valuesQueryApi = api.injectEndpoints({
         branch,
         versionId,
       }) => ({
-        url: `/api/v1/configurations/github/${repositoryVcsId}/${configurationId}/environments/${environmentId}/values`,
+        url: `/api/v1/configurations/${repositoryVcsId}/${configurationId}/environments/${environmentId}/values`,
         params: { branch, versionId },
       }),
       providesTags: (result, error, { environmentId, branch, versionId }) => [
@@ -37,7 +37,7 @@ const valuesQueryApi = api.injectEndpoints({
         branch,
         versionId,
       }) => ({
-        url: `/api/v1/configurations/github/${repositoryVcsId}/${configurationId}/environments/${environmentId}/values/secrets`,
+        url: `/api/v1/configurations/${repositoryVcsId}/${configurationId}/environments/${environmentId}/values/secrets`,
         params: { branch, versionId },
       }),
       providesTags: (result, error, { environmentId, branch, versionId }) => [
@@ -52,7 +52,7 @@ const valuesMutationApi = api.injectEndpoints({
   endpoints: (builder) => ({
     setValuesForEnvironment: builder.mutation<void, SetEnvironmentValuesInput>({
       query: ({ configurationId, repositoryVcsId, environmentId, values }) => ({
-        url: `/api/v1/configurations/github/${repositoryVcsId}/${configurationId}/environments/${environmentId}/values`,
+        url: `/api/v1/configurations/${repositoryVcsId}/${configurationId}/environments/${environmentId}/values`,
         method: "POST",
         body: { values },
       }),
@@ -72,7 +72,7 @@ const valuesMutationApi = api.injectEndpoints({
         environmentId,
         versionId,
       }) => ({
-        url: `/api/v1/configurations/github/${repositoryVcsId}/${configurationId}/environments/${environmentId}/rollback/${versionId}`,
+        url: `/api/v1/configurations/${repositoryVcsId}/${configurationId}/environments/${environmentId}/rollback/${versionId}`,
         method: "POST",
       }),
       invalidatesTags: (_, __, { environmentId }) => [

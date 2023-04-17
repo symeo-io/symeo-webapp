@@ -1,7 +1,6 @@
 import React, { ChangeEvent, useCallback, useState } from "react";
 import { Box, InputAdornment } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import GitHubIcon from "@mui/icons-material/GitHub";
 import { PropsWithSx } from "types/PropsWithSx";
 import TextField from "components/molecules/TextField/TextField";
 import { useIntl } from "react-intl";
@@ -12,6 +11,7 @@ import ConfigurationListEmptyState from "components/organisms/ConfigurationListE
 import { useConfigurations } from "hooks/useConfigurations";
 import ConfigurationSettingsButton from "components/molecules/ConfigurationSettingsButton/ConfigurationSettingsButton";
 import CreateConfigurationButton from "components/molecules/CreateConfigurationButton/CreateConfigurationButton";
+import { useVcsIcon } from "hooks/useVcsIcon";
 
 export type ConfigurationListProps = PropsWithSx;
 
@@ -26,6 +26,7 @@ function ConfigurationList({ sx }: ConfigurationListProps) {
   );
 
   const { configurations, isLoading } = useConfigurations();
+  const VcsIcon = useVcsIcon();
 
   return (
     <Box
@@ -150,7 +151,7 @@ function ConfigurationList({ sx }: ConfigurationListProps) {
                       alignItems: "center",
                     }}
                   >
-                    <GitHubIcon
+                    <VcsIcon
                       sx={{
                         fontSize: "20px",
                         marginRight: (theme) => theme.spacing(0.5),

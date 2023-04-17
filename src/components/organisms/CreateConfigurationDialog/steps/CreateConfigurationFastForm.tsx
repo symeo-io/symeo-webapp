@@ -15,18 +15,18 @@ import { Repository } from "redux/api/repositories/repositories.types";
 import { useCreateConfigurationForm } from "components/organisms/CreateConfigurationDialog/useCreateConfigurationForm";
 import TextField from "components/molecules/TextField/TextField";
 import {
-  useCreateGitHubConfigurationMutation,
-  useValidateGitHubConfigurationMutation,
+  useCreateConfigurationMutation,
+  useValidateConfigurationMutation,
 } from "redux/api/configurations/configurations.api";
 import LoadingMessage from "components/atoms/LoadingMessage/LoadingMessage";
 import { useNavigate } from "hooks/useNavigate";
-import { CreateGitHubConfigurationResponse } from "redux/api/configurations/configurations.types";
+import { CreateConfigurationResponse } from "redux/api/configurations/configurations.types";
 import { colors } from "theme/colors";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import GitBranchIcon from "components/atoms/icons/GitBranchIcon";
-import GitHubIcon from "@mui/icons-material/GitHub";
 import DescriptionIcon from "@mui/icons-material/Description";
 import { useRepositories } from "hooks/useRepositories";
+import { useVcsIcon } from "hooks/useVcsIcon";
 
 export type CreateConfigurationFastFormProps = PropsWithSx & {
   repository?: Repository;
@@ -40,6 +40,7 @@ function CreateConfigurationFastForm({
 }: CreateConfigurationFastFormProps) {
   const { formatMessage } = useIntl();
   const navigate = useNavigate();
+  const VcsIcon = useVcsIcon();
   const { repositories } = useRepositories();
   const { values, setValues, errors, reset, validate } =
     useCreateConfigurationForm({
@@ -57,9 +58,9 @@ function CreateConfigurationFastForm({
   const [
     validateConfiguration,
     { isLoading: isLoadingValidation, isUninitialized, data },
-  ] = useValidateGitHubConfigurationMutation();
+  ] = useValidateConfigurationMutation();
   const [createConfiguration, { isLoading: isLoadingCreate }] =
-    useCreateGitHubConfigurationMutation();
+    useCreateConfigurationMutation();
 
   const isConfigurationValid = useMemo(() => !!data?.isValid, [data?.isValid]);
 
@@ -77,7 +78,7 @@ function CreateConfigurationFastForm({
 
     const response = (await createConfiguration({
       ...values,
-    })) as { data: CreateGitHubConfigurationResponse };
+    })) as { data: CreateConfigurationResponse };
     navigate("configuration", {
       params: {
         organizationName: response.data.configuration.owner.name,
@@ -161,7 +162,7 @@ function CreateConfigurationFastForm({
                 ...InputProps,
                 startAdornment: (
                   <InputAdornment position="start">
-                    <GitHubIcon />
+                    <VcsIcon />
                   </InputAdornment>
                 ),
               }}
@@ -235,7 +236,7 @@ function CreateConfigurationFastForm({
             id: "create-configuration-form.contract-help-message",
           })}
           <Link
-            href="https://docs.symeo.io/docs/getting-started"
+            href="https://docs.symeo.io/docs/category/getting-started"
             target="_blank"
           >
             {formatMessage({

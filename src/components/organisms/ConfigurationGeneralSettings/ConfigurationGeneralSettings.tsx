@@ -6,8 +6,8 @@ import Button from "components/atoms/Button/Button";
 import { useUpdateConfigurationFormForm } from "components/organisms/ConfigurationGeneralSettings/useUpdateConfigurationForm";
 import { Configuration } from "redux/api/configurations/configurations.types";
 import {
-  useUpdateGitHubConfigurationMutation,
-  useValidateGitHubConfigurationMutation,
+  useUpdateConfigurationMutation,
+  useValidateConfigurationMutation,
 } from "redux/api/configurations/configurations.api";
 import TextField from "components/molecules/TextField/TextField";
 import LoadingMessage from "components/atoms/LoadingMessage/LoadingMessage";
@@ -28,7 +28,7 @@ function ConfigurationGeneralSettings({
   const [
     validateConfiguration,
     { isLoading: isLoadingValidation, isUninitialized, data },
-  ] = useValidateGitHubConfigurationMutation();
+  ] = useValidateConfigurationMutation();
 
   const isConfigurationValid = useMemo(() => !!data?.isValid, [data?.isValid]);
 
@@ -38,7 +38,7 @@ function ConfigurationGeneralSettings({
   );
 
   const [updateConfiguration, { isLoading: isLoadingUpdate }] =
-    useUpdateGitHubConfigurationMutation();
+    useUpdateConfigurationMutation();
 
   const handleUpdateConfiguration = useCallback(async () => {
     const hasErrors = validate();

@@ -8,8 +8,8 @@ import CreateConfigurationGuidedFormStep2, {
 } from "components/organisms/CreateConfigurationDialog/steps/guided-form/CreateConfigurationGuidedFormStep2";
 import CreateConfigurationGuidedFormStep3 from "components/organisms/CreateConfigurationDialog/steps/guided-form/CreateConfigurationGuidedFormStep3";
 import { useCommitFileMutation } from "redux/api/repositories/repositories.api";
-import { useCreateGitHubConfigurationMutation } from "redux/api/configurations/configurations.api";
-import { CreateGitHubConfigurationResponse } from "redux/api/configurations/configurations.types";
+import { useCreateConfigurationMutation } from "redux/api/configurations/configurations.api";
+import { CreateConfigurationResponse } from "redux/api/configurations/configurations.types";
 import { useNavigate } from "hooks/useNavigate";
 
 export type CreateConfigurationGuidedFormProps = {
@@ -30,7 +30,7 @@ function CreateConfigurationGuidedForm({
     repositoryVcsId: repository?.vcsId ?? repositories[0]?.vcsId,
   });
   const [commitFile] = useCommitFileMutation();
-  const [createConfiguration] = useCreateGitHubConfigurationMutation();
+  const [createConfiguration] = useCreateConfigurationMutation();
 
   const handleSubmit = useCallback(async () => {
     const hasErrors = validate();
@@ -52,7 +52,7 @@ function CreateConfigurationGuidedForm({
 
       const response = (await createConfiguration({
         ...values,
-      })) as { data: CreateGitHubConfigurationResponse };
+      })) as { data: CreateConfigurationResponse };
       navigate("configuration", {
         params: {
           organizationName: response.data.configuration.owner.name,

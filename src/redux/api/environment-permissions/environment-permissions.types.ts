@@ -22,13 +22,18 @@ export function meetRoleRequirement(
   );
 }
 
-export type GitHubRole = "admin" | "maintain" | "write" | "triage" | "read";
+export type VcsRepositoryRole =
+  | "admin"
+  | "maintain"
+  | "write"
+  | "triage"
+  | "read";
 
 export type VcsUser = {
   vcsId: number;
   name: string;
   avatarUrl: string;
-  roleName: GitHubRole;
+  roleName: VcsRepositoryRole;
 };
 
 export type EnvironmentPermission = {
