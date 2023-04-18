@@ -72,7 +72,7 @@ function Avatar({ name, src, sx }: AvatarProps) {
       alt={name}
       sx={{
         color: palette && palette[900],
-        backgroundColor: palette && palette[100],
+        backgroundColor: src ? "white" : palette && palette[100],
         ...sx,
       }}
       src={src}
