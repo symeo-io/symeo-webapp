@@ -1,6 +1,6 @@
 import { useSelectedOrganization } from "hooks/useSelectedOrganization";
 import { useGetRepositoriesQuery } from "redux/api/repositories/repositories.api";
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 
 export function useConfigurations() {
   const { selectedOrganization } = useSelectedOrganization();
@@ -22,5 +22,16 @@ export function useConfigurations() {
     [repositoriesData?.repositories, selectedOrganization?.vcsId]
   );
 
-  return { configurations, isLoading };
+  const isRepositoryAdmin = useCallback(
+    (repositoryVcsId: number) => {
+      const repository = repositoriesData?.repositories.find(
+        (repository) => repository.vcsId === repositoryVcsId
+      );
+
+      return repository?.isCurrentUserAdmin ?? false;
+    },
+    [repositoriesData?.repositories]
+  );
+
+  return { configurations, isLoading, isRepositoryAdmin };
 }

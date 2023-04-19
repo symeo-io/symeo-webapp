@@ -15,4 +15,4 @@ function GitBranchIcon(props: SvgIconProps, ref: ForwardedRef<SVGSVGElement>) {
     </SvgIcon>
   );
 }
-export default React.memo(React.forwardRef<SVGSVGElement>(GitBranchIcon));
+export default React.memo(React.forwardRef(GitBranchIcon));

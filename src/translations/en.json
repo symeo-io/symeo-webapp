@@ -12,6 +12,8 @@
     "columns": {
       "configuration": "Configuration",
       "repository": "Repository",
+      "contract-file": "Contract file",
+      "branch": "Branch",
       "actions": "Actions"
     }
   },
