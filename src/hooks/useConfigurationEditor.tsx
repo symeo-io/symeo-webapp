@@ -146,10 +146,11 @@ export function useConfigurationEditor({
     ) {
       const valuesToSave = buildModifiedValuesObject(values, originalValues);
 
-      saveValues({
+      await saveValues({
         configurationId: configuration.id,
         repositoryVcsId: configuration.repository.vcsId,
         environmentId: environment.id,
+        branch,
         values: valuesToSave,
       });
     }
@@ -163,6 +164,7 @@ export function useConfigurationEditor({
     configuration.id,
     configuration.repository.vcsId,
     environment.id,
+    branch,
   ]);
 
   const download = useCallback(() => {

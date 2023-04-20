@@ -18,6 +18,7 @@ export type SetEnvironmentValuesInput = {
   repositoryVcsId: number;
   configurationId: string;
   environmentId: string;
+  branch?: string;
   values: ConfigurationValues;
 };
 
