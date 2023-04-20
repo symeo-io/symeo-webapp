@@ -12,6 +12,8 @@
     "columns": {
       "configuration": "Configuration",
       "repository": "Repository",
+      "contract-file": "Contract file",
+      "branch": "Branch",
       "actions": "Actions"
     }
   },
@@ -233,6 +235,7 @@
     "configurations-link-label": "Configurations",
     "projects-link-label": "Projects",
     "documentation-link-label": "Documentation",
+    "slack-link-label": "Community Slack",
     "organization-selector": {
       "organizations": "Organizations",
       "current": "current",
@@ -243,6 +246,12 @@
       "your-account": "Your account",
       "logout": "Logout"
     }
+  },
+  "slack-invitation": {
+    "title": "Join our Slack community",
+    "message": "Join our Slack Community and be the first to hear about new release, ask any questions or request for features!",
+    "join-button-label": "Join Symeo Community",
+    "maybe-later-button-label": "Maybe later"
   },
   "errors": {
     "unknown": "An unknown error happened. Please try again later.",

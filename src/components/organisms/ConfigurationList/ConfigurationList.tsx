@@ -12,6 +12,8 @@ import { useConfigurations } from "hooks/useConfigurations";
 import ConfigurationSettingsButton from "components/molecules/ConfigurationSettingsButton/ConfigurationSettingsButton";
 import CreateConfigurationButton from "components/molecules/CreateConfigurationButton/CreateConfigurationButton";
 import { useVcsIcon } from "hooks/useVcsIcon";
+import GitBranchIcon from "components/atoms/icons/GitBranchIcon";
+import DescriptionIcon from "@mui/icons-material/Description";
 
 export type ConfigurationListProps = PropsWithSx;
 
@@ -25,7 +27,7 @@ function ConfigurationList({ sx }: ConfigurationListProps) {
     []
   );
 
-  const { configurations, isLoading } = useConfigurations();
+  const { configurations, isLoading, isRepositoryAdmin } = useConfigurations();
   const VcsIcon = useVcsIcon();
 
   return (
@@ -80,7 +82,7 @@ function ConfigurationList({ sx }: ConfigurationListProps) {
                 fontSize: "0.75rem",
                 lineHeight: "1rem",
                 display: "grid",
-                gridTemplateColumns: "250px 1fr auto",
+                gridTemplateColumns: "250px 1fr 1fr 1fr 45px",
               }}
             >
               <Box>
@@ -91,6 +93,16 @@ function ConfigurationList({ sx }: ConfigurationListProps) {
               <Box>
                 {formatMessage({
                   id: "configurations.columns.repository",
+                })}
+              </Box>
+              <Box>
+                {formatMessage({
+                  id: "configurations.columns.contract-file",
+                })}
+              </Box>
+              <Box>
+                {formatMessage({
+                  id: "configurations.columns.branch",
                 })}
               </Box>
               <Box>
@@ -110,7 +122,7 @@ function ConfigurationList({ sx }: ConfigurationListProps) {
                   key={configuration.id}
                   sx={{
                     display: "grid",
-                    gridTemplateColumns: "250px 1fr auto",
+                    gridTemplateColumns: "250px 1fr 1fr 1fr 45px",
                     paddingX: (theme) => theme.spacing(2),
                     paddingY: (theme) => theme.spacing(2.5),
                     borderBottom: `4px solid ${colors.secondary.surfaceHover}`,
@@ -159,10 +171,42 @@ function ConfigurationList({ sx }: ConfigurationListProps) {
                     />
                     {configuration.repository.name}
                   </Box>
-                  <Box>
-                    <ConfigurationSettingsButton
-                      configuration={configuration}
+                  <Box
+                    sx={{
+                      lineHeight: "30px",
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
+                    <DescriptionIcon
+                      sx={{
+                        fontSize: "20px",
+                        marginRight: (theme) => theme.spacing(0.5),
+                      }}
                     />
+                    {configuration.contractFilePath}
+                  </Box>
+                  <Box
+                    sx={{
+                      lineHeight: "30px",
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
+                    <GitBranchIcon
+                      sx={{
+                        fontSize: "20px",
+                        marginRight: (theme) => theme.spacing(0.5),
+                      }}
+                    />
+                    {configuration.branch}
+                  </Box>
+                  <Box>
+                    {isRepositoryAdmin(configuration.repository.vcsId) && (
+                      <ConfigurationSettingsButton
+                        configuration={configuration}
+                      />
+                    )}
                   </Box>
                 </Box>
               ))}

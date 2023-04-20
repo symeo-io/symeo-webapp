@@ -16,4 +16,7 @@ export const config = {
   github: {
     appClientId: import.meta.env.VITE_GITHUB_APP_CLIENT_ID ?? "",
   },
+  slack: {
+    inviteLink: import.meta.env.VITE_SLACK_INVITE_LINK ?? "",
+  },
 };

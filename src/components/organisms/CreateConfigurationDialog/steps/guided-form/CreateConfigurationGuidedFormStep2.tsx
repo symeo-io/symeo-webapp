@@ -29,16 +29,13 @@ import { colors } from "theme/colors";
 
 const CodeEditor = styled(RawCodeEditor)({});
 
-export const DEFAULT_CONTRACT = `port:
-  type: integer
-  optional: true
-database:
-  name:
-    type: string
-  url:
+export const DEFAULT_CONTRACT = `database:
+  host:
     type: string
   port:
     type: integer
+  name:
+    type: string
   user:
     type: string
   password:
