@@ -125,6 +125,7 @@ export function useConfigurationEditor({
     isLoading: isLoadingOriginalValues,
     isFetching: isFetchingOriginalValues,
     isSuccess: isSuccessOriginalValues,
+    refetch: refetchOriginalValues,
   } = useValues({
     configuration,
     environment,
@@ -201,6 +202,10 @@ export function useConfigurationEditor({
       setValues(cloneDeep(originalValues));
     }
   }, [setValues, originalValues]);
+
+  useEffect(() => {
+    refetchOriginalValues();
+  }, [branch, refetchOriginalValues]);
 
   return {
     values,

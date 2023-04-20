@@ -27,6 +27,7 @@ export function useValues({
     isLoading,
     isFetching,
     isSuccess,
+    refetch,
   } = useGetValuesForEnvironmentQuery({
     configurationId: configuration.id,
     repositoryVcsId: configuration.repository.vcsId,
@@ -49,7 +50,8 @@ export function useValues({
       isLoading,
       isFetching,
       isSuccess,
+      refetch,
     }),
-    [values, isFetching, isLoading, isSuccess]
+    [values, isLoading, isFetching, isSuccess, refetch]
   );
 }
