@@ -125,6 +125,7 @@ export function useConfigurationEditor({
     isLoading: isLoadingOriginalValues,
     isFetching: isFetchingOriginalValues,
     isSuccess: isSuccessOriginalValues,
+    refetch: refetchOriginalValues,
   } = useValues({
     configuration,
     environment,
@@ -146,10 +147,11 @@ export function useConfigurationEditor({
     ) {
       const valuesToSave = buildModifiedValuesObject(values, originalValues);
 
-      saveValues({
+      await saveValues({
         configurationId: configuration.id,
         repositoryVcsId: configuration.repository.vcsId,
         environmentId: environment.id,
+        branch,
         values: valuesToSave,
       });
     }
@@ -163,6 +165,7 @@ export function useConfigurationEditor({
     configuration.id,
     configuration.repository.vcsId,
     environment.id,
+    branch,
   ]);
 
   const download = useCallback(() => {
@@ -199,6 +202,10 @@ export function useConfigurationEditor({
       setValues(cloneDeep(originalValues));
     }
   }, [setValues, originalValues]);
+
+  useEffect(() => {
+    refetchOriginalValues();
+  }, [branch, refetchOriginalValues]);
 
   return {
     values,

@@ -5,6 +5,7 @@ import {
   RollbackEnvironmentValuesInput,
   SetEnvironmentValuesInput,
 } from "redux/api/values/values.types";
+import { merge } from "lodash";
 
 const valuesQueryApi = api.injectEndpoints({
   endpoints: (builder) => ({
@@ -56,8 +57,29 @@ const valuesMutationApi = api.injectEndpoints({
         method: "POST",
         body: { values },
       }),
+      async onQueryStarted(
+        { configurationId, repositoryVcsId, environmentId, branch, values },
+        { dispatch, queryFulfilled }
+      ) {
+        try {
+          await queryFulfilled;
+          dispatch(
+            valuesQueryApi.util.updateQueryData(
+              "getValuesForEnvironment",
+              {
+                configurationId,
+                repositoryVcsId,
+                environmentId,
+                branch,
+              },
+              (draft) => {
+                draft.values = merge(draft.values, values);
+              }
+            )
+          );
+        } catch {}
+      },
       invalidatesTags: (_, __, { environmentId }) => [
-        { type: "Values", id: environmentId },
         { type: "EnvironmentActivityLog", id: environmentId },
         { type: "EnvironmentValuesVersions", id: environmentId },
       ],
