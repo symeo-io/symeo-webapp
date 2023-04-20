@@ -41,6 +41,32 @@
       "message": "Drop your values file here"
     }
   },
+  "organization-settings": {
+    "title": "Organization Settings",
+    "overview": {
+      "title": "Overview",
+      "id-label": "Organization ID",
+      "name-label": "Organization Name"
+    },
+    "plan": {
+      "title": "Plan",
+      "add-licence-key-button": "Add licence key",
+      "license": {
+        "free": "FREE",
+        "appSumo": "ENTERPRISE"
+      },
+      "add-licence-key": {
+        "title": "Add licence key to {organizationName} organization",
+        "key-field-label": "Licence key",
+        "key-field-placeholder": "Enter your licence key",
+        "cancel-button-label": "Cancel",
+        "confirm-button-label": "Add licence key",
+        "errors": {
+          "empty-key": "You must provide a licence key"
+        }
+      }
+    }
+  },
   "create-configuration": {
     "title": "Set up new Configuration",
     "has-created-contract": {
@@ -234,6 +260,7 @@
   "sidebar": {
     "configurations-link-label": "Configurations",
     "projects-link-label": "Projects",
+    "settings-link-label": "Organization Settings",
     "documentation-link-label": "Documentation",
     "slack-link-label": "Community Slack",
     "organization-selector": {
@@ -259,6 +286,8 @@
     "CONFIGURATION_CONTRACT_NOT_FOUND": "Configuration contract not found",
     "REPOSITORY_NOT_FOUND": "Repository not found",
     "ENVIRONMENT_NOT_FOUND": "Environment not found",
-    "API_KEY_NOT_FOUND": "Api key not found"
+    "API_KEY_NOT_FOUND": "Api key not found",
+    "LICENSE_KEY_NOT_FOUND": "Invalid licence key",
+    "LICENSE_KEY_ALREADY_USED": "Licence key is already used"
   }
 }
