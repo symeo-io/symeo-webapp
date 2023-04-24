@@ -1,5 +1,6 @@
 import { isObject, isArray } from "lodash";
 import { isContractProperty } from "services/contract/contract.utils";
+import { YamlUtils } from "services/yaml/yaml.utils";
 
 export const supportedContractPropertyOptions = [
   "type",
@@ -14,6 +15,15 @@ export const contractPropertyTypes = [
   "float",
   "boolean",
 ] as const;
+
+export function validateContractString(contractString: string) {
+  try {
+    const contract = YamlUtils.parse(contractString);
+    return validateContractFormat(contract);
+  } catch (e) {
+    return [`Your yaml is invalid: ${(e as any).message}`];
+  }
+}
 
 export function validateContractFormat(contract: any, path?: string): string[] {
   let errors: string[] = [];

@@ -1,6 +1,5 @@
 import { useForm } from "hooks/useForm";
-import { validateContractFormat } from "services/contract/contract.validator";
-import { YamlUtils } from "services/yaml/yaml.utils";
+import { validateContractString } from "services/contract/contract.validator";
 
 export const defaultContract = `database:
   host:
@@ -31,9 +30,7 @@ export function useContractForm(initialValues?: Partial<ContractFormValues>) {
       ...initialValues,
     },
     onValidate: (values) => {
-      const contractErrors = validateContractFormat(
-        YamlUtils.parse(values.contract)
-      );
+      const contractErrors = validateContractString(values.contract);
       const errors: Record<keyof ContractFormValues, string[]> = {
         contract: contractErrors,
       };
