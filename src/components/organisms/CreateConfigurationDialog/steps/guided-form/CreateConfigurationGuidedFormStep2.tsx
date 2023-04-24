@@ -24,24 +24,11 @@ import Code from "components/atoms/Code/Code";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import TextField from "components/molecules/TextField/TextField";
 import DescriptionIcon from "@mui/icons-material/Description";
-import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
-import { colors } from "theme/colors";
+import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
+import { ContractFormValues } from "components/organisms/CreateConfigurationDialog/steps/guided-form/useContractForm";
+import InfoBox from "components/atoms/InfoBox/InfoBox";
 
 const CodeEditor = styled(RawCodeEditor)({});
-
-export const DEFAULT_CONTRACT = `database:
-  host:
-    type: string
-  port:
-    type: integer
-  name:
-    type: string
-  user:
-    type: string
-  password:
-    type: string
-    secret: true
-`;
 
 export type CreateConfigurationGuidedFormStep2Props = PropsWithSx & {
   values: CreateConfigurationFormValues;
@@ -49,7 +36,9 @@ export type CreateConfigurationGuidedFormStep2Props = PropsWithSx & {
     React.SetStateAction<CreateConfigurationFormValues>
   >;
   errors: UseFormErrors<CreateConfigurationFormValues>;
+  contractErrors: UseFormErrors<ContractFormValues>;
   validate: UseFormOutput<CreateConfigurationFormValues>["validate"];
+  validateContract: UseFormOutput<ContractFormValues>["validate"];
   contract: string;
   setContract: (value: string) => void;
   onBack: () => void;
@@ -74,7 +63,9 @@ function CreateConfigurationGuidedFormStep2({
   values,
   setValues,
   errors,
+  contractErrors,
   validate,
+  validateContract,
   sx,
 }: CreateConfigurationGuidedFormStep2Props) {
   const { formatMessage } = useIntl();
@@ -90,14 +81,15 @@ function CreateConfigurationGuidedFormStep2({
   const envFiles = useMemo(() => envFilesData?.files ?? [], [envFilesData]);
 
   const handleNext = useCallback(() => {
-    const hasErrors = validate("contractFilePath");
+    const hasErrors =
+      validate("contractFilePath") || validateContract("contract");
 
     if (hasErrors) {
       return;
     }
 
     onNext();
-  }, [onNext, validate]);
+  }, [onNext, validate, validateContract]);
 
   useEffect(() => {
     if (envFiles.length > 0) {
@@ -115,7 +107,6 @@ function CreateConfigurationGuidedFormStep2({
         ),
       }));
     } else {
-      setContract(DEFAULT_CONTRACT);
       setValues((values) => ({
         ...values,
         contractFilePath: defaultContractFileName,
@@ -254,53 +245,44 @@ function CreateConfigurationGuidedFormStep2({
                 />
               </Box>
             </Box>
-            <Box
-              sx={{
-                marginTop: (theme) => theme.spacing(1),
-                border: `1px solid ${colors.secondary.borders}`,
-                borderRadius: "8px",
-                backgroundColor: colors.secondary.surface,
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
-              <Box
-                sx={{
-                  padding: (theme) => theme.spacing(1),
-                  paddingLeft: (theme) => theme.spacing(2),
-                }}
+            {contractErrors.contract.length > 0 && (
+              <InfoBox
+                Icon={ErrorOutlineIcon}
+                color="error"
+                sx={{ marginTop: (theme) => theme.spacing(1) }}
               >
-                <InfoOutlinedIcon />
-              </Box>
-              <Box sx={{ padding: (theme) => theme.spacing(1) }}>
-                <Typography>
-                  {formatMessage({
-                    id: "create-configuration.create-configuration-guided-form.contract-documentation.nesting",
-                  })}
-                </Typography>
-                <Typography>
-                  {formatMessage({
-                    id: "create-configuration.create-configuration-guided-form.contract-documentation.types.start",
-                  })}{" "}
-                  <Code>boolean</Code>, <Code>string</Code>,{" "}
-                  <Code>integer</Code>{" "}
-                  {formatMessage({
-                    id: "create-configuration.create-configuration-guided-form.contract-documentation.types.and",
-                  })}{" "}
-                  <Code>float</Code>
-                </Typography>
-                <Typography>
-                  {formatMessage({
-                    id: "create-configuration.create-configuration-guided-form.contract-documentation.flags.start",
-                  })}{" "}
-                  <Code>optional: true</Code>{" "}
-                  {formatMessage({
-                    id: "create-configuration.create-configuration-guided-form.contract-documentation.flags.or",
-                  })}{" "}
-                  <Code>secret: true</Code>
-                </Typography>
-              </Box>
-            </Box>
+                {contractErrors.contract.map((error, index) => (
+                  <Typography key={index}>{error}</Typography>
+                ))}
+              </InfoBox>
+            )}
+            <InfoBox sx={{ marginTop: (theme) => theme.spacing(1) }}>
+              <Typography>
+                {formatMessage({
+                  id: "create-configuration.create-configuration-guided-form.contract-documentation.nesting",
+                })}
+              </Typography>
+              <Typography>
+                {formatMessage({
+                  id: "create-configuration.create-configuration-guided-form.contract-documentation.types.start",
+                })}{" "}
+                <Code>boolean</Code>, <Code>string</Code>, <Code>integer</Code>{" "}
+                {formatMessage({
+                  id: "create-configuration.create-configuration-guided-form.contract-documentation.types.and",
+                })}{" "}
+                <Code>float</Code>
+              </Typography>
+              <Typography>
+                {formatMessage({
+                  id: "create-configuration.create-configuration-guided-form.contract-documentation.flags.start",
+                })}{" "}
+                <Code>optional: true</Code>{" "}
+                {formatMessage({
+                  id: "create-configuration.create-configuration-guided-form.contract-documentation.flags.or",
+                })}{" "}
+                <Code>secret: true</Code>
+              </Typography>
+            </InfoBox>
             <Typography
               variant="h3"
               sx={{ marginTop: (theme) => theme.spacing(3) }}

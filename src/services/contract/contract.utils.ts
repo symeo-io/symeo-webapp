@@ -4,7 +4,7 @@ import {
 } from "redux/api/configurations/configurations.types";
 import YAML from "yamljs";
 
-export function isConfigProperty(
+export function isContractProperty(
   el: ConfigurationContract | ConfigurationProperty
 ) {
   return el.type && typeof el.type === "string";
@@ -19,7 +19,7 @@ export function initializeConfig(
     const contractProperty = contract[propertyName];
     const valuesProperty = values && values[propertyName];
 
-    if (!isConfigProperty(contractProperty)) {
+    if (!isContractProperty(contractProperty)) {
       initializedConfig[propertyName] = initializeConfig(
         contractProperty as ConfigurationContract,
         valuesProperty

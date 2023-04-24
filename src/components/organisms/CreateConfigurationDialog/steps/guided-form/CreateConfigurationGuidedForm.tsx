@@ -3,14 +3,13 @@ import { Repository } from "redux/api/repositories/repositories.types";
 import { useCreateConfigurationForm } from "components/organisms/CreateConfigurationDialog/useCreateConfigurationForm";
 import { useRepositories } from "hooks/useRepositories";
 import CreateConfigurationGuidedFormStep1 from "components/organisms/CreateConfigurationDialog/steps/guided-form/CreateConfigurationGuidedFormStep1";
-import CreateConfigurationGuidedFormStep2, {
-  DEFAULT_CONTRACT,
-} from "components/organisms/CreateConfigurationDialog/steps/guided-form/CreateConfigurationGuidedFormStep2";
+import CreateConfigurationGuidedFormStep2 from "components/organisms/CreateConfigurationDialog/steps/guided-form/CreateConfigurationGuidedFormStep2";
 import CreateConfigurationGuidedFormStep3 from "components/organisms/CreateConfigurationDialog/steps/guided-form/CreateConfigurationGuidedFormStep3";
 import { useCommitFileMutation } from "redux/api/repositories/repositories.api";
 import { useCreateConfigurationMutation } from "redux/api/configurations/configurations.api";
 import { CreateConfigurationResponse } from "redux/api/configurations/configurations.types";
 import { useNavigate } from "hooks/useNavigate";
+import { useContractForm } from "components/organisms/CreateConfigurationDialog/steps/guided-form/useContractForm";
 
 export type CreateConfigurationGuidedFormProps = {
   repository?: Repository;
@@ -24,7 +23,12 @@ function CreateConfigurationGuidedForm({
   const navigate = useNavigate();
   const [step, setStep] = useState<number>(1);
   const { repositories } = useRepositories();
-  const [contract, setContract] = useState<string>(DEFAULT_CONTRACT);
+  const {
+    values: contractValues,
+    setValues: setContractValues,
+    validate: validateContractValues,
+    errors: contractErrors,
+  } = useContractForm();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { values, setValues, errors, validate } = useCreateConfigurationForm({
     repositoryVcsId: repository?.vcsId ?? repositories[0]?.vcsId,
@@ -32,8 +36,17 @@ function CreateConfigurationGuidedForm({
   const [commitFile] = useCommitFileMutation();
   const [createConfiguration] = useCreateConfigurationMutation();
 
+  const setContract = useCallback(
+    (value: string) =>
+      setContractValues((previousValues) => ({
+        ...previousValues,
+        contract: value,
+      })),
+    [setContractValues]
+  );
+
   const handleSubmit = useCallback(async () => {
-    const hasErrors = validate();
+    const hasErrors = validate() || validateContractValues();
 
     if (hasErrors) {
       return;
@@ -45,7 +58,7 @@ function CreateConfigurationGuidedForm({
       await commitFile({
         repositoryVcsId: values.repositoryVcsId,
         branch: values.branch,
-        fileContent: contract,
+        fileContent: contractValues.contract,
         filePath: values.contractFilePath,
         commitMessage: "[SYMEO] Creating Symeo contract",
       });
@@ -63,7 +76,15 @@ function CreateConfigurationGuidedForm({
     } finally {
       setIsLoading(false);
     }
-  }, [commitFile, contract, createConfiguration, navigate, validate, values]);
+  }, [
+    commitFile,
+    contractValues.contract,
+    createConfiguration,
+    navigate,
+    validate,
+    validateContractValues,
+    values,
+  ]);
 
   return (
     <>
@@ -83,8 +104,10 @@ function CreateConfigurationGuidedForm({
           values={values}
           setValues={setValues}
           errors={errors}
+          contractErrors={contractErrors}
           validate={validate}
-          contract={contract}
+          validateContract={validateContractValues}
+          contract={contractValues.contract}
           setContract={setContract}
           onBack={() => setStep(1)}
           onNext={() => setStep(3)}
