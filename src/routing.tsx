@@ -2,6 +2,7 @@ import React from "react";
 import ProjectsPage from "components/pages/Projects/Projects";
 import ConfigurationsPage from "components/pages/Configurations/Configurations";
 import ConfigurationPage from "components/pages/Configuration/Configuration";
+import OrganizationSettings from "components/pages/OrganizationSettings/OrganizationSettings";
 
 export type Route = {
   isSecured?: boolean;
@@ -30,6 +31,12 @@ const routes = {
     isSecured: true,
     sidebar: true,
     element: ProjectsPage,
+  } as Route,
+  organizationSettings: {
+    path: "/settings/:organizationName",
+    isSecured: true,
+    sidebar: true,
+    element: OrganizationSettings,
   } as Route,
   configuration: {
     path: "/:organizationName/:repositoryVcsId/:configurationId",

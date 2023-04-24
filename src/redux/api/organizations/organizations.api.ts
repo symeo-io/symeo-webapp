@@ -1,5 +1,8 @@
 import { api } from "../api";
-import { GetOrganizationsResponse } from "./organizations.types";
+import {
+  AddLicenceKeyToOrganizationsInput,
+  GetOrganizationsResponse,
+} from "./organizations.types";
 
 export const organizationsQueryApi = api.injectEndpoints({
   endpoints: (builder) => ({
@@ -12,4 +15,22 @@ export const organizationsQueryApi = api.injectEndpoints({
   }),
 });
 
+export const organizationsMutationApi = api.injectEndpoints({
+  endpoints: (builder) => ({
+    addLicenceKeyToOrganization: builder.mutation<
+      void,
+      AddLicenceKeyToOrganizationsInput
+    >({
+      query: (body) => ({
+        url: `/api/v1/organizations/licence-key`,
+        method: "POST",
+        body,
+      }),
+      invalidatesTags: ["Organizations"],
+    }),
+  }),
+});
+
 export const { useGetOrganizationsQuery } = organizationsQueryApi;
+export const { useAddLicenceKeyToOrganizationMutation } =
+  organizationsMutationApi;
