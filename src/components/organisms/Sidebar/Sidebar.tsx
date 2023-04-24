@@ -13,6 +13,7 @@ import SidebarExternalLink from "components/molecules/SidebarExternalLink/Sideba
 import DescriptionIcon from "@mui/icons-material/Description";
 import DataObjectIcon from "@mui/icons-material/DataObject";
 import SlackIcon from "components/atoms/icons/SlackIcon";
+import SettingsIcon from "@mui/icons-material/Settings";
 import { config } from "config";
 
 function Sidebar() {
@@ -65,6 +66,13 @@ function Sidebar() {
               label={formatMessage({ id: "sidebar.projects-link-label" })}
               icon={<SourceIcon />}
               to="projects"
+              params={{ organizationName: selectedOrganization.name }}
+              sx={{ marginY: (theme) => theme.spacing(1) }}
+            />
+            <SidebarNavLink
+              label={formatMessage({ id: "sidebar.settings-link-label" })}
+              icon={<SettingsIcon />}
+              to="organizationSettings"
               params={{ organizationName: selectedOrganization.name }}
               sx={{ marginY: (theme) => theme.spacing(1) }}
             />
